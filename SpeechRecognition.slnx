@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="AudioConverter/AudioConverter.csproj" Id="602fe796-2b05-41c8-a315-897710557c30" />
+  <Project Path="AudioRecorder/AudioRecorder.csproj" Id="8cbfa2eb-b754-42cf-b1c0-f8d7243136df" />
+  <Project Path="WhisperSpeechRecognition/WhisperSpeechRecognition.csproj" Id="93aa7004-b9cb-49fc-a177-5604876ad6a7" />
+</Solution>
