@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WhisperSpeechRecognition.Interfaces
+﻿namespace WhisperSpeechRecognition.Interfaces
 {
     public interface ISpeechRecognition
     {
-        string GetTranslation();
+        Task<string> GetTranslation(Stream stream);
     }
 }

@@ -15,7 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AudioRecorder\AudioRecorder.csproj" />
+    <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Files\Output\" />
   </ItemGroup>
 
 </Project>

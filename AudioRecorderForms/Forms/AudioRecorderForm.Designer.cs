@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-namespace AudioRecorder.Forms
+namespace AudioRecorderForms
 {
     partial class AudioRecorderForm
     {
@@ -34,6 +34,7 @@ namespace AudioRecorder.Forms
             startButton = new Button();
             stopButton = new Button();
             richTextBox1 = new RichTextBox();
+            translateButton = new Button();
             SuspendLayout();
             // 
             // startButton
@@ -64,11 +65,22 @@ namespace AudioRecorder.Forms
             richTextBox1.TabIndex = 2;
             richTextBox1.Text = "";
             // 
+            // translateButton
+            // 
+            translateButton.Location = new Point(381, 12);
+            translateButton.Name = "translateButton";
+            translateButton.Size = new Size(171, 23);
+            translateButton.TabIndex = 3;
+            translateButton.Text = "Traduzir";
+            translateButton.UseVisualStyleBackColor = true;
+            translateButton.Click += translateButton_Click;
+            // 
             // AudioRecorderForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(translateButton);
             Controls.Add(richTextBox1);
             Controls.Add(stopButton);
             Controls.Add(startButton);
@@ -82,5 +94,6 @@ namespace AudioRecorder.Forms
         private Button startButton;
         private Button stopButton;
         private RichTextBox richTextBox1;
+        private Button translateButton;
     }
 }
