@@ -16,7 +16,6 @@ namespace AudioRecorderForms
     {
         private readonly IAudioRecorderService _recorder;
         private readonly ISpeechRecognition _model;
-        private MemoryStream _audioStream { get; set; }
         public AudioRecorderForm()
         {
             InitializeComponent();
@@ -27,7 +26,6 @@ namespace AudioRecorderForms
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            _audioStream = new MemoryStream();
             //_recorder.StartRecording(_audioStream);
             _recorder.StartRecording("forms.wav");
             startButton.Enabled = false;
@@ -43,11 +41,10 @@ namespace AudioRecorderForms
             stopButton.Enabled = false;
         }
 
-        private void translateButton_Click(object sender, EventArgs e)
+        private async void translateButton_Click(object sender, EventArgs e)
         {
-            var audio = _audioStream;
-            new FileStream("forms.wav", FileMode.Open).CopyTo(audio);
-            string result = _model.GetTranslation(audio).Result;
+            var fs = new FileStream("forms.wav", FileMode.Open);
+            string result = await _model.GetTranslation(fs);
             richTextBox1.Text = result;
         }
     }

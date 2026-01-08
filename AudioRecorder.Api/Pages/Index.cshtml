@@ -1,0 +1,65 @@
+﻿@page
+
+<h2>Gravação de Áudio</h2>
+
+<button id="btnStart" class="btn btn-success">Iniciar</button>
+<button id="btnStop" class="btn btn-danger" disabled>Parar</button>
+
+<p id="status">Status: Aguardando...</p>
+<p id="resultado"></p>
+<audio id="audioPlayer" controls style="display:none;"></audio>
+
+@section Scripts {
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        const btnStart = document.getElementById("btnStart");
+        const btnStop = document.getElementById("btnStop");
+        const status = document.getElementById("status");
+        const audioPlayer = document.getElementById("audioPlayer");
+
+        btnStart.addEventListener("click", async () => {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+            mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioPlayer.src = audioUrl;
+                audioPlayer.style.display = "block";
+
+                // Enviar para o servidor
+                const formData = new FormData();
+                formData.append("audio", audioBlob, "gravacao.webm");
+
+            var result = await fetch("/Audio/Upload", {
+                method: "POST",
+                body: formData
+            });
+
+                var texto = await result.text();
+                status.innerText = texto;
+            };
+
+            mediaRecorder.start();
+
+            status.innerText = "Status: Gravando...";
+            btnStart.disabled = true;
+            btnStop.disabled = false;
+        });
+
+        btnStop.addEventListener("click", () => {
+            mediaRecorder.stop();
+
+            status.innerText = "Status: Finalizando...";
+            btnStart.disabled = false;
+            btnStop.disabled = true;
+        });
+    </script>
+}
