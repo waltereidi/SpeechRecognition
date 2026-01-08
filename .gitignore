@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /WhisperSpeechRecognition/Models
 /SpeechRecognition/Files
+/AudioRecorder.Api/wwwroot/audios
