@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AudioRecorder\AudioRecorder.csproj" />
     <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
   </ItemGroup>
 
