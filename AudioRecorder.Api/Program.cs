@@ -1,3 +1,7 @@
+using AudioRecorder.Api.DTO;
+using AudioRecorder.Api.Services;
+using RabbitMQ.Client;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,5 +27,11 @@ app.MapStaticAssets();
 app.MapControllers();
 app.MapRazorPages()
    .WithStaticAssets();
+
+//using var connection = await factory.CreateConnectionAsync();
+var channel = await RabbitMqConnectionSingleton.CreateChannelAsync();
+
+await channel.ExchangeDeclareAsync(exchange: "LivrosExpo", type: ExchangeType.Fanout);
+await channel.ExchangeDeclareAsync(exchange: "FileStorage", type: ExchangeType.Fanout);
 
 app.Run();

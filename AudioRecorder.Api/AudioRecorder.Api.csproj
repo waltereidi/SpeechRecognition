@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AudioConverter\AudioConverter.csproj" />
+    <ProjectReference Include="..\BuildBlocksRabbitMq\BuildBlocksRabbitMq.csproj" />
     <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
   </ItemGroup>
 
