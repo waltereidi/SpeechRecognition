@@ -8,7 +8,6 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using System.Reflection.Metadata;
 using NLog;
-using NLog.Web;
 
 namespace BuildBlocksRabbitMq
 {

@@ -11,9 +11,10 @@ namespace AudioRecorder.Api.Services
 
         private static ConnectionFactory _factory = new ConnectionFactory
         {
-            HostName = "rabbitmq",
+            HostName = "localhost",
             Password = "admin",
             UserName = "admin",
+            
         };
 
         private RabbitMqConnectionSingleton() { }

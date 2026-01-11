@@ -1,5 +1,8 @@
 ﻿using AudioConverter.Services;
+using AudioRecorder.Api.Services;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using RabbitMQ.Client;
 using WhisperSpeechRecognition.Interfaces;
 using WhisperSpeechRecognition.Service;
 
@@ -7,9 +10,11 @@ using WhisperSpeechRecognition.Service;
 public class AudioController : Controller
 {
     private readonly ISpeechRecognition _model;
+    private readonly IChannel _channel;
     public AudioController()
     {
         _model = new WhisperModel();
+        _channel = RabbitMqConnectionSingleton.CreateChannelAsync().Result;
     }
 
     [HttpPost("Upload")]
@@ -38,6 +43,15 @@ public class AudioController : Controller
     [HttpGet("Test")]
     public async Task<IActionResult> Test()
     {
+        _channel.BasicPublishAsync(
+               exchange: "",
+               routingKey: "WhisperSpeechRecognition",
+               body: System.Text.Encoding.UTF8.GetBytes("Hellow World"));
+
+        _channel.BasicPublishAsync(
+       exchange: "",
+       routingKey: "WhisperSpeechRecognition",
+       body: System.Text.Encoding.UTF8.GetBytes("Hellow World2"));
         return Ok();
     }
 }
