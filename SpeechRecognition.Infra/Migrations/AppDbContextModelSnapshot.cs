@@ -36,6 +36,12 @@ namespace SpeechRecognition.Infra.Migrations
                     b.Property<int>("FileStorageId")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSuccess")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Translation")
                         .IsRequired()
                         .HasColumnType("text");

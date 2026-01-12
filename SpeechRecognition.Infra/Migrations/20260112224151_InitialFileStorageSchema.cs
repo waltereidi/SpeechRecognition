@@ -36,6 +36,8 @@ namespace SpeechRecognition.Infra.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Translation = table.Column<string>(type: "text", nullable: false),
                     FileStorageId = table.Column<int>(type: "integer", nullable: false),
+                    IsSuccess = table.Column<bool>(type: "boolean", nullable: false),
+                    IsApproved = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },

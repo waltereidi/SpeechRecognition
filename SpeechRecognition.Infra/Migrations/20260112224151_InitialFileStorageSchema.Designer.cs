@@ -12,7 +12,7 @@ using SpeechRecognition.Infra.Context;
 namespace SpeechRecognition.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260111230534_InitialFileStorageSchema")]
+    [Migration("20260112224151_InitialFileStorageSchema")]
     partial class InitialFileStorageSchema
     {
         /// <inheritdoc />
@@ -38,6 +38,12 @@ namespace SpeechRecognition.Infra.Migrations
 
                     b.Property<int>("FileStorageId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSuccess")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Translation")
                         .IsRequired()

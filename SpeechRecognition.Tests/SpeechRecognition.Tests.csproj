@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AudioRecorder.Api\AudioRecorder.Api.csproj" />
     <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Files\SaveFile\" />
     <Folder Include="Files\Output\" />
   </ItemGroup>
 

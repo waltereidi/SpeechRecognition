@@ -9,5 +9,7 @@ namespace SpeechRecognition.Dominio.Entidades
         public string Translation { get; set; }
         public int FileStorageId { get; set; }
         public FileStorage FileStorage { get; set; }
+        public bool IsSuccess { get; set; }
+        public bool IsApproved { get; set; }
     }
 }
