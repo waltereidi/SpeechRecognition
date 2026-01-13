@@ -6,6 +6,7 @@ namespace SpeechRecognition.Infra.Context
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+    using SpeechRecognition.Dominio.Entidades;
     using SpeechRecognition.Infra.Mappings;
 
     public class AppDbContext : DbContext
@@ -13,6 +14,10 @@ namespace SpeechRecognition.Infra.Context
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
+        public DbSet<FileStorage> FileStorages { get; set; }
+        public DbSet<FileStorageConversion> FileStorageConversions { get; set; }
+        public DbSet<AudioTranslation> AudioTranslations { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.AddInterceptors(new AuditInterceptor());

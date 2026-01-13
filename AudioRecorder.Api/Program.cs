@@ -1,12 +1,17 @@
 using AudioRecorder.Api.DTO;
 using AudioRecorder.Api.Services;
+using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using SpeechRecognition.Infra.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 
@@ -25,9 +30,13 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 app.MapControllers();
+
 app.MapRazorPages()
    .WithStaticAssets();
+
+
 
 //using var connection = await factory.CreateConnectionAsync();
 var channel = await RabbitMqConnectionSingleton.CreateChannelAsync();
