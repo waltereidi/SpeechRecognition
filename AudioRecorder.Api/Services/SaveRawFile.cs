@@ -2,9 +2,9 @@
 {
     public class SaveRawFile : FileStorageService
     {
-        public SaveRawFile(IConfiguration config)
+        public SaveRawFile(string path)
         {
-            string rawPath = config.GetRequiredSection("FileStorage:RawAudioPath").Value ?? "";
+            string rawPath = path;
 
             string fileName = Guid.NewGuid().ToString();
             base.InitializeParameters(rawPath, fileName);

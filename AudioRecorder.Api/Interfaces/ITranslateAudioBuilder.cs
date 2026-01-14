@@ -1,7 +1,14 @@
-﻿namespace AudioRecorder.Api.Interfaces
+﻿using SpeechRecognition.Dominio.Entidades;
+
+namespace AudioRecorder.Api.Interfaces
 {
-    public interface ITranslateAudioStrategy
+    public interface ITranslateAudioBuilder
     {
-        Task Start();
+        FileInfo SaveRawFile(Stream stream);
+        FileInfo ConvertRawFile(Stream stream);
+        FileStorageConversion SaveConvertedFile();
+        void TranslateAudio();
+        AudioTranslation SaveAudioTranslation();
+        Task GetResult();
     }
 }
