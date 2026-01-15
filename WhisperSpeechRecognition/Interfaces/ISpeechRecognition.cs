@@ -1,7 +1,7 @@
 ﻿namespace WhisperSpeechRecognition.Interfaces
 {
-    public interface ISpeechRecognition
+    public interface ISpeechRecognitionStrategy
     {
-        Task<string> GetTranslation(Stream stream);
+        Task<string> Start(Stream stream);
     }
 }

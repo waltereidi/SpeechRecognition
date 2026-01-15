@@ -3,38 +3,37 @@ using System.Collections.Generic;
 using System.Text;
 using Whisper.net;
 using WhisperSpeechRecognition.Interfaces;
+using WhisperSpeechRecognition.Templates;
 
 namespace WhisperSpeechRecognition.Service
 {
-    public class WhisperModel : ISpeechRecognition
+    public abstract class WhisperModel : ISpeechRecognitionStrategy
     {
         private readonly WhisperFactory? _factory;
         private readonly WhisperProcessor? _processor;
-        public WhisperModel()
+        private readonly TranslationTemplate _template;
+        public WhisperModel(TranslationTemplate template )
         {
-            string modelPath = Path.Combine(
-                AppContext.BaseDirectory,
-                "Models",
-                "ggml-medium.bin"
-            );
+            string modelPath = Path.Combine( AppContext.BaseDirectory, "Models", "ggml-medium.bin" );
+            
             if (!File.Exists(modelPath))
-            {
                 throw new FileNotFoundException("Modelo não encontrado.", modelPath);
-            }
+
             _factory = WhisperFactory.FromPath(modelPath);
+
             _processor = _factory.CreateBuilder()
-                .WithLanguage("pt")          // pt-br
+                .WithLanguage("pt")
                 .Build();
+
+            _template = template;
         }
 
-        public async Task<string> GetTranslation(Stream stream)
+        public async Task<string> Start(Stream stream )
         {
-            string result = string.Empty;
-            await foreach (var segment in _processor.ProcessAsync(stream))
-            {
-                result += $"[{segment.Start:hh\\:mm\\:ss} -> {segment.End:hh\\:mm\\:ss}] {segment.Text}";
-            }
-            return result;
+            await foreach (var segment in _processor.ProcessAsync(stream) )
+                _template.AddSegment(segment);
+
+            return _template.GetResult();
         }
     }
 

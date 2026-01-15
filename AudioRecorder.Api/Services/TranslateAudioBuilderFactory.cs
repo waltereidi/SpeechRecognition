@@ -14,11 +14,16 @@ namespace AudioRecorder.Api.Services
             _dbContext = dbContext;
 
         }
-        public ITranslateAudioBuilder CreateFromStream(string originalFileName , Stream stream)
+
+        public ITranslateAudioBuilder CreateFromStream(string originalFileName, Stream stream)
         {
-            ITranslateAudioBuilder builder = new TranslateAudioBuilder(_dbContext, originalFileName, stream);
-            return builder;
+            throw new NotImplementedException();
         }
+        //public ITranslateAudioBuilder CreateFromStream(string originalFileName , Stream stream)
+        //{
+        //    ITranslateAudioBuilder builder = new TranslateAudioBuilder(_dbContext, originalFileName, stream);
+        //    return builder;
+        //}
 
     }
 }

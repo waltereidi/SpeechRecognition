@@ -1,4 +1,5 @@
 ﻿using AudioRecorder.Api.Interfaces;
+using SpeechRecognition.Dominio.Entidades;
 using SpeechRecognition.Infra.Context;
 
 namespace AudioRecorder.Api.Services
@@ -13,32 +14,34 @@ namespace AudioRecorder.Api.Services
             _config = config;
         }
 
-        public void ConvertRawFile()
+        public FileInfo ConvertRawFile(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        public void SaveAudioTranslation()
+        public Task GetResult()
         {
             throw new NotImplementedException();
         }
 
-        public void SaveConvertedFile()
+        public AudioTranslation SaveAudioTranslation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public FileStorageConversion SaveConvertedFile()
         {
             throw new NotImplementedException();
         }
 
         public FileInfo SaveRawFile(Stream stream)
         {
-            var path = _config.GetSection("FileStorage:RawAudioPath").Value ?? "";
-            IFileStorageService fs = new SaveRawFile(path);
-            return fs.SaveFile(stream);
+            throw new NotImplementedException();
         }
 
         public void TranslateAudio()
         {
             throw new NotImplementedException();
         }
-        public abstract Task GetResult();
     }
 }

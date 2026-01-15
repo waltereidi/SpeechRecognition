@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AudioConverter\AudioConverter.csproj" />
-    <ProjectReference Include="..\BuildBlocksRabbitMq\BuildBlocksRabbitMq.csproj" />
     <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />
     <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
   </ItemGroup>

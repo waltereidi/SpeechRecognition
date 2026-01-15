@@ -43,17 +43,16 @@ var channel = await RabbitMqConnectionSingleton.CreateChannelAsync();
 
 await channel.ExchangeDeclareAsync(exchange: "WhisperSpeechRecognition", type: ExchangeType.Fanout);
 await channel.QueueDeclareAsync("WhisperSpeechRecognition", false, false, false, null);
+
 var consumer = new AsyncEventingBasicConsumer(channel);
+
+
 consumer.ReceivedAsync += async (ch, ea) =>
 {
     var body = ea.Body.ToArray();
-    Console.WriteLine(System.Text.Encoding.UTF8.GetString( body));
-    Console.WriteLine(DateTime.Now);
+    
     Thread.Sleep(5000);
-    // copy or deserialise the payload
-    // and process the message
 
-    // ...
     await channel.BasicAckAsync(ea.DeliveryTag, false);
 };
 // this consumer tag identifies the subscription
