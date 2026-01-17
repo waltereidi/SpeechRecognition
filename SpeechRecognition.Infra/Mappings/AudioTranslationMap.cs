@@ -26,6 +26,11 @@ namespace SpeechRecognition.Infra.Mappings
                 .WithMany() // FileStorage não tem coleção
                 .HasForeignKey(x => x.FileStorageId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.TranslationTemplate)
+                .WithMany() // FileStorage não tem coleção
+                .HasForeignKey(x => x.TranslationTemplateId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

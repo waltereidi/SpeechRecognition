@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SpeechRecognition.Tests.Api.Services
 {
-    internal class TranslateAudioBuilder
+    public class TranslateAudioBuilder
     {
     }
 }

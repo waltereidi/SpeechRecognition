@@ -7,7 +7,7 @@ namespace WhisperSpeechRecognition.Service
 {
     public class WhisperMedium : WhisperModel
     {
-        public WhisperMedium(TranslationTemplate template ) : base(template)
+        public WhisperMedium(TranslationTemplateModel template ) : base(template)
         {
         }
     }

@@ -11,8 +11,8 @@ namespace WhisperSpeechRecognition.Service
     {
         private readonly WhisperFactory? _factory;
         private readonly WhisperProcessor? _processor;
-        private readonly TranslationTemplate _template;
-        public WhisperModel(TranslationTemplate template )
+        private readonly TranslationTemplateModel _template;
+        public WhisperModel(TranslationTemplateModel template )
         {
             string modelPath = Path.Combine( AppContext.BaseDirectory, "Models", "ggml-medium.bin" );
             

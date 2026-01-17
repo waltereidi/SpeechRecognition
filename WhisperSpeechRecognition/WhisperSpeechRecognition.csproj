@@ -20,4 +20,8 @@
 	<ItemGroup>
 	  <Folder Include="Output\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\SpeechRecognition.Dominio\SpeechRecognition.Dominio.csproj" />
+	  <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />
+	</ItemGroup>
 </Project>

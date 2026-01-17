@@ -5,10 +5,10 @@ using Whisper.net;
 
 namespace WhisperSpeechRecognition.Templates
 {
-    public abstract class TranslationTemplate
+    public abstract class TranslationTemplateModel
     {
         protected List<SegmentData> _segments = new List<SegmentData>();
-        public TranslationTemplate()
+        public TranslationTemplateModel()
         {
         }
         public virtual void AddSegment(SegmentData segment)

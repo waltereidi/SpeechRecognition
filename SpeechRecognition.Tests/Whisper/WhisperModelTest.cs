@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Routing.Template;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using WhisperSpeechRecognition.Interfaces;
+﻿using WhisperSpeechRecognition.Interfaces;
 using WhisperSpeechRecognition.Templates;
 namespace SpeechRecognition.Tests.Whisper
 {
     public class WhisperModelTest : Configuration
     {
         private readonly ISpeechRecognitionStrategy _serviceProvider;
-        private readonly TranslationTemplate _template;
+        private readonly TranslationTemplateModel _template;
         public WhisperModelTest()
         { 
             _template = new GeneralTranslation();
