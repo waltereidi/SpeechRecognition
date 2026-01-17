@@ -31,6 +31,10 @@ namespace SpeechRecognition.Infra.Mappings
                 .WithMany() // FileStorage não tem coleção
                 .HasForeignKey(x => x.TranslationTemplateId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(p => p.WhisperModel)
+               .HasConversion<int>()
+               .IsRequired();
         }
     }
 }

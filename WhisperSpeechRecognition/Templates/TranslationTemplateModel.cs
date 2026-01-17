@@ -13,7 +13,6 @@ namespace WhisperSpeechRecognition.Templates
         }
         public virtual void AddSegment(SegmentData segment)
             => _segments.Add(segment);
-
         public abstract string GetResult();
     }
 
