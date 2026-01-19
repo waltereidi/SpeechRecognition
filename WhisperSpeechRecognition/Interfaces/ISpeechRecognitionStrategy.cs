@@ -1,7 +1,10 @@
-﻿namespace WhisperSpeechRecognition.Interfaces
+﻿using SpeechRecognition.Dominio.Entidades;
+using WhisperSpeechRecognition.Templates;
+
+namespace WhisperSpeechRecognition.Interfaces
 {
     public interface ISpeechRecognitionStrategy
     {
-        Task<string> Start(Stream stream);
+        Task<TranslationTemplateModel> Start(Stream stream);
     }
 }

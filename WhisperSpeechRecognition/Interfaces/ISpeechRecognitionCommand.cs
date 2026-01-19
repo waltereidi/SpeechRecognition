@@ -9,5 +9,6 @@ namespace WhisperSpeechRecognition.Interfaces
     internal interface ISpeechRecognitionAbstractFactory
     {
         public Task<ISpeechRecognitionStrategy> Create(AudioTranslation fsc);
+        public ITranslationResponseAdapter GetAdapter();
     }
 }

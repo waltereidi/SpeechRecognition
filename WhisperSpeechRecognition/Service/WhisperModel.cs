@@ -28,13 +28,15 @@ namespace WhisperSpeechRecognition.Service
             _template = template;
         }
 
-        public async Task<string> Start(Stream stream )
+        public async Task<TranslationTemplateModel> Start(Stream stream )
         {
             await foreach (var segment in _processor.ProcessAsync(stream) )
                 _template.AddSegment(segment);
 
-            return _template.GetResult();
+            return _template;
         }
+
+  
     }
 
 }
