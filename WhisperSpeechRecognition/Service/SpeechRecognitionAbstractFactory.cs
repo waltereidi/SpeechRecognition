@@ -1,5 +1,5 @@
-﻿using SpeechRecognition.Dominio.Entidades;
-using SpeechRecognition.Dominio.Enum;
+﻿using WhisperSpeechRecognition.DTO;
+using WhisperSpeechRecognition.Enum;
 using WhisperSpeechRecognition.Interfaces;
 using WhisperSpeechRecognition.Templates;
 
@@ -8,27 +8,30 @@ namespace WhisperSpeechRecognition.Service
     public class SpeechRecognitionAbstractFactory : ISpeechRecognitionAbstractFactory
     {
 
-        public async Task<ISpeechRecognitionStrategy> Create(AudioTranslation entity)
-        {
-            var template = GenerateTemplate(entity.TranslationTemplate.TemplateName );
-            var model = CreateWhisperModel(entity.WhisperModel, template);
+        //public async Task<ISpeechRecognitionStrategy> Create(AudioTranslation entity)
+        //{
+        //    var template = GenerateTemplate(entity.TranslationTemplate.TemplateName );
+        //    var model = CreateWhisperModel(entity.WhisperModel, template);
 
+        //    return model;
+        //}
+
+        public async Task<ITranslateAudioFacade> Create(SpeechRecognitionFactoryDTO dto)
+        {
+            var template = GenerateTemplate(dto.Template);
+            var model = CreateFacade(dto.Model , template);
+            ITranslateAudioFacade facade = new TranslateAudioFacade(model);
             return model;
         }
 
-        public ITranslationResponseAdapter GetAdapter()
-        {
-            throw new NotImplementedException();
-        }
-
-        private ISpeechRecognitionStrategy CreateWhisperModel(WhisperModels i, TranslationTemplateModel template) => i switch
+        private ISpeechRecognitionStrategy CreateFacade(WhisperModels i, TranslationTemplateModel template) => i switch
         {
             WhisperModels.None => new WhisperMedium(template),
             _ => throw new NotImplementedException($"The model {i} is not implemented.")
         };
-        private TranslationTemplateModel GenerateTemplate(string templateName) => templateName switch
+        private TranslationTemplateModel GenerateTemplate(TranslationTemplates template) => template switch
         {
-            "GeneralTranslation" => new GeneralTranslation(),
+            TranslationTemplates.General => new GeneralTranslation(),
             _ => new GeneralTranslation(),
         };
 

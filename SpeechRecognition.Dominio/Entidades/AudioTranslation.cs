@@ -1,5 +1,4 @@
-﻿using SpeechRecognition.Dominio.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,8 +17,7 @@ namespace SpeechRecognition.Dominio.Entidades
         /// Preenchido pelo usuário, para indicar se a tradução foi aprovada
         /// </summary>
         public bool IsApproved { get; set; }
-        public int TranslationTemplateId { get; set; }
-        public TranslationTemplate TranslationTemplate { get; set; }
-        public WhisperModels WhisperModel { get; set; }
+        public int TranslationTemplate { get; set; }
+        public int WhisperModel { get; set; }
     }
 }

@@ -6,9 +6,9 @@ using WhisperSpeechRecognition.Interfaces;
 
 namespace WhisperSpeechRecognition
 {
-    public class TranslateAudio : ITranslateAudioFacade
+    public class TranslateAudio 
     {
-        public async Task<string> TranslateAudioLocal(AudioTranslation entity)
+        public async Task<ITranslationResponseAdapter> TranslateAudioLocal(AudioTranslation entity)
         {
             try
             {
@@ -16,7 +16,7 @@ namespace WhisperSpeechRecognition
                 var strategy = await factory.Create(entity);
                 var result = await strategy.Start(entity.FileStorage.FileInfo.Open(FileMode.Open));
 
-                return result ?? throw new Exception();
+                return result 
 
             }catch(Exception ex)
             {
