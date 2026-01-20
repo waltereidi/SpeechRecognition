@@ -6,6 +6,6 @@ namespace WhisperSpeechRecognition.Interfaces
 {
     public interface ITranslateAudioFacade
     {
-        Task<ITranslationResponseAdapter> TranslateAudio(AudioTranslation entity);
+        Task<ITranslationResponseAdapter> TranslateAudio();
     }
 }

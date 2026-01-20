@@ -1,10 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
-using WhisperSpeechRecognition.Contracts;
-using WhisperSpeechRecognition.DTO;
-using WhisperSpeechRecognition.Service;
+﻿using WhisperSpeechRecognition.DTO;
 
 namespace WhisperSpeechRecognition.Interfaces
 {

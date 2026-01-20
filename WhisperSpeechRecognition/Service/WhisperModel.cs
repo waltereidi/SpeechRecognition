@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Whisper.net;
+﻿using Whisper.net;
 using WhisperSpeechRecognition.Interfaces;
 using WhisperSpeechRecognition.Templates;
 

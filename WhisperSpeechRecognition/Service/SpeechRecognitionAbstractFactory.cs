@@ -19,12 +19,12 @@ namespace WhisperSpeechRecognition.Service
         public async Task<ITranslateAudioFacade> Create(SpeechRecognitionFactoryDTO dto)
         {
             var template = GenerateTemplate(dto.Template);
-            var model = CreateFacade(dto.Model , template);
-            ITranslateAudioFacade facade = new TranslateAudioFacade(model);
+            var model = CreateStrategy(dto.Model , template);
+            ITranslateAudioFacade facade = new TranslateAudioFacade(model, template , dto );
             return model;
         }
 
-        private ISpeechRecognitionStrategy CreateFacade(WhisperModels i, TranslationTemplateModel template) => i switch
+        private ISpeechRecognitionStrategy CreateStrategy(WhisperModels i, TranslationTemplateModel template) => i switch
         {
             WhisperModels.None => new WhisperMedium(template),
             _ => throw new NotImplementedException($"The model {i} is not implemented.")

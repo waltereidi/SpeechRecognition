@@ -1,5 +1,4 @@
-﻿using SpeechRecognition.Dominio.Entidades;
-using WhisperSpeechRecognition.Templates;
+﻿using WhisperSpeechRecognition.Templates;
 
 namespace WhisperSpeechRecognition.Interfaces
 {
