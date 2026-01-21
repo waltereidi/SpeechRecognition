@@ -13,6 +13,8 @@ namespace WhisperSpeechRecognition.DTO
         public SpeechRecognitionFactoryDTO(TranslationContract.Request.GeneralTranslation dto)
         {
             this.dto = dto;
+            this.AudioStream = dto.filePath;
+            this.Model = (WhisperModels)dto.whisperModel;
         }
 
         public TranslationTemplates Template { get; set; }

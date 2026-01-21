@@ -17,7 +17,8 @@ namespace SpeechRecognition.Tests.Whisper
             var file = base.GetTestFile("output.wav");
             using var stream = file.OpenRead();
             var result = await _serviceProvider.Start(stream);
-            Assert.NotEmpty(result);
+
+            Assert.NotEmpty(result.GetResult() );
         }
 
     }

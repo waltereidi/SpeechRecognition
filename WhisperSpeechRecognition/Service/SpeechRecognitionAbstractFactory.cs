@@ -5,7 +5,7 @@ using WhisperSpeechRecognition.Templates;
 
 namespace WhisperSpeechRecognition.Service
 {
-    public class SpeechRecognitionAbstractFactory : ISpeechRecognitionAbstractFactory
+    internal class SpeechRecognitionAbstractFactory : ISpeechRecognitionAbstractFactory
     {
 
         //public async Task<ISpeechRecognitionStrategy> Create(AudioTranslation entity)
@@ -21,13 +21,13 @@ namespace WhisperSpeechRecognition.Service
             var template = GenerateTemplate(dto.Template);
             var model = CreateStrategy(dto.Model , template);
             ITranslateAudioFacade facade = new TranslateAudioFacade(model, template , dto );
-            return model;
+            return facade;
         }
 
         private ISpeechRecognitionStrategy CreateStrategy(WhisperModels i, TranslationTemplateModel template) => i switch
         {
             WhisperModels.None => new WhisperMedium(template),
-            _ => throw new NotImplementedException($"The model {i} is not implemented.")
+            _ => throw new NotImplementedException($"The model {i} configuration is not implemented.")
         };
         private TranslationTemplateModel GenerateTemplate(TranslationTemplates template) => template switch
         {

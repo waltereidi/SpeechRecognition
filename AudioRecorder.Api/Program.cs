@@ -1,4 +1,3 @@
-using AudioRecorder.Api.DTO;
 using AudioRecorder.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;

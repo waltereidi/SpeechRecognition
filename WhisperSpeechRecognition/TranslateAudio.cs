@@ -7,7 +7,7 @@ namespace WhisperSpeechRecognition
 {
     public class TranslateAudio 
     {
-        public async Task<ITranslationResponseAdapter> TranslateAudioLocal(TranslationContract.Request.GeneralTranslation dto)
+        public async Task<byte[]> TranslateAudioLocal(TranslationContract.Request.GeneralTranslation dto)
         {
             try
             {
@@ -15,12 +15,12 @@ namespace WhisperSpeechRecognition
                 var factoryDTO = new SpeechRecognitionFactoryDTO(dto);
                 ITranslateAudioFacade facade = await factory.Create(factoryDTO);
                 var result = await facade.TranslateAudio();
-
-                return result;
+                return result.GetJsonBytea();
             }
             catch(Exception ex)
             {
-                ITranslationResponseAdapter result = new TranslationContract.Response.GeneralTranslation((int)_dto.Model, translation.GetResult());
+                var result = new TranslationContract.Response.GeneralTranslation(ex.Message);
+                return result.GetJsonBytea();
             }
             
         }

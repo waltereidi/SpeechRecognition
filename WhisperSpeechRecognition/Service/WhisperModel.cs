@@ -11,7 +11,7 @@ namespace WhisperSpeechRecognition.Service
         private readonly TranslationTemplateModel _template;
         public WhisperModel(TranslationTemplateModel template )
         {
-            string modelPath = Path.Combine( AppContext.BaseDirectory, "Models", "ggml-medium.bin" );
+            string modelPath = Path.Combine( AppContext.BaseDirectory, "Models", "ggml-medium.bin");
             
             if (!File.Exists(modelPath))
                 throw new FileNotFoundException("Modelo não encontrado.", modelPath);

@@ -9,5 +9,7 @@ namespace WhisperSpeechRecognition.Interfaces
     {
         public int GetModel();
         public string GetTranslation();
+        public string GetJson();
+        public byte[] GetJsonBytea();
     }
 }

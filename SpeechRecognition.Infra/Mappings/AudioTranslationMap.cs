@@ -27,10 +27,6 @@ namespace SpeechRecognition.Infra.Mappings
                 .HasForeignKey(x => x.FileStorageId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(x => x.TranslationTemplate)
-                .WithMany() // FileStorage não tem coleção
-                .HasForeignKey(x => x.TranslationTemplateId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.WhisperModel)
                .HasConversion<int>()
