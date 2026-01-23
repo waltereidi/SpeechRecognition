@@ -6,9 +6,9 @@ using WhisperSpeechRecognition.Templates;
 
 namespace WhisperSpeechRecognition.Service
 {
-    internal class WhisperMedium : WhisperModel
+    internal class WhisperTiny : WhisperModel
     {
-        public WhisperMedium(TranslationTemplateModel template  ) : base(template ,WhisperModels.Medium )
+        public WhisperTiny(TranslationTemplateModel template  ) : base(template ,WhisperModels.Tiny )
         {
 
         }

@@ -7,6 +7,8 @@ namespace WhisperSpeechRecognition.Enum
     internal enum WhisperModels
     {
         None =0 ,
-        Medium = 1 
+        Medium = 1,
+        Small = 2,
+        Tiny = 3
     }
 }

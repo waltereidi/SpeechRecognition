@@ -7,7 +7,6 @@ namespace WhisperSpeechRecognition.Service
 {
     internal class SpeechRecognitionAbstractFactory : ISpeechRecognitionAbstractFactory
     {
-
         //public async Task<ISpeechRecognitionStrategy> Create(AudioTranslation entity)
         //{
         //    var template = GenerateTemplate(entity.TranslationTemplate.TemplateName );
@@ -27,6 +26,8 @@ namespace WhisperSpeechRecognition.Service
         private ISpeechRecognitionStrategy CreateStrategy(WhisperModels i, TranslationTemplateModel template) => i switch
         {
             WhisperModels.None => new WhisperMedium(template),
+            WhisperModels.Tiny => new WhisperTiny(template),
+            WhisperModels.Small => new WhisperSmall(template),
             _ => throw new NotImplementedException($"The model {i} configuration is not implemented.")
         };
         private TranslationTemplateModel GenerateTemplate(TranslationTemplates template) => template switch

@@ -1,17 +1,22 @@
 ﻿using Whisper.net;
+using WhisperSpeechRecognition.Enum;
 using WhisperSpeechRecognition.Interfaces;
 using WhisperSpeechRecognition.Templates;
 
 namespace WhisperSpeechRecognition.Service
 {
-    public abstract class WhisperModel : ISpeechRecognitionStrategy
+    internal abstract class WhisperModel : ISpeechRecognitionStrategy
     {
         private readonly WhisperFactory? _factory;
         private readonly WhisperProcessor? _processor;
         private readonly TranslationTemplateModel _template;
-        public WhisperModel(TranslationTemplateModel template )
+        private readonly WhisperModels _model;
+        public WhisperModel(TranslationTemplateModel template , WhisperModels model )
         {
-            string modelPath = Path.Combine( AppContext.BaseDirectory, "Models", "ggml-medium.bin");
+            _template = template;
+            _model = model;
+
+            string modelPath = GetModelPath();
             
             if (!File.Exists(modelPath))
                 throw new FileNotFoundException("Modelo não encontrado.", modelPath);
@@ -21,8 +26,20 @@ namespace WhisperSpeechRecognition.Service
             _processor = _factory.CreateBuilder()
                 .WithLanguage("pt")
                 .Build();
+        }
 
-            _template = template;
+        private string GetModelPath()
+        {
+            switch (_model)
+            {
+                case WhisperModels.Medium:
+                    return Path.Combine(AppContext.BaseDirectory, "Models", "ggml-medium.bin");break;
+                case WhisperModels.Small: 
+                    return Path.Combine(AppContext.BaseDirectory, "Models", "ggml-small.bin");break;
+                case WhisperModels.Tiny:
+                    return Path.Combine(AppContext.BaseDirectory, "Models", "ggml-tiny.bin");break;
+                default: throw new NotImplementedException($"Modelo não implementado. {nameof(_model)}");
+            }            
         }
 
         public async Task<TranslationTemplateModel> Start(Stream stream )

@@ -21,7 +21,7 @@ namespace SpeechRecognition.Tests.Whisper
             var output = base.GetTestFile("output.wav");
             using (Stream fileStream = output.OpenRead() )
             {
-                var dto = new TranslationContract.Request.GeneralTranslation(fileStream , 0 );
+                var dto = new TranslationContract.Request.GeneralTranslation(fileStream ,2);
                 var response = await _service.TranslateAudioLocal(dto);
                 var decodedResponse  = Encoding.UTF8.GetString(response);
                 Assert.True( decodedResponse.Length > 0 );
