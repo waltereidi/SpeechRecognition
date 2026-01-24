@@ -1,0 +1,6 @@
+services:
+  audioconverter:
+    image: ${DOCKER_REGISTRY-}audioconverter
+    build:
+      context: .
+      dockerfile: AudioConverter/Dockerfile

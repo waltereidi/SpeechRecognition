@@ -1,6 +1,5 @@
 ﻿using AudioConverter.Services;
 using AudioRecorder.Api.Services;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using SpeechRecognition.Infra.Context;
