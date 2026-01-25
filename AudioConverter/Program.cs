@@ -43,6 +43,11 @@ var app = builder.Build();
 // Endpoint de health check
 app.MapGet("/health", () => Results.Ok(new { Status = "Saudável", Servico = "AudioConverter.Api" }));
 
+app.MapGet("/testAudioConversionLinux", () =>{
+    var service = new AudioConverter.Services.Linux.FfmpegCommand();
+    return Results.Ok(new { Status = "Saudável", Servico = "AudioConverter.Api" });
+});
+
 // Endpoint para verificar status das filas
 app.MapGet("/status", () => Results.Ok(new
 {

@@ -1,4 +1,4 @@
-﻿namespace AudioConverter.Services
+﻿namespace AudioConverter.Services.Linux
 {
     public sealed record FfmpegResult(
         int ExitCode,

@@ -4,3 +4,8 @@ services:
     build:
       context: .
       dockerfile: AudioConverter/Dockerfile
+  speechrecognitiontest:
+    image: ${DOCKER_REGISTRY-}speechrecognitiontest
+    build:
+      context: .
+      dockerfile: SpeechRecognition.Tests/Dockerfile

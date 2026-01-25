@@ -1,4 +1,4 @@
-﻿namespace AudioConverter.Services
+﻿namespace AudioConverter.Services.Linux
 {
     using System.Text;
 

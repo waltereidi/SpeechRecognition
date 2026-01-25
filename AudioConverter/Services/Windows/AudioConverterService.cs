@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xabe.FFmpeg;
 
-namespace AudioConverter.Services
+namespace AudioConverter.Services.Windows
 {
     public class AudioConverterService
     {

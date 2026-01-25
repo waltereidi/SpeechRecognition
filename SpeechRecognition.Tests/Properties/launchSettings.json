@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SpeechRecognition.Tests": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
