@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Events
 {
-    public record class AudioConversionEvent : IntegrationEvent
+    public record class AudioConversionToWav16kEvent : IntegrationEvent
     {
     }
 }

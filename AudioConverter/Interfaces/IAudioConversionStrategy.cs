@@ -2,6 +2,6 @@
 {
     public interface IAudioConversionStrategy
     {
-        Task Start();
+        Task Start(CancellationToken cancellationToken  );
     }
 }

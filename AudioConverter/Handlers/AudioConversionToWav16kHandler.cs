@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Messaging.Abstractions;
+﻿using AudioConverter.Interfaces;
+using BuildingBlocks.Messaging.Abstractions;
 using Shared.Events;
 using System;
 using System.Collections.Generic;
@@ -7,15 +8,15 @@ using System.Text;
 
 namespace AudioConverter.Handlers
 {
-    public class AudioConversionHandler : IIntegrationEventHandler<AudioConversionEvent>
+    public class AudioConversionToWav16kHandler : IIntegrationEventHandler<AudioConversionToWav16kEvent>
     {
-        private readonly ILogger<AudioConversionEvent> _logger;
-        public async Task HandleAsync(AudioConversionEvent @event, CancellationToken cancellationToken = default)
+        private readonly ILogger<AudioConversionToWav16kHandler> _logger;
+        public async Task HandleAsync(AudioConversionToWav16kEvent @event, CancellationToken cancellationToken = default)
         {
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                Console.WriteLine("Running on Windows");
+                
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {

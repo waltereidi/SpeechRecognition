@@ -1,4 +1,5 @@
 ﻿using AudioConverter.Handlers;
+using AudioConverter.Interfaces;
 using AudioConverter.Services.Linux;
 using BuildingBlocks.Messaging;
 using BuildingBlocks.Messaging.MassTransit;
@@ -9,14 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Registra o handler de eventos
-builder.Services.AddIntegrationEventHandler<AudioConversionEvent, AudioConversionHandler>();
+builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kEvent, AudioConversionToWav16kHandler>();
 
 
 // Configuração do MassTransit com RabbitMQ para consumir mensagens
 builder.Services.AddMassTransit(busConfigurator =>
 {
     // Registra o consumidor genérico para o evento PedidoCriado
-    busConfigurator.AddConsumer<GenericConsumer<AudioConversionEvent>>();
+    busConfigurator.AddConsumer<GenericConsumer<AudioConversionToWav16kEvent>>();
 
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
@@ -35,15 +36,10 @@ builder.Services.AddMassTransit(busConfigurator =>
         // Configura o endpoint para receber os eventos de pedido
         cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
         {
-            endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionEvent>>(context);
+            endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionToWav16kEvent>>(context);
         });
     });
 });
-// ===============================
-// Dependency Injection
-// ===============================
-builder.Services.AddSingleton<FfmpegExecutor>();
-builder.Services.AddScoped<AudioService>();
 
 var app = builder.Build();
 
@@ -64,16 +60,17 @@ app.MapGet("/health", () =>
 // Teste de conversão FFmpeg (Linux/macOS)
 // ===============================
 app.MapGet("/testAudioConversionLinux",
-    async (AudioService audioService) =>
+    async () =>
     {
         var di = new DirectoryInfo("Files");
         var input = "Files/output.wav";
         var output = "Files/Output/TestAudioConverter.wav";
 
-        await audioService.ExtractWavAsync(
-            input,
-            output
+        IAudioConversionStrategy strategy = new ConvertToWavMono16kLinux(
+            new FileInfo(input),
+            di
         );
+        await strategy.Start(CancellationToken.None);
 
         return Results.Ok(new
         {
