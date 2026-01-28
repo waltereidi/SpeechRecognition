@@ -10,6 +10,10 @@ namespace AudioConverter.Handlers
 {
     public class AudioConversionToWav16kHandler : IIntegrationEventHandler<AudioConversionToWav16kEvent>
     {
+        private readonly IEventBus _eventBus;
+        public AudioConversionToWav16kHandler()
+        {
+        }
         private readonly ILogger<AudioConversionToWav16kHandler> _logger;
         public async Task HandleAsync(AudioConversionToWav16kEvent @event, CancellationToken cancellationToken = default)
         {

@@ -4,3 +4,11 @@ services:
     build:
       context: .
       dockerfile: AudioConverter/Dockerfile
+  audioconverter-api:
+      image: ${DOCKER_REGISTRY-}audioconverter-api
+      build:
+        context: .
+        dockerfile: AudioRecorder.Api/Dockerfile
+      ports:
+        - "8080:80"
+    

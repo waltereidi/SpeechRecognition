@@ -18,10 +18,10 @@ builder.Services.AddMassTransit(busConfigurator =>
 
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", 5675, "/", hostCfg =>
+        cfg.Host("localhost", 5672, "/", hostCfg =>
         {
-            hostCfg.Username("guest");
-            hostCfg.Password("guest");
+            hostCfg.Username("admin");
+            hostCfg.Password("admin");
         });
 
         // Configura retry para tratamento de falhas

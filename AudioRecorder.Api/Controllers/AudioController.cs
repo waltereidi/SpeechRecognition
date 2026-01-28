@@ -1,10 +1,8 @@
-﻿using AudioConverter.Services;
-using AudioRecorder.Api.Services;
+﻿using AudioRecorder.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using SpeechRecognition.Infra.Context;
-using WhisperSpeechRecognition.Interfaces;
-using WhisperSpeechRecognition.Service;
+
 
 [Route("Audio")]
 public class AudioController : Controller

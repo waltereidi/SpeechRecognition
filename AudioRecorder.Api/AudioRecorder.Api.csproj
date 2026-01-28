@@ -4,20 +4,20 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageReference Include="RabbitMQ.Client" Version="7.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AudioConverter\AudioConverter.csproj" />
-    <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />
-    <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
+    <Folder Include="DTO\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
+    <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />
   </ItemGroup>
 
 </Project>

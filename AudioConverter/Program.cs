@@ -21,16 +21,10 @@ builder.Services.AddMassTransit(busConfigurator =>
 
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", 5675, "/", hostCfg =>
+        cfg.Host("localhost", 5672, "/", hostCfg =>
         {
-            hostCfg.Username("guest");
-            hostCfg.Password("guest");
-        });
-
-        // Configura retry para tratamento de falhas
-        cfg.UseMessageRetry(retryCfg =>
-        {
-            retryCfg.Interval(3, TimeSpan.FromSeconds(5));
+            hostCfg.Username("admin");
+            hostCfg.Password("admin");
         });
 
         // Configura o endpoint para receber os eventos de pedido
@@ -38,6 +32,7 @@ builder.Services.AddMassTransit(busConfigurator =>
         {
             endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionToWav16kEvent>>(context);
         });
+        
     });
 });
 

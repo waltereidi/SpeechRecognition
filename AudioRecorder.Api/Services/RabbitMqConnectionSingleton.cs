@@ -11,10 +11,13 @@ namespace AudioRecorder.Api.Services
 
         private static ConnectionFactory _factory = new ConnectionFactory
         {
-            HostName = "localhost",
-            Password = "admin",
+            HostName = "localhost", // 🔴 NÃO localhost
+            Port = 5672,
             UserName = "admin",
-            
+            Password = "admin",
+            AutomaticRecoveryEnabled = true,
+            NetworkRecoveryInterval = TimeSpan.FromSeconds(5)
+
         };
 
         private RabbitMqConnectionSingleton() { }
