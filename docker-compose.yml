@@ -1,14 +1,70 @@
+version: "3.9"
+
 services:
   audioconverter:
     image: ${DOCKER_REGISTRY-}audioconverter
     build:
       context: .
       dockerfile: AudioConverter/Dockerfile
+    networks:
+      - backend
+
   audioconverter-api:
-      image: ${DOCKER_REGISTRY-}audioconverter-api
-      build:
-        context: .
-        dockerfile: AudioRecorder.Api/Dockerfile
-      ports:
-        - "8080:80"
-    
+    image: ${DOCKER_REGISTRY-}audioconverter-api
+    build:
+      context: .
+      dockerfile: AudioRecorder.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+  postgres:
+    build: 
+      context: ./Docker/postgres
+      dockerfile: Dockerfile
+    container_name: postgres-db
+    ports:
+      - "5436:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: speechrecognition
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: always
+    networks:
+      - backend
+
+  rabbitmq:
+    build: 
+      context: .
+      dockerfile: Docker/rabbitmq/Dockerfile
+    hostname: rabbitmq
+    container_name: rabbitmq-broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: /
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+
+networks:
+  backend:
+    driver: bridge

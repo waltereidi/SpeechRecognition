@@ -12,6 +12,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["AudioRecorder.Api/AudioRecorder.Api.csproj", "AudioRecorder.Api/"]
+COPY ["BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "BuildingBlocks.Messaging/"]
+COPY ["Shared.Events/Shared.Events.csproj", "Shared.Events/"]
 COPY ["SpeechRecognition.Infra/SpeechRecognition.Infra.csproj", "SpeechRecognition.Infra/"]
 COPY ["SpeechRecognition.Dominio/SpeechRecognition.Dominio.csproj", "SpeechRecognition.Dominio/"]
 RUN dotnet restore "./AudioRecorder.Api/AudioRecorder.Api.csproj"

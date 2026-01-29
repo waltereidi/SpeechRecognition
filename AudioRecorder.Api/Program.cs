@@ -1,10 +1,20 @@
-using AudioRecorder.Api.Services;
 using Microsoft.EntityFrameworkCore;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using SpeechRecognition.Infra.Context;
+using BuildingBlocks.Messaging;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuração do MassTransit com RabbitMQ
+builder.Services.AddMessaging(config =>
+{
+    config.Host = "localhost";
+    config.Username = "admin";
+    config.Password = "admin";
+    config.Port = 5672;
+    config.EnableLogging = true;
+});
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -34,28 +44,5 @@ app.MapControllers();
 
 app.MapRazorPages()
    .WithStaticAssets();
-
-
-
-//using var connection = await factory.CreateConnectionAsync();
-var channel = await RabbitMqConnectionSingleton.CreateChannelAsync();
-
-await channel.ExchangeDeclareAsync(exchange: "WhisperSpeechRecognition", type: ExchangeType.Fanout);
-await channel.QueueDeclareAsync("WhisperSpeechRecognition", false, false, false, null);
-
-var consumer = new AsyncEventingBasicConsumer(channel);
-
-
-consumer.ReceivedAsync += async (ch, ea) =>
-{
-    var body = ea.Body.ToArray();
-    
-    Thread.Sleep(5000);
-
-    await channel.BasicAckAsync(ea.DeliveryTag, false);
-};
-// this consumer tag identifies the subscription
-// when it has to be cancelled
-string consumerTag = await channel.BasicConsumeAsync("WhisperSpeechRecognition", false, consumer);
 
 app.Run();

@@ -1,16 +1,27 @@
 ﻿using AudioRecorder.Api.Services;
+using BuildingBlocks.Messaging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
+using Shared.Events;
 using SpeechRecognition.Infra.Context;
 
 
 [Route("Audio")]
 public class AudioController : Controller
 {
-    private readonly IChannel _channel;
-    public AudioController(AppDbContext builder)
+    private readonly AppDbContext _dbContext;
+    private readonly IEventBus _eventBus;
+    public AudioController(AppDbContext builder, IEventBus eventBus)
     {
-        _channel = RabbitMqConnectionSingleton.CreateChannelAsync().Result;
+        _dbContext = builder;
+        _eventBus = eventBus;
+    }
+    [HttpGet("Test")]
+    public async Task<string> Test()
+    {
+        var audioConvert = new AudioConversionToWav16kEvent();
+         _eventBus.PublishAsync(audioConvert);
+        return "ok";
     }
 
     //[HttpPost("Upload")]
