@@ -1,8 +1,6 @@
-using BuildingBlocks.Messaging;
-using BuildingBlocks.Messaging.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Shared.Events;
 using SpeechRecognition.Infra.Context;
+using BuildingBlocks.Messaging;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,32 +8,41 @@ var builder = WebApplication.CreateBuilder(args);
 // Configuração do MassTransit com RabbitMQ
 builder.Services.AddMessaging(config =>
 {
-    config.Host = "localhost";
+    config.Host = "rabbitmq";
     config.Username = "admin";
     config.Password = "admin";
     config.Port = 5672;
     config.EnableLogging = true;
 });
 
+
+// Add services to the container.
+builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
 var app = builder.Build();
-// Endpoint para criar e publicar um pedido
-app.MapPost("/api/pedidos", async (IEventBus eventBus) =>
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
+    app.UseExceptionHandler("/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-    // Cria o evento de pedido criado   
-    var pedidoCriadoEvent = new PedidoCriadoEvent();
+app.UseHttpsRedirection();
 
-    // Publica o evento no barramento
-    await eventBus.PublishAsync(pedidoCriadoEvent);
+app.UseRouting();
 
-    return Results.Created($"/api/pedidos/{pedidoCriadoEvent.PedidoId}", new
-    {
-        pedidoCriadoEvent.PedidoId,
-        Mensagem = "Pedido criado e publicado na fila com sucesso!"
-    });
-});
+app.UseAuthorization();
 
-// Endpoint de health check
-app.MapGet("/health", () => Results.Ok(new { Status = "Saudável", Servico = "Producer.Api" }));
+app.MapStaticAssets();
+
+app.MapControllers();
+
+app.MapRazorPages()
+   .WithStaticAssets();
 
 app.Run();

@@ -10,12 +10,14 @@ namespace AudioConverter.Services.Windows
     {
         private readonly DirectoryInfo _outputDir;
         private readonly FileInfo _file;
-        public string _outPutName => Path.Combine(_outputDir.FullName, $"{Guid.NewGuid()}.wav");
-        public ConvertToWavMono16kWindows(DirectoryInfo outputDir , FileInfo file ) 
+        private readonly FileInfo _outputFile;
+        public string _outPutName => _outputFile.FullName;
+        public ConvertToWavMono16kWindows(FileInfo outputFile , FileInfo file ) 
         {
             FFmpeg.SetExecutablesPath("C:\\ProgramData\\chocolatey\\bin");
-            _outputDir = outputDir;
+            _outputDir = outputFile.Directory;
             _file = file;
+            _outputFile = outputFile;
         }
         private void EnsureParametersAreValid()
         {

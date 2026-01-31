@@ -7,13 +7,12 @@ namespace AudioConverter.Services.Linux
         private readonly FfmpegExecutor _executor;
         private readonly FileInfo _input;
         private readonly DirectoryInfo _output;
-        public readonly string fileName;
-        public string GetOutputFullName => Path.Combine(_output.FullName, fileName);
-        public ConvertToWavMono16kLinux(FileInfo input , DirectoryInfo di  )
+        public readonly FileInfo _outputFile;
+        public string GetOutputFullName => _outputFile.FullName;
+        public ConvertToWavMono16kLinux(FileInfo input , FileInfo outputFileInfo )
         {
             _input = input;
-            _output = di;
-            fileName = Guid.NewGuid().ToString() + "wav";
+            _output = outputFileInfo.Directory ?? throw new Exception();
             _executor = new FfmpegExecutor();
         }
         private void EnsureParametersAreValid()

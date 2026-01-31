@@ -21,8 +21,8 @@ public class AudioController : Controller
     {
 
         var pedidoCriadoEvent = new PedidoCriadoEvent();
-       var audioConvert = new AudioConversionToWav16kEvent();
-         await _eventBus.PublishAsync(audioConvert);
+        var audioConvert = new AudioConversionToWav16kLocalEvent();
+        await _eventBus.PublishAsync(audioConvert);
         return "ok";
     }
 

@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Shared.Events
 {
-    public record class AudioConversionToWav16kEvent : IntegrationEvent
+    public  record class AudioConversionToWav16kLocalEvent : IntegrationEvent
     {
+        public string DirectoryPath { get; init; }
+        public string FilePath { get; init; }
     }
+    
 }
