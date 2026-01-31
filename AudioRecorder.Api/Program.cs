@@ -1,6 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using SpeechRecognition.Infra.Context;
 using BuildingBlocks.Messaging;
+using BuildingBlocks.Messaging.Abstractions;
+using Microsoft.EntityFrameworkCore;
+using Shared.Events;
+using SpeechRecognition.Infra.Context;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,34 +17,25 @@ builder.Services.AddMessaging(config =>
     config.EnableLogging = true;
 });
 
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
-
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Endpoint para criar e publicar um pedido
+app.MapPost("/api/pedidos", async (IEventBus eventBus) =>
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
 
-app.UseHttpsRedirection();
+    // Cria o evento de pedido criado   
+    var pedidoCriadoEvent = new PedidoCriadoEvent();
 
-app.UseRouting();
+    // Publica o evento no barramento
+    await eventBus.PublishAsync(pedidoCriadoEvent);
 
-app.UseAuthorization();
+    return Results.Created($"/api/pedidos/{pedidoCriadoEvent.PedidoId}", new
+    {
+        pedidoCriadoEvent.PedidoId,
+        Mensagem = "Pedido criado e publicado na fila com sucesso!"
+    });
+});
 
-app.MapStaticAssets();
-
-app.MapControllers();
-
-app.MapRazorPages()
-   .WithStaticAssets();
+// Endpoint de health check
+app.MapGet("/health", () => Results.Ok(new { Status = "Saudável", Servico = "Producer.Api" }));
 
 app.Run();

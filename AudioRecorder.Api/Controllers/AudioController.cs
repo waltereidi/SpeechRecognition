@@ -19,8 +19,10 @@ public class AudioController : Controller
     [HttpGet("Test")]
     public async Task<string> Test()
     {
-        var audioConvert = new AudioConversionToWav16kEvent();
-         _eventBus.PublishAsync(audioConvert);
+
+        var pedidoCriadoEvent = new PedidoCriadoEvent();
+       var audioConvert = new AudioConversionToWav16kEvent();
+         await _eventBus.PublishAsync(audioConvert);
         return "ok";
     }
 
