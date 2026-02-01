@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj" />
     <ProjectReference Include="..\Shared.Events\Shared.Events.csproj" />
     <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />

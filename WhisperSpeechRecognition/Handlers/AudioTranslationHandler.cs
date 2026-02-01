@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Messaging.Abstractions;
-using Shared.Events;
+using Shared.Events.WhisperSpeechRecognition;
 
 namespace WhisperSpeechRecognition.Handlers
 {

@@ -1,7 +1,7 @@
 ﻿using BuildingBlocks.Messaging;
 using BuildingBlocks.Messaging.MassTransit;
 using MassTransit;
-using Shared.Events;
+using Shared.Events.WhisperSpeechRecognition;
 using WhisperSpeechRecognition.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);

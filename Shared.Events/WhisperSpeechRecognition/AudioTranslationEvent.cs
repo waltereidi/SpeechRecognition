@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.Events
+namespace Shared.Events.WhisperSpeechRecognition
 {
     public record class AudioTranslationEvent : IntegrationEvent
     {

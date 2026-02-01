@@ -1,4 +1,5 @@
-﻿using AudioConverter.Interfaces;
+﻿using AudioConverter.Contracts;
+using AudioConverter.Interfaces;
 using AudioConverter.Services.Linux;
 using AudioConverter.Services.Windows;
 using BuildingBlocks.Messaging.Abstractions;
@@ -11,10 +12,12 @@ namespace AudioConverter.Services
     {
         private readonly DirectoryInfo _di;
         private readonly FileInfo _input;
+        private readonly FileInfo _output;
         public AudioConversionFactory(string directoryPath , string inputFile)
         {
             _di = new DirectoryInfo(directoryPath);
             _input = new FileInfo(inputFile);
+            _output =new( Path.Combine(directoryPath,$"{Guid.NewGuid()}.wav"));
             EnsureParametersAreValid();
         }
         private void EnsureParametersAreValid()
@@ -27,21 +30,17 @@ namespace AudioConverter.Services
             }
         }   
         public IAudioConversionResponseAdapter GetAdapter()
-        {
-            throw new NotImplementedException();
-        }
+            => new AudioContractResponse(_output);
 
         public IAudioConversionStrategy GetStrategy()
-        {
-            throw new NotImplementedException();
-        }
+            => IdentifyOs();
 
         private IAudioConversionStrategy IdentifyOs()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return new ConvertToWavMono16kWindows(_di , _input );
+                return new ConvertToWavMono16kWindows(_output,_input);
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return new ConvertToWavMono16kLinux( _input , _di);
+                return new ConvertToWavMono16kLinux( _input , _output );
             else
                 throw new Exception("This implementation does not contains resolution for the current running operational system");
         }
