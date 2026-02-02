@@ -11,13 +11,12 @@ namespace SpeechRecognition.Infra.Context
 
     public class AppDbContext : DbContext
     {
-
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
         public DbSet<FileStorage> FileStorages { get; set; }
         public DbSet<FileStorageConversion> FileStorageConversions { get; set; }
         public DbSet<AudioTranslation> AudioTranslations { get; set; }
-
+        public DbSet<RabbitMqLog> RabbitMqLogs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.AddInterceptors(new AuditInterceptor());

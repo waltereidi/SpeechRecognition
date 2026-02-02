@@ -1,19 +1,18 @@
 ﻿using BuildingBlocks.Messaging.Abstractions;
 using Shared.Events.AudioRecorderApi;
 
-namespace AudioRecorder.Api.Interfaces
+namespace AudioRecorder.Api.Handler
 {
-    public class SaveAudioConversionErrorHandler : IIntegrationEventHandler<SaveAudioConversionErrorEvent>
+    public class SaveAudioConversionSuccessHandler: IIntegrationEventHandler<SaveAudioConversionSuccessEvent>
     { 
-        private readonly ILogger<SaveAudioConversionErrorEvent> _logger;
-        public SaveAudioConversionErrorHandler(IEventBus eventBus, ILogger<SaveAudioConversionErrorEvent> logger)
+        private readonly ILogger<SaveAudioConversionSuccessEvent> _logger;
+        public SaveAudioConversionSuccessHandler(IEventBus eventBus, ILogger<SaveAudioConversionSuccessEvent> logger)
         {
             _logger = logger;
         }
-
-        public Task HandleAsync(SaveAudioConversionErrorEvent @event, CancellationToken cancellationToken = default)
+        public async Task HandleAsync(SaveAudioConversionSuccessEvent @event, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+
         }
     }
 }

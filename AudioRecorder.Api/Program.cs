@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SpeechRecognition.Infra.Context;
 using BuildingBlocks.Messaging;
+using AudioRecorder.Api.Services;
+using AudioRecorder.Api.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,9 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<AudioConversionService>();
+builder.Services.AddScoped<ErrorLogHandler>();
 
 var app = builder.Build();
 

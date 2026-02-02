@@ -1,23 +1,21 @@
 ﻿using AudioConverter.Handlers;
-using AudioConverter.Interfaces;
-using AudioConverter.Services.Linux;
 using BuildingBlocks.Messaging;
 using BuildingBlocks.Messaging.MassTransit;
 using MassTransit;
-using Shared.Events;
+using Shared.Events.AudioConverter;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Registra o handler de eventos
-builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kEvent, AudioConversionToWav16kHandler>();
+builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kLocalEvent, AudioConversionToWav16kLocalHandler>();
 
 
 // Configuração do MassTransit com RabbitMQ para consumir mensagens
 builder.Services.AddMassTransit(busConfigurator =>
 {
     // Registra o consumidor genérico para o evento PedidoCriado
-    busConfigurator.AddConsumer<GenericConsumer<AudioConversionToWav16kEvent>>();
+    busConfigurator.AddConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>();
 
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
@@ -30,9 +28,8 @@ builder.Services.AddMassTransit(busConfigurator =>
         // Configura o endpoint para receber os eventos de pedido
         cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
         {
-            endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionToWav16kEvent>>(context);
+            endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>(context);
         });
-        
     });
 });
 
@@ -48,34 +45,6 @@ app.MapGet("/health", () =>
         Servico = "AudioConverter.Api"
     })
 );
-
-
-
-// ===============================
-// Teste de conversão FFmpeg (Linux/macOS)
-// ===============================
-app.MapGet("/testAudioConversionLinux",
-    async () =>
-    {
-        var di = new DirectoryInfo("Files");
-        var input = "Files/output.wav";
-        var output = "Files/Output/TestAudioConverter.wav";
-
-        IAudioConversionStrategy strategy = new ConvertToWavMono16kLinux(
-            new FileInfo(input),
-            di
-        );
-        await strategy.Start(CancellationToken.None);
-
-        return Results.Ok(new
-        {
-            Status = "Conversão realizada",
-            Entrada = input,
-            Saida = output
-        });
-    }
-);
-
 // ===============================
 // Status do consumidor
 // ===============================

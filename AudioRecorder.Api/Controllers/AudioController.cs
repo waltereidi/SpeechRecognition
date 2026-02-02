@@ -3,6 +3,7 @@ using BuildingBlocks.Messaging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using RabbitMQ.Client;
 using Shared.Events;
+using Shared.Events.AudioConverter;
 using SpeechRecognition.Infra.Context;
 
 
@@ -19,7 +20,6 @@ public class AudioController : Controller
     [HttpGet("Test")]
     public async Task<string> Test()
     {
-
         var pedidoCriadoEvent = new PedidoCriadoEvent();
         var audioConvert = new AudioConversionToWav16kLocalEvent();
         await _eventBus.PublishAsync(audioConvert);
