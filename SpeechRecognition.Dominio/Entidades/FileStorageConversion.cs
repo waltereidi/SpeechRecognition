@@ -6,7 +6,7 @@ namespace SpeechRecognition.Dominio.Entidades
 {
     public class FileStorageConversion : Entity
     {
-        public int FileStorageId { get; set; }
+        public Guid FileStorageId { get; set; }
         public FileStorage FileStorage { get; set; }
     }
 }

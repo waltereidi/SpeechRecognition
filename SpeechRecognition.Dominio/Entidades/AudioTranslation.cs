@@ -7,7 +7,7 @@ namespace SpeechRecognition.Dominio.Entidades
     public class AudioTranslation : Entity
     {
         public string Translation { get; set; }
-        public int FileStorageId { get; set; }
+        public Guid FileStorageId { get; set; }
         public FileStorage FileStorage { get; set; }
         /// <summary>
         /// Preenchido por whisper, para indicar um erro no resultado

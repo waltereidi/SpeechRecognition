@@ -1,5 +1,6 @@
 ﻿using Shared.Events.Generic;
 using SpeechRecognition.Dominio.Entidades;
+using SpeechRecognition.Dominio.Enum;
 using SpeechRecognition.Infra.Context;
 
 namespace AudioRecorder.Api.Services
@@ -15,9 +16,20 @@ namespace AudioRecorder.Api.Services
         {
             var logs = new RabbitMqLog()
             {
-                Severity = @event.Severity,
+                Severity = (LogSeverity)@event.Severity,
                 Description = @event.ErrorMessage,
                 Source = @event.Source
+            };
+            _context.RabbitMqLogs.Add(logs);
+            _context.SaveChangesAsync();
+        }
+        public void AddLog(string source, string message , LogSeverity severity)
+        {
+            var logs = new RabbitMqLog()
+            {
+                Severity = severity,
+                Description =message,
+                Source = source
             };
             _context.RabbitMqLogs.Add(logs);
             _context.SaveChangesAsync();

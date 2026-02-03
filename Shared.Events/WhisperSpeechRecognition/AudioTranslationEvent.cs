@@ -9,5 +9,7 @@ namespace Shared.Events.WhisperSpeechRecognition
 {
     public record class AudioTranslationEvent : IntegrationEvent
     {
+        public string FilePath { get; init; }
+        public string FileStorageConversionId { get; init; }
     }
 }
