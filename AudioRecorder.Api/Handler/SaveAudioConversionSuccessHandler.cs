@@ -19,6 +19,7 @@ namespace AudioRecorder.Api.Handler
             _rabbitService = rabbitService;
             _eventBus = eventBus;
         }
+
         public async Task HandleAsync( SaveAudioConversionSuccessEvent @event, CancellationToken cancellationToken = default)
         {
             try

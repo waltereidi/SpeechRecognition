@@ -1,5 +1,10 @@
 ﻿using BuildingBlocks.Messaging.Abstractions;
+using MassTransit.RabbitMqTransport;
+using Shared.Events.AudioRecorderApi;
+using Shared.Events.Generic;
 using Shared.Events.WhisperSpeechRecognition;
+using WhisperSpeechRecognition.DTO;
+using WhisperSpeechRecognition.Enum;
 using WhisperSpeechRecognition.Interfaces;
 using WhisperSpeechRecognition.Service;
 
@@ -16,7 +21,42 @@ namespace WhisperSpeechRecognition.Handlers
         }
         public async Task HandleAsync( AudioTranslationEvent @event, CancellationToken cancellationToken = default)
         {
-            //ITranslateAudioFacade facade = new TranslateAudioFacade(@event.FilePath, @event.FileStorageConversionId, _logger, _eventBus);
+            ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory();
+            try
+            {
+                var fi = new FileInfo(@event.FilePath);
+                if (!fi.Exists)
+                    throw new FileNotFoundException("Audio file not found", @event.FilePath);
+
+                var factoryDTO = new SpeechRecognitionFactoryDTO(@event, fi);
+
+                var strategy = await factory.Create(factoryDTO);
+                var translation = await strategy.TranslateAudio();
+
+                var publishEvent = CreateSuccessEvent(translation, @event);
+                await _eventBus.PublishAsync(publishEvent);
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error processing AudioTranslationEvent for FileStorageConversionId: {FileStorageConversionId}", @event.FileStorageConversionId);
+                await _eventBus.PublishAsync(new Shared.Events.Generic.ErrorLogEvent()
+                {
+                    ErrorMessage = ex.Message,
+                    Severity = 5,
+                    Source = nameof(AudioTranslationHandler)
+                });
+            }
+        }
+        private SaveAudioTranslationSuccessEvent CreateSuccessEvent(ITranslationResponseAdapter adapter , AudioTranslationEvent @event  )
+        {
+            var result = new SaveAudioTranslationSuccessEvent
+            {
+                FileStorageConversionId = @event.FileStorageConversionId,
+                Translation = adapter.GetTranslation(), 
+                ModelId = adapter.GetModel(), 
+            };
+            return result;
         }
     }
 }
