@@ -16,7 +16,7 @@ namespace SpeechRecognition.Dominio.Entidades
         /// <summary>
         /// Preenchido pelo usuário, para indicar se a tradução foi aprovada
         /// </summary>
-        public bool IsApproved { get; set; }
+        public bool? IsApproved { get; set; }
         public int TranslationTemplate { get; set; }
         public int WhisperModel { get; set; }
     }

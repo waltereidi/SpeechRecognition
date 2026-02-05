@@ -8,32 +8,31 @@ using System.Text;
 
 namespace SpeechRecognition.Infra.Mappings
 {
-    public class FileStorageConversionMap : IEntityTypeConfiguration<FileStorageConversion>
+    internal class UploadRequestMap : IEntityTypeConfiguration<UploadRequest>
     {
-        public void Configure(EntityTypeBuilder<FileStorageConversion> builder)
+        public void Configure(EntityTypeBuilder<UploadRequest> builder)
         {
-            builder.ToTable("FileStorageConversion");
-
+            builder.ToTable("UploadRequest");
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.FileStorageId)
                 .IsRequired();
 
-            builder.HasOne(x => x.FileStorage)
+            builder.HasOne(x => x.FileStorage )
                 .WithMany() // sem coleção no FileStorage
                 .HasForeignKey(x => x.FileStorageId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             var guidToStringConverter = new ValueConverter<Guid, string>(
-                v => v.ToString("D"),           // Guid -> string
-                v => Guid.Parse(v)              // string -> Guid
-            );
+                    v => v.ToString("D"),           // Guid -> string
+                    v => Guid.Parse(v)              // string -> Guid
+                );
 
             builder.Property(x => x.FileStorageId)
                 .HasConversion(guidToStringConverter)
                 .HasMaxLength(36)
                 .IsRequired();
         }
-
+            
     }
 }

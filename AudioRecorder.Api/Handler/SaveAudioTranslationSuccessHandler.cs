@@ -25,7 +25,7 @@ namespace AudioRecorder.Api.Handler
         {
             try
             {
-                var entity = await _service.SaveAudioTranslation(@event);
+                await _service.SaveAudioTranslation(@event);
             }
             catch (Exception ex)
             {

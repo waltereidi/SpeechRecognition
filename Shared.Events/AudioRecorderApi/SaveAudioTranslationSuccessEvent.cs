@@ -12,5 +12,6 @@ namespace Shared.Events.AudioRecorderApi
         public string FileStorageConversionId { get; init; }
         public string Translation { get; init; }
         public int ModelId { get; init; }
+        public int TemplateId { get; init; }
     }
 }

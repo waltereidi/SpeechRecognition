@@ -4,6 +4,7 @@ using AudioConverter.Services.Windows;
 using BuildingBlocks.Messaging.Abstractions;
 using Shared.Events.AudioConverter;
 using Shared.Events.AudioRecorderApi;
+using Shared.Events.Generic;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -36,18 +37,19 @@ namespace AudioConverter.Handlers
                 {
                     FileFullPath= adapter.GetResultFileInfo().FullName,
                     FileName= adapter.GetResultFileName(),
-                    Id= @event.FileStorageId
+                    Id= Guid.Parse(@event.FileStorageId),  
                 }, cancellationToken);
 
             }
             catch (Exception ex)
             {
-                await _eventBus.PublishAsync(new SaveAudioConversionErrorEvent
+                await _eventBus.PublishAsync(new ErrorLogEvent
                 {
-                    FileStorageId = @event.FileStorageId,
-                    ErrorMessage = ex.Message
+                    Severity = 5,
+                    ErrorMessage = ex.Message,
+                    Source = nameof(AudioConversionToWav16kLocalHandler)
                 }, cancellationToken);
-                _logger.LogError(ex, "Error handling AudioConversionToWav16kLocalEvent");
+                //_logger.LogError(ex, "Error handling AudioConversionToWav16kLocalEvent");
             }
         }
     }

@@ -10,13 +10,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kLocalEvent, AudioConversionToWav16kLocalHandler>();
 
-
 // Configuração do MassTransit com RabbitMQ para consumir mensagens
 builder.Services.AddMassTransit(busConfigurator =>
 {
     // Registra o consumidor genérico para o evento PedidoCriado
     busConfigurator.AddConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>();
-
+    busConfigurator.AddMessaging(config =>
+    {
+        config.Host = "rabbitmq";
+        config.Username = "admin";
+        config.Password = "admin";
+        config.Port = 5672;
+        config.EnableLogging = true;
+    });
+    
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("rabbitmq", 5672, "/", hostCfg =>
