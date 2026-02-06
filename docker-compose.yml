@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: AudioConverter/Dockerfile
+    ports:
+    - "8085:8080"
     networks:
       - backend
 

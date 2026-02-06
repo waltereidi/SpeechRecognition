@@ -1,5 +1,6 @@
 ﻿using AudioConverter.Handlers;
 using BuildingBlocks.Messaging;
+using BuildingBlocks.Messaging.Abstractions;
 using BuildingBlocks.Messaging.MassTransit;
 using MassTransit;
 using Shared.Events.AudioConverter;
@@ -10,35 +11,28 @@ var builder = WebApplication.CreateBuilder(args);
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kLocalEvent, AudioConversionToWav16kLocalHandler>();
 
-// Configuração do MassTransit com RabbitMQ para consumir mensagens
-builder.Services.AddMassTransit(busConfigurator =>
+// Mensagens e consumidores
+builder.Services.AddMassTransit(x =>
 {
-    // Registra o consumidor genérico para o evento PedidoCriado
-    busConfigurator.AddConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>();
-    busConfigurator.AddMessaging(config =>
-    {
-        config.Host = "rabbitmq";
-        config.Username = "admin";
-        config.Password = "admin";
-        config.Port = 5672;
-        config.EnableLogging = true;
-    });
-    
-    busConfigurator.UsingRabbitMq((context, cfg) =>
+    x.AddConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>();
+
+    x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("rabbitmq", 5672, "/", hostCfg =>
         {
             hostCfg.Username("admin");
             hostCfg.Password("admin");
         });
-
-        // Configura o endpoint para receber os eventos de pedido
+        // Fila única para consumo
         cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
         {
             endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>(context);
         });
     });
 });
+
+// Registra o adaptador que expõe IEventBus usando a infra do MassTransit
+builder.Services.AddScoped<IEventBus, MassTransitEventBus>();
 
 var app = builder.Build();
 
