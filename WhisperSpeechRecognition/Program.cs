@@ -2,12 +2,14 @@
 using BuildingBlocks.Messaging.MassTransit;
 using MassTransit;
 using Shared.Events.WhisperSpeechRecognition;
+using WhisperSpeechRecognition.DTO;
 using WhisperSpeechRecognition.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioTranslationEvent, AudioTranslationHandler>();
+var configuration = new ConfigurationDTO();
 
 
 // Configuração do MassTransit com RabbitMQ para consumir mensagens
@@ -18,12 +20,11 @@ builder.Services.AddMassTransit(busConfigurator =>
 
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq", 5672, "/", hostCfg =>
+        cfg.Host(configuration.RabbitMqConfig.HostName, configuration.RabbitMqConfig.Port, "/", hostCfg =>
         {
-            hostCfg.Username("admin");
-            hostCfg.Password("admin");
+            hostCfg.Username(configuration.RabbitMqConfig.UserName);
+            hostCfg.Password(configuration.RabbitMqConfig.Password);
         });
-
         // Configura retry para tratamento de falhas
         cfg.UseMessageRetry(retryCfg =>
         {

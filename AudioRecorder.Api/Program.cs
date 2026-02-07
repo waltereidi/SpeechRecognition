@@ -1,20 +1,27 @@
+using AudioRecord.Api.DTO;
+using AudioRecorder.Api.Interfaces;
+using AudioRecorder.Api.Services;
+using BuildingBlocks.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SpeechRecognition.Infra.Context;
-using BuildingBlocks.Messaging;
-using AudioRecorder.Api.Services;
-using AudioRecorder.Api.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = new ConfigurationDTO();
+
 
 // Configuração do MassTransit com RabbitMQ
-builder.Services.AddMessaging(config =>
+builder.Services.AddMessaging(cfg =>
 {
-    config.Host = "rabbitmq";
-    config.Username = "admin";
-    config.Password = "admin";
-    config.Port = 5672;
-    config.EnableLogging = true;
+    cfg.Host = configuration.RabbitMqConfig.HostName;
+
+    cfg.Username = configuration.RabbitMqConfig.UserName;
+
+    cfg.Password = configuration.RabbitMqConfig.Password;
+
+    cfg.Port = configuration.RabbitMqConfig.Port;
+
+    cfg.EnableLogging = true;
 });
 
 

@@ -1,29 +1,39 @@
 {
     "profiles": {
-        "AudioConverter": {
+        "http": {
             "commandName": "Project",
             "launchBrowser": true,
             "environmentVariables": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
-            "applicationUrl": "https://localhost:53791;http://localhost:53792"
+            "dotnetRunMessages": true,
+            "applicationUrl": "http://localhost:5298"
+        },
+        "https": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "dotnetRunMessages": true,
+            "applicationUrl": "http://localhost:7204;http://localhost:5298"
         },
         "Container (Dockerfile)": {
             "commandName": "Docker",
             "launchBrowser": true,
             "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
             "environmentVariables": {
-                "ASPNETCORE_HTTPS_PORTS": "8081",
                 "ASPNETCORE_HTTP_PORTS": "8080"
             },
             "publishAllPorts": true,
-            "useSSL": true
+            "useSSL": false
         }
     },
     "RabbitMq": {
-        "Host": "localhost",
+        "Host": "rabbitMq",
         "Port": 5672,
         "Username": "admin",
         "Password": "admin"
-    }
+    },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
 }

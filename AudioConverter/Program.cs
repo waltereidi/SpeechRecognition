@@ -1,8 +1,10 @@
-﻿using AudioConverter.Handlers;
+﻿using AudioConverter.DTO;
+using AudioConverter.Handlers;
 using BuildingBlocks.Messaging;
 using BuildingBlocks.Messaging.Abstractions;
 using BuildingBlocks.Messaging.MassTransit;
 using MassTransit;
+using Microsoft.Extensions.Configuration;
 using Shared.Events.AudioConverter;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kLocalEvent, AudioConversionToWav16kLocalHandler>();
+var configuration = new ConfigurationDTO();
 
 // Mensagens e consumidores
 builder.Services.AddMassTransit(x =>
@@ -18,10 +21,10 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq", 5672, "/", hostCfg =>
+        cfg.Host(configuration.RabbitMqConfig.HostName ,configuration.RabbitMqConfig.Port , "/", hostCfg =>
         {
-            hostCfg.Username("admin");
-            hostCfg.Password("admin");
+            hostCfg.Username(configuration.RabbitMqConfig.UserName);
+            hostCfg.Password(configuration.RabbitMqConfig.Password);
         });
         // Fila única para consumo
         cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
