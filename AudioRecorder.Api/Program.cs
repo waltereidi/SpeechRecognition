@@ -7,19 +7,37 @@ using SpeechRecognition.Infra.Context;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = new ConfigurationDTO();
+
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                ?? "Production";
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddJsonFile(
+        $"appsettings.{environment}.json",
+        optional: true,
+        reloadOnChange: true)
+    .AddJsonFile(
+        "Properties/launchSettings.json",
+        optional: true,
+        reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .Build();
+builder.Configuration.AddConfiguration(configuration);
 
 
 // Configuração do MassTransit com RabbitMQ
 builder.Services.AddMessaging(cfg =>
 {
-    cfg.Host = configuration.RabbitMqConfig.HostName;
+    var rabbitMqConfig = ConfigurationDTO.GetRabbitMqConfig(configuration);
+    cfg.Host = rabbitMqConfig.HostName;
 
-    cfg.Username = configuration.RabbitMqConfig.UserName;
+    cfg.Username = rabbitMqConfig.UserName;
 
-    cfg.Password = configuration.RabbitMqConfig.Password;
+    cfg.Password = rabbitMqConfig.Password;
 
-    cfg.Port = configuration.RabbitMqConfig.Port;
+    cfg.Port = rabbitMqConfig.Port;
 
     cfg.EnableLogging = true;
 });

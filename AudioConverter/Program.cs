@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioConversionToWav16kLocalEvent, AudioConversionToWav16kLocalHandler>();
 var configuration = new ConfigurationDTO();
+builder.Configuration.AddConfiguration(configuration.GetCofiguration());
 
 // Mensagens e consumidores
 builder.Services.AddMassTransit(x =>

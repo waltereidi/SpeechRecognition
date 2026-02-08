@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioTranslationEvent, AudioTranslationHandler>();
 var configuration = new ConfigurationDTO();
+//builder.Configuration.AddConfiguration(configuration.GetCofiguration());
 
 
 // Configuração do MassTransit com RabbitMQ para consumir mensagens

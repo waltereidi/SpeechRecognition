@@ -16,11 +16,12 @@ namespace AudioConverter.Handlers
     {
         private readonly IEventBus _eventBus;
         private readonly ILogger<AudioConversionToWav16kLocalHandler> _logger;
-
-        public AudioConversionToWav16kLocalHandler(IEventBus eventBus, ILogger<AudioConversionToWav16kLocalHandler> logger)
+        private readonly IConfiguration _config;
+        public AudioConversionToWav16kLocalHandler(IEventBus eventBus, ILogger<AudioConversionToWav16kLocalHandler> logger, IConfiguration config)
         {
             _eventBus = eventBus;
             _logger = logger;
+            _config = config;
         }
 
         public async Task HandleAsync(AudioConversionToWav16kLocalEvent @event, CancellationToken cancellationToken = default)

@@ -2,7 +2,7 @@
 
 namespace AudioRecorder.Api.Services
 {
-    public abstract class FileStorageService : IFileStorageService
+    public abstract class FileStorageService
     {
         protected DirectoryInfo SavePath { get; private set; }
         protected string FileName { get; private set; }
@@ -29,6 +29,7 @@ namespace AudioRecorder.Api.Services
             if(!file.Exists)
                 throw new FileNotFoundException("File was not saved correctly", GetFullFileName());
         }
+
         public virtual FileInfo SaveFile(Stream stream)
         {
             EnsureParametersAreValid();

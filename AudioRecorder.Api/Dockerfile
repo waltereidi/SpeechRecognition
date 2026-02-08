@@ -4,12 +4,15 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
+
+ENV ASPNETCORE_ENVIRONMENT=Development
 EXPOSE 8080
 
 
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
 WORKDIR /src
 COPY ["AudioRecorder.Api/AudioRecorder.Api.csproj", "AudioRecorder.Api/"]
 COPY ["BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "BuildingBlocks.Messaging/"]
@@ -30,4 +33,5 @@ RUN dotnet publish "./AudioRecorder.Api.csproj" -c $BUILD_CONFIGURATION -o /app/
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "AudioRecorder.Api.dll"]

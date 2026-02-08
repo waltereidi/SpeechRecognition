@@ -1,13 +1,28 @@
-﻿namespace AudioRecorder.Api.Services
+﻿using AudioRecord.Api.DTO;
+using SpeechRecognition.Dominio.Entidades;
+using SpeechRecognition.Infra.Context;
+
+namespace AudioRecorder.Api.Services
 {
     public class SaveRawFile : FileStorageService
     {
-        public SaveRawFile(string path)
+        private readonly AppDbContext _context;
+        private readonly ConfigurationDTO.FileStorageConfig _config;
+        public SaveRawFile(AppDbContext context, IConfiguration config )
         {
-            string rawPath = path;
+            _context = context;
+            _config = ConfigurationDTO.GetFileStorageConfig(config);
+        }
+        public SaveRawFile(Stream file)
+        {
 
-            string fileName = Guid.NewGuid().ToString();
-            base.InitializeParameters(rawPath, fileName);
+            string fileName = $"{Guid.NewGuid().ToString()}.wav";
+            
+            base.InitializeParameters(_config.RawAudioPathDir.FullName, fileName);
+            
+            var result = base.SaveFile(file);
+            
+
         }
     }
 }

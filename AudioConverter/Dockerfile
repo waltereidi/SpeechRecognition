@@ -14,10 +14,20 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+    
+# Cria diretórios de armazenamento de áudio
+RUN mkdir -p /Home/FileStorage/RawAudio \
+    && mkdir -p /Home/FileStorage/ConvertedAudio
+
+# Dá permissão de leitura e escrita para o usuário da aplicação
+RUN chown -R $APP_UID:$APP_UID /Home/FileStorage \
+    && chmod -R 775 /Home/FileStorage
+
 # Volta para o usuário da aplicação
 USER $APP_UID
 
 WORKDIR /app
+ENV ASPNETCORE_ENVIRONMENT=Development
 EXPOSE 8080
 EXPOSE 8081
 
@@ -45,6 +55,8 @@ RUN dotnet build "./AudioConverter.csproj" -c $BUILD_CONFIGURATION -o /app/build
 # =========================
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
+
+
 RUN dotnet publish "./AudioConverter.csproj" \
     -c $BUILD_CONFIGURATION \
     -o /app/publish \
