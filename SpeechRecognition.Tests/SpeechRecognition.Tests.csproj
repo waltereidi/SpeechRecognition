@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AudioConverter\Linux\" />
     <Folder Include="Files\SaveFile\" />
     <Folder Include="Files\Output\" />
   </ItemGroup>

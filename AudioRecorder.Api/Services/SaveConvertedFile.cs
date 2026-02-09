@@ -1,4 +1,6 @@
-﻿namespace AudioRecorder.Api.Services
+﻿using SpeechRecognition.Dominio.Entidades;
+
+namespace AudioRecorder.Api.Services
 {
     public class SaveConvertedFile : FileStorageService
     {
@@ -9,6 +11,11 @@
 
             string fileName = Guid.NewGuid().ToString();
             base.InitializeParameters(rawPath, fileName);
+        }
+
+        public override Task<FileStorage> SaveFile()
+        {
+            throw new NotImplementedException();
         }
     }
 }

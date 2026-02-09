@@ -1,8 +1,9 @@
-﻿namespace AudioRecorder.Api.Interfaces
+﻿using SpeechRecognition.Dominio.Entidades;
+
+namespace AudioRecorder.Api.Interfaces
 {
     public interface IFileStorageService
     {
-        FileInfo SaveFile(Stream stream);
-        string GetFullFileName();
+        Task<FileStorage> SaveFile();
     }
 }

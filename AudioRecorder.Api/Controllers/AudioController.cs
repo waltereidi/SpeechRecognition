@@ -11,13 +11,9 @@ using SpeechRecognition.Infra.Context;
 [Route("Audio")]
 public class AudioController : Controller
 {
-    private readonly AppDbContext _dbContext;
-    private readonly IEventBus _eventBus;
     private readonly IConfiguration _config;
-    public AudioController(AppDbContext builder, IEventBus eventBus , IConfiguration config )
+    public AudioController(  IConfiguration config )
     {
-        _dbContext = builder;
-        _eventBus = eventBus;
         _config = config;
     }
     [HttpGet("Test")]
@@ -26,13 +22,7 @@ public class AudioController : Controller
         var fsConfig = ConfigurationDTO.GetFileStorageConfig(_config);
 
         var pedidoCriadoEvent = new PedidoCriadoEvent();
-        var audioConvert = new AudioConversionToWav16kLocalEvent()
-        {
-            DirectoryPath = fsConfig.RawAudioPath,
-            FilePath = Path.Combine(fsConfig.RawAudioPath, "audio_20240617_123456.webm"),
-            FileStorageId = Guid.NewGuid().ToString()   
-        };
-        await _eventBus.PublishAsync(audioConvert);
+
         return "ok";
     }
 

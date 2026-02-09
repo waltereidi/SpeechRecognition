@@ -1,8 +1,9 @@
 ﻿using AudioRecorder.Api.Interfaces;
+using SpeechRecognition.Dominio.Entidades;
 
 namespace AudioRecorder.Api.Services
 {
-    public abstract class FileStorageService
+    public abstract class FileStorageService : IFileStorageService
     {
         protected DirectoryInfo SavePath { get; private set; }
         protected string FileName { get; private set; }
@@ -30,7 +31,7 @@ namespace AudioRecorder.Api.Services
                 throw new FileNotFoundException("File was not saved correctly", GetFullFileName());
         }
 
-        public virtual FileInfo SaveFile(Stream stream)
+        protected virtual FileInfo SaveFile(Stream stream)
         {
             EnsureParametersAreValid();
             using (FileStream fs = new FileStream(GetFullFileName(),FileMode.Create ))
@@ -41,5 +42,7 @@ namespace AudioRecorder.Api.Services
 
             return new FileInfo( GetFullFileName() );
         }
+
+        public abstract Task<FileStorage> SaveFile();
     }
 }
