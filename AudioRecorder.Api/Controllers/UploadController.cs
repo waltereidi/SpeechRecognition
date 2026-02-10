@@ -1,30 +1,29 @@
-﻿using AudioRecord.Api.DTO;
+﻿using AudioRecorder.Api.Contracts;
+using AudioRecorder.Api.Controllers;
 using AudioRecorder.Api.Services;
-using BuildingBlocks.Messaging.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Client;
-using Shared.Events;
-using Shared.Events.AudioConverter;
-using SpeechRecognition.Infra.Context;
 
 
-[Route("Audio")]
-public class AudioController : Controller
+[Route("Upload")]
+public class UploadController : BaseController
 {
     private readonly IConfiguration _config;
-    public AudioController(  IConfiguration config )
+    private readonly AudioConversionService _service;
+        
+    public UploadController(ILogger<UploadController> logger, 
+        AudioConversionService service , 
+        IConfiguration config ) 
+        : base(logger)
     {
-        _config = config;
+        _service = service;
     }
-    [HttpGet("Test")]
-    public async Task<string> Test()
-    {
-        var fsConfig = ConfigurationDTO.GetFileStorageConfig(_config);
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UploadAudio( UploadContracts.Request.AudioUpload request )
+        => await HandleRequest( request, _service.Handle);
 
-        var pedidoCriadoEvent = new PedidoCriadoEvent();
-
-        return "ok";
-    }
 
     //[HttpPost("Upload")]
     //public async Task<IActionResult> Upload(IFormFile audio)

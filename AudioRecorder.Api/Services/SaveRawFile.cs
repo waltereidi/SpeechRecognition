@@ -1,38 +1,30 @@
 ﻿using AudioRecord.Api.DTO;
+using AudioRecorder.Api.Contracts;
 using AudioRecorder.Api.Interfaces;
 using SpeechRecognition.Dominio.Entidades;
+using SpeechRecognition.Dominio.ValueObjects;
 using SpeechRecognition.Infra.Context;
 
 namespace AudioRecorder.Api.Services
 {
     public class SaveRawFile : FileStorageService
     {
-        private readonly AppDbContext _context;
         private readonly ConfigurationDTO.FileStorageConfig _config;
-        private readonly IFormFile _fc;
-        public SaveRawFile(AppDbContext context, IConfiguration config , IFormFile file)
+        private readonly IFormFile _ff; 
+        public SaveRawFile(ConfigurationDTO.FileStorageConfig config, IFormFile ff )
         {
-            _context = context;
-            _config = ConfigurationDTO.GetFileStorageConfig(config);
-            _fc = file;
+            _config = config;
+            _ff = ff;
         }
-        public override async Task<FileStorage> SaveFile()
+        public override async Task<FileInfo> SaveFile() 
         {
-            string fileName = $"{Guid.NewGuid().ToString()}";
+            string fileName = new UniqueFileNameVO(_ff.FileName).Value;
 
             base.InitializeParameters(_config.RawAudioPathDir.FullName, fileName);
 
-            var result = base.SaveFile(_fc.OpenReadStream());
-
-            var fileStorage = new FileStorage
-            {
-                FileInfo = result,
-                OriginalFileName = _fc.FileName
-            };
-
-            _context.FileStorages.Add(fileStorage);
-            return fileStorage;
-
+            var result = base.SaveFile(_ff.OpenReadStream());
+            
+            return result;
         }
     }
 }

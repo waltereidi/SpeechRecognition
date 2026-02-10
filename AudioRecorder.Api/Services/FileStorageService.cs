@@ -43,6 +43,6 @@ namespace AudioRecorder.Api.Services
             return new FileInfo( GetFullFileName() );
         }
 
-        public abstract Task<FileStorage> SaveFile();
+        public abstract Task<FileInfo> SaveFile();
     }
 }

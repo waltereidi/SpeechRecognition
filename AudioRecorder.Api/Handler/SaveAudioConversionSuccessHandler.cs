@@ -2,6 +2,7 @@
 using BuildingBlocks.Messaging.Abstractions;
 using Shared.Events.AudioRecorderApi;
 using Shared.Events.WhisperSpeechRecognition;
+using SpeechRecognition.Dominio.Entidades;
 using SpeechRecognition.Dominio.Enum;
 
 namespace AudioRecorder.Api.Handler
@@ -24,7 +25,7 @@ namespace AudioRecorder.Api.Handler
         {
             try
             {
-                var entity = await _service.SaveAudioConversion(@event);
+                var entity = (FileStorageConversion)await _service.Handle(@event);
                 await _eventBus.PublishAsync(new AudioTranslationEvent
                 {
                     Id = Guid.NewGuid(),

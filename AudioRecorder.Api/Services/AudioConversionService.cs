@@ -1,9 +1,12 @@
 ﻿using AudioRecord.Api.DTO;
+using AudioRecorder.Api.Contracts;
+using AudioRecorder.Api.Interfaces;
 using BuildingBlocks.Messaging.Abstractions;
 using Shared.Events.AudioConverter;
 using Shared.Events.AudioRecorderApi;
 using SpeechRecognition.Dominio.Entidades;
 using SpeechRecognition.Infra.Context;
+using static MassTransit.ValidationResultExtensions;
 
 namespace AudioRecorder.Api.Services
 {
@@ -11,44 +14,58 @@ namespace AudioRecorder.Api.Services
     {
         private readonly AppDbContext _context;
         private readonly IEventBus _eventBus;
-        private readonly IConfiguration _config;
         private readonly ConfigurationDTO.FileStorageConfig _fsConfig;
-        public AudioConversionService(AppDbContext context, IEventBus eventBus ,IConfiguration config  )
+        
+        public AudioConversionService(AppDbContext context, 
+            IEventBus eventBus, 
+            IConfiguration config,
+            SaveRawFile saveRawFileService )
         {
             _context = context;
             _eventBus = eventBus;
-            _config = config;
             _fsConfig = ConfigurationDTO.GetFileStorageConfig(config);
         }
-
-        public async Task RequestAudioConversion(IFormFileCollection formFile )
+        public async Task<object?> Handle(object command) => command switch
         {
-            //var service = new SaveRawFile(_context, _config);
-            //formFile.ToList().ForEach(async file =>
-            //{
-            //    var fs = new FileStorage()
-            //    {
-            //        FileName = file.FileName,
-            //        ContentType = file.ContentType,
-            //        Size = file.Length,
-            //        CreatedAt = DateTime.UtcNow
-            //    };
-            //    _context.FileStorages.Add(fs);
-            //    await _context.SaveChangesAsync();
-            //    await PublishAudioConversionEvent(fs);
-            //});
+            UploadContracts.Request.AudioUpload cmd => await AudioUploaded(cmd),
+            SaveAudioConversionSuccessEvent cmd => await SaveAudioConversion(cmd),
+            _ => throw new InvalidOperationException()
+        };
 
-            //var audioConvert = new AudioConversionToWav16kLocalEvent()
-            //{
-            //    DirectoryPath = _fsConfig.ConvertedAudioDir.FullName,
-            //    FilePath = fs.FileInfo.FullName,
-            //    FileStorageId = fs.Id.ToString()
-            //};
+        private async Task<UploadContracts.Response.AudioUpload> AudioUploaded(UploadContracts.Request.AudioUpload cmd )
+        {
+            IFileStorageService service = new SaveRawFile( _fsConfig , cmd.GetFormFile());
+            var result = await service.SaveFile();
 
-            //await _eventBus.PublishAsync(audioConvert);
+            var fileStorage = AddToFileStorage(result, cmd.GetFormFile().FileName);
+            
+            await _context.SaveChangesAsync();
+
+            var audioConvert = new AudioConversionToWav16kLocalEvent()
+            {
+                DirectoryPath = _fsConfig.ConvertedAudioDir.FullName,
+                FilePath = fileStorage.FileInfo.FullName,
+                FileStorageId = fileStorage.Id.ToString()
+            };
+
+            await _eventBus.PublishAsync(audioConvert);
+
+            return new(fileStorage.OriginalFileName , fileStorage.Id.ToString());
+        }
+        private FileStorage AddToFileStorage(FileInfo fi, string originalFileName)
+        {
+            var entity = new FileStorage
+            {
+                FileInfo = fi,
+                OriginalFileName = originalFileName,
+            };
+
+            _context.FileStorages.Add(entity);
+
+            return entity;
         }
 
-        public async Task<FileStorageConversion> SaveAudioConversion(SaveAudioConversionSuccessEvent @event)
+        private async Task<FileStorageConversion> SaveAudioConversion(SaveAudioConversionSuccessEvent @event)
         {
             var entity = new FileStorageConversion()
             {

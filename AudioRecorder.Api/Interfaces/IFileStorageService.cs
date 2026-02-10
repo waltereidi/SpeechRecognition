@@ -4,6 +4,6 @@ namespace AudioRecorder.Api.Interfaces
 {
     public interface IFileStorageService
     {
-        Task<FileStorage> SaveFile();
+        Task<FileInfo> SaveFile();
     }
 }
