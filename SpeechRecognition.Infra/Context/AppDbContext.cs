@@ -5,7 +5,6 @@ using System.Text;
 namespace SpeechRecognition.Infra.Context
 {
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
     using SpeechRecognition.Dominio.Entidades;
     using SpeechRecognition.Infra.Mappings;
 

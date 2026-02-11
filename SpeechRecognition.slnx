@@ -3,6 +3,9 @@
     <Project Path="SpeechRecognition.Dominio/SpeechRecognition.Dominio.csproj" Id="5a9d55e7-fcd9-40fd-9507-8bbd46d9199e" />
   </Folder>
   <Folder Name="/2. CrossCutting/">
+    <Project Path="../SpeechRecognition.CrossCutting.FluentValidation/SpeechRecognition.CrossCutting.FluentValidation.csproj" Id="0b018e60-906c-4ce6-9c74-18fbafe3c4b9" />
+    <Project Path="../SpeechRecognition.CrossCutting.NotificationPattern/SpeechRecognition.CrossCutting.NotificationPattern.csproj" Id="742c2b5a-7e90-4350-aef2-714eb6c45b0e" />
+    <Project Path="../SpeechRecognition.CrossCutting.ServiceNotification/SpeechRecognition.CrossCutting.ServiceNotification.csproj" Id="32ec110c-6f89-4b0f-82d5-a9e827a6c3cd" />
     <Project Path="BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj" />
     <Project Path="Shared.Events/Shared.Events.csproj" />
   </Folder>

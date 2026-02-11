@@ -1,11 +1,12 @@
-﻿using SpeechRecognition.Dominio.Enum;
+﻿using SpeechRecognition.Dominio.Entidades.Base;
+using SpeechRecognition.Dominio.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SpeechRecognition.Dominio.Entidades
 {
-    public class RabbitMqLog : Entity
+    public class RabbitMqLog : EntityBase<Guid>
     {
         public string Description { get; set; }
         /// <summary>

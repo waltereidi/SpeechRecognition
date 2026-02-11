@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SpeechRecognition.Dominio.Entidades.Base;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SpeechRecognition.Dominio.Entidades
 {
-    public class AudioTranslation : Entity
+    public class AudioTranslation : EntityBase<Guid>
     {
         public string Translation { get; set; }
         public Guid FileStorageId { get; set; }
