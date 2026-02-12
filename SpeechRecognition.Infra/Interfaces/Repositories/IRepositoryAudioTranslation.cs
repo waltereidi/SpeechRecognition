@@ -3,4 +3,4 @@ using SpeechRecognition.Infra.Interfaces.Base;
 
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
-public interface IRepositoryAudioTranslation : IRepositoryBase<AudioTranslation , int>;
+public interface IRepositoryAudioTranslation : IRepositoryBase<AudioTranslation , Guid>;

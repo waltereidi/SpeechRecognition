@@ -3,4 +3,4 @@ using SpeechRecognition.Infra.Interfaces.Base;
 
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
-public interface IRepositoryUploadRequest : IRepositoryBase<UploadRequest , int>;
+public interface IRepositoryUploadRequest : IRepositoryBase<UploadRequest , Guid>;

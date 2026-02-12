@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SpeechRecognition.Infra.Context;
+using SpeechRecognition.Infra.Interfaces.UoW;
 
 namespace SpeechRecognition.Infra.UoW
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(AppDbContext context) : IUnitOfWork
     {
         public async Task<int> CommitAsync()
         {
@@ -15,7 +14,6 @@ namespace SpeechRecognition.Infra.UoW
             }
             catch (Exception ex)
             {
-                AddNotification("Database", ex.InnerException == null ? ex.Message : $"{ex.Message} - {ex.InnerException.Message}");
                 return 0;
             }
         }
