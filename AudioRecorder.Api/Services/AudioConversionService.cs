@@ -6,7 +6,6 @@ using Shared.Events.AudioConverter;
 using Shared.Events.AudioRecorderApi;
 using SpeechRecognition.Dominio.Entidades;
 using SpeechRecognition.Infra.Context;
-using static MassTransit.ValidationResultExtensions;
 
 namespace AudioRecorder.Api.Services
 {
