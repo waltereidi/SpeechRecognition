@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SpeechRecognition.CrossCutting.Framework\SpeechRecognition.CrossCutting.Framework.csproj" />
+  </ItemGroup>
+
 </Project>

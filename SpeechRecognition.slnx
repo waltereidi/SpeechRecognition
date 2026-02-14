@@ -14,6 +14,7 @@
     <Project Path="WhisperSpeechRecognition/WhisperSpeechRecognition.csproj" Id="93aa7004-b9cb-49fc-a177-5604876ad6a7" />
   </Folder>
   <Folder Name="/CrossCutting/">
+    <Project Path="../SpeechRecognition.CrossCutting.Framework/SpeechRecognition.CrossCutting.Framework.csproj" Id="7057f2ed-d045-4627-8c69-c615b57d2fea" />
     <Project Path="../SpeechRecognition.CrossCutting.IoC/SpeechRecognition.CrossCutting.IoC.csproj" Id="3d4877a5-0a71-429f-a7d0-9a44c9f6c451" />
     <Project Path="BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj" />
     <Project Path="Shared.Events/Shared.Events.csproj" />
