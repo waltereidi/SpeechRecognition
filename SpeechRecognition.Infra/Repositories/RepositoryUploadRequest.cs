@@ -5,4 +5,4 @@ using SpeechRecognition.Infra.Repositories.Base;
 
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
-public class RepositoryUploadRequest(AppDbContext context) : RepositoryBase<AppDbContext, UploadRequest, Guid>(context), IRepositoryUploadRequest;
+public class RepositoryUploadRequest(AppDbContext context) : RepositoryBase<AppDbContext, UploadRequest, UploadRequestId>(context), IRepositoryUploadRequest;
