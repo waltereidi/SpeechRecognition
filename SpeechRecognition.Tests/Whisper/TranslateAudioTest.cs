@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Unicode;
-using WhisperSpeechRecognition;
-using WhisperSpeechRecognition.Contracts;
+using SpeechRecognition.WhisperAI;
+using SpeechRecognition.WhisperAI.Contracts;
 
 namespace SpeechRecognition.Tests.Whisper
 {

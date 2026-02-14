@@ -18,11 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AudioRecorder.Api\AudioRecorder.Api.csproj" />
-    <ProjectReference Include="..\WhisperSpeechRecognition\WhisperSpeechRecognition.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
@@ -30,6 +25,11 @@
     <Folder Include="AudioConverter\Linux\" />
     <Folder Include="Files\SaveFile\" />
     <Folder Include="Files\Output\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpeechRecognition.AudioRecorder.API\SpeechRecognition.AudioRecorder.Api.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.FileStorageDomain\SpeechRecognition.FileStorageDomain.csproj" />
   </ItemGroup>
 
 </Project>

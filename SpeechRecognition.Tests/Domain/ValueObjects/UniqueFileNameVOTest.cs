@@ -1,4 +1,4 @@
-﻿using SpeechRecognition.Dominio.ValueObjects;
+﻿using SpeechRecognition.FileStorageDomain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Text;

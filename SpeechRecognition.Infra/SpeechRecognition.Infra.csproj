@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\SpeechRecognition.CrossCutting.Framework\SpeechRecognition.CrossCutting.Framework.csproj" />
-    <ProjectReference Include="..\SpeechRecognition.Dominio\SpeechRecognition.Dominio.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.FileStorageDomain\SpeechRecognition.FileStorageDomain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

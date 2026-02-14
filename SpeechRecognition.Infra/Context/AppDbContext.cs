@@ -5,7 +5,7 @@ using System.Text;
 namespace SpeechRecognition.Infra.Context
 {
     using Microsoft.EntityFrameworkCore;
-    using SpeechRecognition.Dominio.Entidades;
+    using SpeechRecognition.FileStorageDomain.Entidades;
     using SpeechRecognition.Infra.Mappings;
 
     public class AppDbContext : DbContext

@@ -361,6 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/WhisperSpeechRecognition/Models
+/SpeechRecognition.WhisperAI/Models
 /SpeechRecognition/Files
-/AudioRecorder.Api/wwwroot/audios
+/SpeechRecognition.AudioRecorder.API/wwwroot/audios

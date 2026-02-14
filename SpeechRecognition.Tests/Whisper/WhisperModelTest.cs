@@ -1,5 +1,5 @@
-﻿using WhisperSpeechRecognition.Interfaces;
-using WhisperSpeechRecognition.Templates;
+﻿using SpeechRecognition.WhisperAI.Interfaces;
+using SpeechRecognition.WhisperAI.Templates;
 namespace SpeechRecognition.Tests.Whisper
 {
     public class WhisperModelTest : Configuration

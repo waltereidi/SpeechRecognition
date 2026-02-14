@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SpeechRecognition.Dominio.Entidades;
-using SpeechRecognition.Dominio.Enum;
+using SpeechRecognition.FileStorageDomain.Entidades;
+using SpeechRecognition.FileStorageDomain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;

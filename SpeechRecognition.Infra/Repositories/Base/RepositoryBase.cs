@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using SpeechRecognition.Dominio.Entidades.Base;
+using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.Infra.Interfaces.Base;
 using System;
 using System.Collections.Generic;
@@ -10,9 +10,8 @@ using System.Text;
 namespace SpeechRecognition.Infra.Repositories.Base
 {
 
-    public class RepositoryBase<TContext, TEntity, TId>(
-        TContext context) : IRepositoryBase<TEntity, TId>
-    where TEntity : EntityBase<TId>
+    public class RepositoryBase<TContext, TEntity, TId>(TContext context) : IRepositoryBase<TEntity, TId>
+    where TEntity : Entity<TId>
     where TContext : DbContext
     {
         protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();

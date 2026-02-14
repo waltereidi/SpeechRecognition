@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
-using SpeechRecognition.Dominio.Entidades;
+using SpeechRecognition.FileStorageDomain.Entidades;
 using SpeechRecognition.Infra.Context;
 using SpeechRecognition.Infra.Interfaces.Base;
 using SpeechRecognition.Infra.Repositories.Base;

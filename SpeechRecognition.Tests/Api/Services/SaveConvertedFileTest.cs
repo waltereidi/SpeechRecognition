@@ -1,5 +1,5 @@
-﻿using AudioRecorder.Api.Interfaces;
-using AudioRecorder.Api.Services;
+﻿using SpeechRecognition.AudioRecorder.Api.Interfaces;
+using SpeechRecognition.AudioRecorder.Api.Services;
 using System.Text;
 
 namespace SpeechRecognition.Tests.Api.Services

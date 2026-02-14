@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SpeechRecognition.Dominio.Entidades;
+using SpeechRecognition.FileStorageDomain.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Text;
