@@ -13,7 +13,7 @@ namespace SpeechRecognition.AudioRecorder.Api.Services
             base.InitializeParameters(rawPath, fileName);
         }
 
-        public override Task<FileStorage> SaveFile()
+        public override Task<FileInfo> SaveFile()
         {
             throw new NotImplementedException();
         }

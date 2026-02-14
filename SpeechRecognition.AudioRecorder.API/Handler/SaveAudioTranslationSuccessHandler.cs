@@ -1,6 +1,7 @@
 ﻿using SpeechRecognition.AudioRecorder.Api.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
+using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 
 namespace SpeechRecognition.AudioRecorder.Api.Handler
 {
@@ -30,7 +31,7 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in SaveAudioTranslationSuccessHandler");
-                _rabbitService.AddLog(new Shared.Events.Generic.ErrorLogEvent()
+                _rabbitService.AddLog(new ErrorLogEvent()
                 {
                     ErrorMessage = ex.Message,
                     Severity = 5,

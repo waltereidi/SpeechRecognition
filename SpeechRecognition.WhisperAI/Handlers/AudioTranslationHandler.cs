@@ -40,7 +40,7 @@ namespace SpeechRecognition.WhisperAI.Handlers
             catch(Exception ex)
             {
                 _logger.LogError(ex, "Error processing AudioTranslationEvent for FileStorageConversionId: {FileStorageConversionId}", @event.FileStorageConversionId);
-                await _eventBus.PublishAsync(new Shared.Events.Generic.ErrorLogEvent()
+                await _eventBus.PublishAsync(new ErrorLogEvent()
                 {
                     ErrorMessage = ex.Message,
                     Severity = 5,

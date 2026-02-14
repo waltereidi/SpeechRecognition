@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using SpeechRecognition.FileStorageDomain.Entidades.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SpeechRecognition.CrossCutting.Framework;
 
 namespace SpeechRecognition.Infra.Mappings
 {
@@ -29,26 +26,26 @@ namespace SpeechRecognition.Infra.Mappings
 
         private static void ApplyAudit(DbContext? context)
         {
-            if (context == null) return;
+            //if (context == null) return;
 
-            var entries = context.ChangeTracker
-                .Entries<Entity>()
-                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+            //var entries = context.ChangeTracker
+            //    .Entries<Entity>()
+            //    .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
-            var now = DateTime.UtcNow;
+            //var now = DateTime.UtcNow;
 
-            foreach (var entry in entries)
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Entity.CreatedAt = now;
-                    entry.Entity.UpdatedAt = null;
-                }
-                else
-                {
-                    entry.Entity.UpdatedAt = now;
-                }
-            }
+            //foreach (var entry in entries)
+            //{
+            //    if (entry.State == EntityState.Added)
+            //    {
+            //        entry.Entity.CreatedAt = now;
+            //        entry.Entity.UpdatedAt = null;
+            //    }
+            //    else
+            //    {
+            //        entry.Entity.UpdatedAt = now;
+            //    }
+            //}
         }
     }
 }

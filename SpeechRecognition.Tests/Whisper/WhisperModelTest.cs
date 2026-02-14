@@ -1,4 +1,5 @@
 ﻿using SpeechRecognition.WhisperAI.Interfaces;
+using SpeechRecognition.WhisperAI.Service;
 using SpeechRecognition.WhisperAI.Templates;
 namespace SpeechRecognition.Tests.Whisper
 {
@@ -9,7 +10,7 @@ namespace SpeechRecognition.Tests.Whisper
         public WhisperModelTest()
         { 
             _template = new GeneralTranslation();
-            _serviceProvider = new WhisperSpeechRecognition.Service.WhisperMedium(_template);
+            _serviceProvider = new WhisperMedium(_template);
         }
         [Fact]
         public async void TestTranslation()

@@ -53,32 +53,34 @@ namespace SpeechRecognition.AudioRecorder.Api.Services
         }
         private FileStorage AddToFileStorage(FileInfo fi, string originalFileName)
         {
-            var entity = new FileStorage
-            {
-                FileInfo = fi,
-                OriginalFileName = originalFileName,
-            };
+            //var entity = new FileStorage
+            //{
+            //    FileInfo = fi,
+            //    OriginalFileName = originalFileName,
+            //};
 
-            _context.FileStorages.Add(entity);
+            //_context.FileStorages.Add(entity);
 
-            return entity;
+            //return entity;
+            throw new NotImplementedException();
         }
 
         private async Task<FileStorageConversion> SaveAudioConversion(SaveAudioConversionSuccessEvent @event)
         {
-            var entity = new FileStorageConversion()
-            {
-                FileStorageId= Guid.Parse(@event.FileStorageId)
-            };
+            //var entity = new FileStorageConversion()
+            //{
+            //    FileStorageId= Guid.Parse(@event.FileStorageId)
+            //};
 
-            _context.FileStorageConversions.Add(entity);
-            await _context.SaveChangesAsync();
+            //_context.FileStorageConversions.Add(entity);
+            //await _context.SaveChangesAsync();
 
-            var result = _context.FileStorageConversions
-                .Where(x => x.Id == entity.Id)
-                .First(); 
+            //var result = _context.FileStorageConversions
+            //    .Where(x => x.Id == entity.Id)
+            //    .First(); 
             
-            return result;
+            //return result;
+            throw new NotImplementedException();
         }
     }
 }

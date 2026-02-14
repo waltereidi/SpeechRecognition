@@ -14,25 +14,25 @@ namespace SpeechRecognition.AudioRecorder.Api.Services
         }
         public void AddLog(ErrorLogEvent @event)
         {
-            var logs = new RabbitMqLog()
-            {
-                Severity = (LogSeverity)@event.Severity,
-                Description = @event.ErrorMessage,
-                Source = @event.Source
-            };
-            _context.RabbitMqLogs.Add(logs);
-            _context.SaveChangesAsync();
+            //var logs = new RabbitMqLog()
+            //{
+            //    Severity = (LogSeverity)@event.Severity,
+            //    Description = @event.ErrorMessage,
+            //    Source = @event.Source
+            //};
+            //_context.RabbitMqLogs.Add(logs);
+            //_context.SaveChangesAsync();
         }
         public void AddLog(string source, string message , LogSeverity severity)
         {
-            var logs = new RabbitMqLog()
-            {
-                Severity = severity,
-                Description =message,
-                Source = source
-            };
-            _context.RabbitMqLogs.Add(logs);
-            _context.SaveChangesAsync();
+            //var logs = new RabbitMqLog()
+            //{
+            //    Severity = severity,
+            //    Description =message,
+            //    Source = source
+            //};
+            //_context.RabbitMqLogs.Add(logs);
+            //_context.SaveChangesAsync();
         }
     }
 }

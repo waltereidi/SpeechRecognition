@@ -13,20 +13,21 @@ namespace SpeechRecognition.AudioRecorder.Api.Services
         }
         internal async Task SaveAudioTranslation(SaveAudioTranslationSuccessEvent @event)
         {
-            var fileStorageConversion = _context.FileStorageConversions
-                .First(x => x.Id == Guid.Parse(@event.FileStorageConversionId));
+            //var fileStorageConversion = _context.FileStorageConversions
+            //    .First(x => x.Id == Guid.Parse(@event.FileStorageConversionId));
 
-            var entity = new AudioTranslation
-            {
-                FileStorageId  = fileStorageConversion.FileStorage.Id , 
-                Translation = @event.Translation,
-                WhisperModel = @event.ModelId, 
-                TranslationTemplate = @event.TemplateId , 
-                IsSuccess = true, 
-                IsApproved = null
-            };
-            _context.AudioTranslations.Add(entity); 
-            await _context.SaveChangesAsync();
+            //var entity = new AudioTranslation
+            //{
+            //    FileStorageId  = fileStorageConversion.FileStorage.Id , 
+            //    Translation = @event.Translation,
+            //    WhisperModel = @event.ModelId, 
+            //    TranslationTemplate = @event.TemplateId , 
+            //    IsSuccess = true, 
+            //    IsApproved = null
+            //};
+            //_context.AudioTranslations.Add(entity); 
+            //await _context.SaveChangesAsync();
+            throw new NotImplementedException();
         }
     }
 }

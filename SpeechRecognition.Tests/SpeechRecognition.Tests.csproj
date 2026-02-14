@@ -30,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SpeechRecognition.AudioRecorder.API\SpeechRecognition.AudioRecorder.Api.csproj" />
     <ProjectReference Include="..\SpeechRecognition.FileStorageDomain\SpeechRecognition.FileStorageDomain.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.WhisperAI\SpeechRecognition.WhisperAI.csproj" />
   </ItemGroup>
 
 </Project>
