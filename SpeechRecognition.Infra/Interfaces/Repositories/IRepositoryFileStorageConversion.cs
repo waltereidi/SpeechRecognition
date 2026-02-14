@@ -3,4 +3,4 @@ using SpeechRecognition.Infra.Interfaces.Base;
 
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
-public interface IRepositoryFileStorageConversion : IRepositoryBase<FileStorageConversion , Guid>;
+public interface IRepositoryFileStorageConversion : IRepositoryBase<FileStorageConversion , FileStorageConversionId>;

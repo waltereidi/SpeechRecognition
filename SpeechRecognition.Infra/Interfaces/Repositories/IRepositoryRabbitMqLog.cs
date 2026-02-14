@@ -3,4 +3,4 @@ using SpeechRecognition.Infra.Interfaces.Base;
 
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
-public interface IRepositoryRabbitMqLog : IRepositoryBase<RabbitMqLog , Guid>;
+public interface IRepositoryRabbitMqLog : IRepositoryBase<RabbitMqLog , RabbitMqLogId>;

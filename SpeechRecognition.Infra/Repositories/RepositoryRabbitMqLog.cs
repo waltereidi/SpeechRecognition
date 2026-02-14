@@ -6,4 +6,4 @@ using SpeechRecognition.Infra.Repositories.Base;
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
 public class RepositoryRabbitMqLog(AppDbContext context) 
-    : RepositoryBase<AppDbContext, RabbitMqLog , Guid>(context), IRepositoryRabbitMqLog;
+    : RepositoryBase<AppDbContext, RabbitMqLog , RabbitMqLogId>(context), IRepositoryRabbitMqLog;

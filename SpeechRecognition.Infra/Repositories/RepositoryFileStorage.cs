@@ -6,4 +6,4 @@ using SpeechRecognition.Infra.Repositories.Base;
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
 public class RepositoryFileStorage(AppDbContext context)
-    : RepositoryBase<AppDbContext, FileStorage, Guid>(context), IRepositoryFileStorage;
+    : RepositoryBase<AppDbContext, FileStorage, FileStorageId>(context), IRepositoryFileStorage;

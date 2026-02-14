@@ -6,4 +6,4 @@ using SpeechRecognition.Infra.Repositories.Base;
 
 namespace Unimar.ProjetoAcademico.Domain.Interfaces.Repositories;
 
-public class RepositoryAudioTranslation(AppDbContext context) : RepositoryBase<AppDbContext, AudioTranslation, Guid>(context), IRepositoryAudioTranslation;
+public class RepositoryAudioTranslation(AppDbContext context) : RepositoryBase<AppDbContext, AudioTranslation, AudioTranslationId>(context), IRepositoryAudioTranslation;
