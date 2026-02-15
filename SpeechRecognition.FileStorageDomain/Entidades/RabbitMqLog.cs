@@ -19,7 +19,7 @@ namespace SpeechRecognition.FileStorageDomain.Entidades;
         /// 5 - Informational
         /// </summary>
         public LogSeverity Severity { get; set; }
-        public string Source { get; set; }
+        public FileStorageAggregateId FileStorageAggregateId { get; set; }
 
     protected override void When(object @event)
     {

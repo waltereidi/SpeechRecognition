@@ -3,14 +3,13 @@
 using SpeechRecognition.CrossCutting.Framework;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
-    public class FileStorageConversion : Entity<FileStorageConversionId>
-    {
+public class FileStorageConversion : Entity<FileStorageConversionId>
+{
+    public FileStorageId FileStorageId { get; set; }
+
     public FileStorageConversion(Action<object> applier) : base(applier)
     {
     }
-
-    public Guid FileStorageId { get; set; }
-        public FileStorage FileStorage { get; set; }
 
     protected override void When(object @event)
     {

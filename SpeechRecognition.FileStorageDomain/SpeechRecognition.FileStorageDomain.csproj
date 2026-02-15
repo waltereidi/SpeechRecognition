@@ -10,8 +10,4 @@
     <ProjectReference Include="..\..\SpeechRecognition.CrossCutting.Framework\SpeechRecognition.CrossCutting.Framework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Aggregates\" />
-  </ItemGroup>
-
 </Project>
