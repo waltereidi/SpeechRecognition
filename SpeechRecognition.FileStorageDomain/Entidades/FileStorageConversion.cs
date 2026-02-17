@@ -9,8 +9,6 @@ public class FileStorageConversion : Entity<FileStorageConversionId>
     
     [Required]
     public FileStorageId FileStorageId { get; set; }
-    [Required]
-    public FileStorageAggregateId FileStorageAggregateId { get; set; }
     public FileStorageConversion()
     {
 

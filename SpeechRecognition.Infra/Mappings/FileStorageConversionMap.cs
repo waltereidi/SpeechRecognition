@@ -20,8 +20,6 @@ namespace SpeechRecognition.Infra.Mappings
             builder.Property(x => x.FileStorageId)
                 .IsRequired();
 
-            builder.Property(x => x.FileStorageAggregateId)
-                .IsRequired();
             
             var fileStorageConversionId = new ValueConverter<FileStorageConversionId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string
@@ -42,14 +40,6 @@ namespace SpeechRecognition.Infra.Mappings
                 .HasMaxLength(36)
                 .IsRequired();
 
-            var guidToStringConverter = new ValueConverter<FileStorageAggregateId, string>(
-                v => ((Guid)v).ToString(),           // Guid -> string
-                v => new FileStorageAggregateId(Guid.Parse(v)));
-
-            builder.Property(x => x.FileStorageAggregateId)
-                .HasConversion(guidToStringConverter)
-                .HasMaxLength(36)
-                .IsRequired();
 
         }
 

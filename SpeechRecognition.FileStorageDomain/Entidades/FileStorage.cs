@@ -11,8 +11,6 @@ public class FileStorage : Entity<FileStorageId>
     protected FileStorage() { }
     public FileInfo FileInfo { get; set; }
     public string OriginalFileName { get; set; }
-    [Required]
-    public FileStorageAggregateId FileStorageAggregateId { get; set; }
     protected override void When(object @event)
     {
         throw new NotImplementedException();

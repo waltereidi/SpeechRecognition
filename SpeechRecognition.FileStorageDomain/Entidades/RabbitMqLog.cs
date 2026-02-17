@@ -16,8 +16,6 @@ public class RabbitMqLog : Entity<RabbitMqLogId>
 
     public string Description { get; set; }
     public LogSeverity Severity { get; set; }
-    //[Required]
-    //public FileStorageAggregateId FileStorageAggregateId { get; set; }
     protected override void When(object @event)
     {
         throw new NotImplementedException();
