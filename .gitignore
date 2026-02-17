@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /SpeechRecognition.WhisperAI/Models
 /SpeechRecognition/Files
 /SpeechRecognition.AudioRecorder.API/wwwroot/audios
+/SpeechRecognition.Infra/BuildHost-net472
+/SpeechRecognition.Infra/BuildHost-netcore
