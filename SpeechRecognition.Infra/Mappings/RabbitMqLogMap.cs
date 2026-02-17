@@ -11,9 +11,9 @@ using System.Text;
 
 namespace SpeechRecognition.Infra.Mappings
 {
-    public class RabbitMqLogMap : IEntityTypeConfiguration<RabbitMqLog>
+    public class RabbitMqLogMap 
     {
-        public void Configure(EntityTypeBuilder<RabbitMqLog> builder)
+        public void Configure(OwnedNavigationBuilder<FileStorageAggregate, RabbitMqLog> builder)
         {
             builder.ToTable("RabbitMqLog");
 
@@ -26,19 +26,24 @@ namespace SpeechRecognition.Infra.Mappings
                 .HasConversion<string>()
                 .HasMaxLength(20);
 
-            var guidToStringConverter = new ValueConverter<Guid, string>(
-                v => v.ToString("D"),           // Guid -> string
-                v => Guid.Parse(v)              // string -> Guid
-            );
-
-            var fileStorageAggregateId = new ValueConverter<FileStorageAggregateId, string>(
+            var rabbitMqLogId = new ValueConverter<RabbitMqLogId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string
-                v => new FileStorageAggregateId(Guid.Parse(v)));
+                v => new RabbitMqLogId(Guid.Parse(v)));
 
-            builder.Property(x => x.FileStorageAggregateId)
-                .HasConversion(fileStorageAggregateId)
+            builder.Property(x => x.Id)
+                .HasConversion(rabbitMqLogId)
                 .HasMaxLength(36)
                 .IsRequired();
+
+
+            //var fileStorageAggregateId = new ValueConverter<FileStorageAggregateId, string>(
+            //    v => ((Guid)v).ToString(),           // Guid -> string
+            //    v => new FileStorageAggregateId(Guid.Parse(v)));
+
+            //builder.Property(x => x.FileStorageAggregateId)
+            //    .HasConversion(fileStorageAggregateId)
+            //    .HasMaxLength(36)
+            //    .IsRequired();
 
         }
     }

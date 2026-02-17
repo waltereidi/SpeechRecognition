@@ -9,9 +9,9 @@ using System.Text;
 
 namespace SpeechRecognition.Infra.Mappings
 {
-    public class AudioTranslationMap : IEntityTypeConfiguration<AudioTranslation>
+    public class AudioTranslationMap
     {
-        public void Configure(EntityTypeBuilder<AudioTranslation> builder)
+        public void Configure(OwnedNavigationBuilder<FileStorageAggregate ,AudioTranslation> builder)
         {
             builder.ToTable("AudioTranslation");
 
@@ -24,8 +24,15 @@ namespace SpeechRecognition.Infra.Mappings
             builder.Property(x => x.FileStorageConversionId)
                 .IsRequired();
 
+            var audioTranslationId = new ValueConverter<AudioTranslationId , string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new AudioTranslationId(Guid.Parse(v)));
 
 
+            builder.Property(x => x.Id)
+                .HasConversion(audioTranslationId)
+                .HasMaxLength(36)
+                .IsRequired();
 
             var fileStorageConverterId = new ValueConverter<FileStorageConversionId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string

@@ -8,6 +8,10 @@ namespace SpeechRecognition.FileStorageDomain.Entidades;
 
 public class AudioTranslation : Entity<AudioTranslationId>
 {
+    protected AudioTranslation() 
+    {
+
+    }
     public AudioTranslation(Action<object> applier) : base(applier)
     {
     }
@@ -35,6 +39,7 @@ public class AudioTranslation : Entity<AudioTranslationId>
 
 public class AudioTranslationId : Value<AudioTranslationId>
 {
+    protected AudioTranslationId() { }
     private Guid Value { get; set; }
 
     public AudioTranslationId(Guid value)

@@ -8,7 +8,7 @@ public class FileStorage : Entity<FileStorageId>
     public FileStorage(Action<object> applier) : base(applier)
     {
     }
-
+    protected FileStorage() { }
     public FileInfo FileInfo { get; set; }
     public string OriginalFileName { get; set; }
     [Required]
@@ -20,6 +20,7 @@ public class FileStorage : Entity<FileStorageId>
 }
 public class FileStorageId : Value<FileStorageId>
 {
+    protected FileStorageId() { }
     private Guid Value { get; set; }
 
     public FileStorageId(Guid value)

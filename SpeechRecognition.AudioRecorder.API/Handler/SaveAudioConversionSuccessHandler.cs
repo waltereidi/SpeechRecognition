@@ -23,21 +23,21 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
 
         public async Task HandleAsync( SaveAudioConversionSuccessEvent @event, CancellationToken cancellationToken = default)
         {
-            try
-            {
-                var entity = (FileStorageConversion)await _service.Handle(@event);
-                await _eventBus.PublishAsync(new AudioTranslationEvent
-                {
-                    Id = Guid.NewGuid(),
-                    FilePath = entity.FileStorage.FileInfo.FullName,
-                    FileStorageConversionId = entity.Id.ToString()
-                });
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex, "Error in SaveAudioConversionSuccessHandler");
-                _rabbitService.AddLog("SaveAudioConversionSuccessHandler" , ex.Message , LogSeverity.Critical);
-            }
+            //try
+            //{
+            //    var entity = (FileStorageConversion)await _service.Handle(@event);
+            //    await _eventBus.PublishAsync(new AudioTranslationEvent
+            //    {
+            //        Id = Guid.NewGuid(),
+            //        FilePath = entity.FileStorage.FileInfo.FullName,
+            //        FileStorageConversionId = entity.Id.ToString()
+            //    });
+            //}
+            //catch(Exception ex)
+            //{
+            //    _logger.LogError(ex, "Error in SaveAudioConversionSuccessHandler");
+            //    _rabbitService.AddLog("SaveAudioConversionSuccessHandler" , ex.Message , LogSeverity.Critical);
+            //}
         }
     }
 }

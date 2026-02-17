@@ -9,9 +9,9 @@ using System.Text;
 
 namespace SpeechRecognition.Infra.Mappings
 {
-    public class FileStorageConversionMap : IEntityTypeConfiguration<FileStorageConversion>
+    public class FileStorageConversionMap
     {
-        public void Configure(EntityTypeBuilder<FileStorageConversion> builder)
+        public void Configure(OwnedNavigationBuilder<FileStorageAggregate, FileStorageConversion> builder)
         {
             builder.ToTable("FileStorageConversion");
 
@@ -22,10 +22,16 @@ namespace SpeechRecognition.Infra.Mappings
 
             builder.Property(x => x.FileStorageAggregateId)
                 .IsRequired();
-
-            var guidToStringConverter = new ValueConverter<FileStorageAggregateId, string>(
+            
+            var fileStorageConversionId = new ValueConverter<FileStorageConversionId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string
-                v => new FileStorageAggregateId(Guid.Parse(v)));
+                v => new FileStorageConversionId(Guid.Parse(v)));
+
+            builder.Property(x => x.Id)
+                .HasConversion(fileStorageConversionId)
+                .HasMaxLength(36)
+                .IsRequired();
+
 
             var fileStorageId = new ValueConverter<FileStorageId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string
@@ -35,6 +41,10 @@ namespace SpeechRecognition.Infra.Mappings
                 .HasConversion(fileStorageId)
                 .HasMaxLength(36)
                 .IsRequired();
+
+            var guidToStringConverter = new ValueConverter<FileStorageAggregateId, string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new FileStorageAggregateId(Guid.Parse(v)));
 
             builder.Property(x => x.FileStorageAggregateId)
                 .HasConversion(guidToStringConverter)

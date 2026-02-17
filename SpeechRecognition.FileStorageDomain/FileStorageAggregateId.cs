@@ -7,6 +7,7 @@ namespace SpeechRecognition.FileStorageDomain
 {
     public class FileStorageAggregateId : Value<FileStorageAggregateId>
     {
+        protected FileStorageAggregateId() { }
         public Guid Value { get; }
 
         public FileStorageAggregateId(Guid value)

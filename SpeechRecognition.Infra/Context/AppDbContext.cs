@@ -21,10 +21,10 @@ namespace SpeechRecognition.Infra.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new FileStorageMap());
-            modelBuilder.ApplyConfiguration(new FileStorageConversionMap());
-            modelBuilder.ApplyConfiguration(new AudioTranslationMap());
-            modelBuilder.ApplyConfiguration(new RabbitMqLogMap());
+            //modelBuilder.ApplyConfiguration(new FileStorageMap());
+            //modelBuilder.ApplyConfiguration(new FileStorageConversionMap());
+            //modelBuilder.ApplyConfiguration(new AudioTranslationMap());
+            //modelBuilder.ApplyConfiguration(new RabbitMqLogMap());
             modelBuilder.ApplyConfiguration(new FileStorageAggregateEntityTypeConfiguration());
         }
 
