@@ -1,11 +1,15 @@
 ﻿
 
 using SpeechRecognition.CrossCutting.Framework;
+using System.ComponentModel.DataAnnotations;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 public class FileStorageConversion : Entity<FileStorageConversionId>
 {
+    [Required]
     public FileStorageId FileStorageId { get; set; }
+    [Required]
+    public FileStorageAggregateId FileStorageAggregateId { get; set; }
 
     public FileStorageConversion(Action<object> applier) : base(applier)
     {

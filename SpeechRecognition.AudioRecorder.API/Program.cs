@@ -1,9 +1,9 @@
 using AudioRecord.Api.DTO;
-using SpeechRecognition.AudioRecorder.Api.Interfaces;
 using SpeechRecognition.AudioRecorder.Api.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SpeechRecognition.Infra.Context;
+using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -75,4 +75,7 @@ app.MapControllers();
 app.MapRazorPages()
    .WithStaticAssets();
 
+app.EnsureDatabase();
+
 app.Run();
+

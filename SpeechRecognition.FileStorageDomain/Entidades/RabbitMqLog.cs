@@ -1,26 +1,19 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain.Enum;
+using System.ComponentModel.DataAnnotations;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 
-    public class RabbitMqLog : Entity<RabbitMqLogId>
-    {
+public class RabbitMqLog : Entity<RabbitMqLogId>
+{
     public RabbitMqLog(Action<object> applier) : base(applier)
     {
     }
 
     public string Description { get; set; }
-        /// <summary>
-        /// Severity level of the error (e.g., 1-5)
-        /// 1 - Critical
-        /// 2 - High
-        /// 3 - Medium
-        /// 4 - Low
-        /// 5 - Informational
-        /// </summary>
-        public LogSeverity Severity { get; set; }
-        public FileStorageAggregateId FileStorageAggregateId { get; set; }
-
+    public LogSeverity Severity { get; set; }
+    [Required]
+    public FileStorageAggregateId FileStorageAggregateId { get; set; }
     protected override void When(object @event)
     {
         throw new NotImplementedException();

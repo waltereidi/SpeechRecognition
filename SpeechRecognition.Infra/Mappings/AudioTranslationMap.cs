@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.FileStorageDomain.Entidades;
 using System;
 using System.Collections.Generic;
@@ -19,14 +21,30 @@ namespace SpeechRecognition.Infra.Mappings
                 .IsRequired()
                 .HasColumnType("text"); // ou nvarchar(max) / varchar(max)
 
-            builder.Property(x => x.FileStorageId)
+            builder.Property(x => x.FileStorageConversionId)
                 .IsRequired();
 
-            builder.HasOne(x => x.FileStorage)
-                .WithMany() // FileStorage não tem coleção
-                .HasForeignKey(x => x.FileStorageId)
-                .OnDelete(DeleteBehavior.Cascade);
 
+
+
+            var fileStorageConverterId = new ValueConverter<FileStorageConversionId, string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new FileStorageConversionId(Guid.Parse(v)));
+
+
+            builder.Property(x => x.FileStorageConversionId)
+                .HasConversion(fileStorageConverterId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            var guidToStringConverter = new ValueConverter<FileStorageAggregateId, string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new FileStorageAggregateId(Guid.Parse(v)));
+
+            builder.Property(x => x.FileStorageAggregateId)
+                .HasConversion(guidToStringConverter)
+                .HasMaxLength(36)
+                .IsRequired();
 
             builder.Property(p => p.WhisperModel)
                .HasConversion<int>()

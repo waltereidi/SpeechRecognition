@@ -1,4 +1,5 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
+using System.ComponentModel.DataAnnotations;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 
@@ -10,6 +11,7 @@ public class FileStorage : Entity<FileStorageId>
 
     public FileInfo FileInfo { get; set; }
     public string OriginalFileName { get; set; }
+    [Required]
     public FileStorageAggregateId FileStorageAggregateId { get; set; }
     protected override void When(object @event)
     {

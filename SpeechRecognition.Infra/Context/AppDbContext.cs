@@ -5,6 +5,7 @@ using System.Text;
 namespace SpeechRecognition.Infra.Context
 {
     using Microsoft.EntityFrameworkCore;
+    using SpeechRecognition.FileStorageDomain;
     using SpeechRecognition.FileStorageDomain.Entidades;
     using SpeechRecognition.Infra.Mappings;
 
@@ -12,10 +13,8 @@ namespace SpeechRecognition.Infra.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
-        public DbSet<FileStorage> FileStorages { get; set; }
-        public DbSet<FileStorageConversion> FileStorageConversions { get; set; }
-        public DbSet<AudioTranslation> AudioTranslations { get; set; }
-        public DbSet<RabbitMqLog> RabbitMqLogs { get; set; }
+        public DbSet<FileStorageAggregate> FileStorageAggregate { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.AddInterceptors(new AuditInterceptor());
@@ -25,6 +24,9 @@ namespace SpeechRecognition.Infra.Context
             modelBuilder.ApplyConfiguration(new FileStorageMap());
             modelBuilder.ApplyConfiguration(new FileStorageConversionMap());
             modelBuilder.ApplyConfiguration(new AudioTranslationMap());
+            modelBuilder.ApplyConfiguration(new RabbitMqLogMap());
+            modelBuilder.ApplyConfiguration(new FileStorageAggregateEntityTypeConfiguration());
         }
+
     }
 }

@@ -9,8 +9,8 @@ namespace SpeechRecognition.FileStorageDomain
     public class FileStorageAggregate : AggregateRoot<FileStorageAggregateId>
     {
         public List<FileStorage> FileStorages { get; private set; }
-        public FileStorageConversion FileStorageConversion { get; private set; }
-        public List<AudioTranslation> AudioTranslation { get; private set; }
+        public List<FileStorageConversion> FileStorageConversions { get; private set; }
+        public List<AudioTranslation> AudioTranslations { get; private set; }
         public List<RabbitMqLog> Logs { get; private set; }
         protected override void EnsureValidState()
         {

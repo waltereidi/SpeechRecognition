@@ -1,6 +1,7 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
@@ -12,7 +13,10 @@ public class AudioTranslation : Entity<AudioTranslationId>
     }
 
     public string Translation { get; private set; }
+    [Required]
     public FileStorageConversionId FileStorageConversionId { get; private set; }
+    [Required]
+    public FileStorageAggregateId FileStorageAggregateId { get; set; }
     /// <summary>
     /// Preenchido por whisper, para indicar um erro no resultado
     /// </summary>

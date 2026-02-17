@@ -8,6 +8,7 @@ namespace SpeechRecognition.Infra.Repositories.Aggregates
 {
     public class FileStorageAggregateRepository : IFileStorageAggregateRepository , IDisposable
     {
+
         public Task Add(FileStorageAggregate entity)
         {
             throw new NotImplementedException();

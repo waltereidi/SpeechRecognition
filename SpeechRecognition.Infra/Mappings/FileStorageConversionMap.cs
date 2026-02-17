@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.FileStorageDomain.Entidades;
 using System;
 using System.Collections.Generic;
@@ -19,20 +20,27 @@ namespace SpeechRecognition.Infra.Mappings
             builder.Property(x => x.FileStorageId)
                 .IsRequired();
 
-            builder.HasOne(x => x.FileStorage)
-                .WithMany() // sem coleção no FileStorage
-                .HasForeignKey(x => x.FileStorageId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.Property(x => x.FileStorageAggregateId)
+                .IsRequired();
 
-            var guidToStringConverter = new ValueConverter<Guid, string>(
-                v => v.ToString("D"),           // Guid -> string
-                v => Guid.Parse(v)              // string -> Guid
-            );
+            var guidToStringConverter = new ValueConverter<FileStorageAggregateId, string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new FileStorageAggregateId(Guid.Parse(v)));
+
+            var fileStorageId = new ValueConverter<FileStorageId, string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new FileStorageId(Guid.Parse(v)));
 
             builder.Property(x => x.FileStorageId)
+                .HasConversion(fileStorageId)
+                .HasMaxLength(36)
+                .IsRequired();
+
+            builder.Property(x => x.FileStorageAggregateId)
                 .HasConversion(guidToStringConverter)
                 .HasMaxLength(36)
                 .IsRequired();
+
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.FileStorageDomain.Entidades;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace SpeechRecognition.Infra.Mappings
                 v => v.FullName,                // Para o banco
                 v => new FileInfo(v)            // Para o domínio
             );
+            var guidToStringConverter = new ValueConverter<FileStorageAggregateId, string>(
+                v => ((Guid)v).ToString(),           // Guid -> string
+                v => new FileStorageAggregateId(Guid.Parse(v))              // string -> Guid
+            );
 
             builder.Property(x => x.FileInfo)
                 .HasConversion(fileInfoConverter)
@@ -31,6 +36,12 @@ namespace SpeechRecognition.Infra.Mappings
             builder.Property(x => x.OriginalFileName)
                 .HasMaxLength(255)
                 .IsRequired();
+
+            builder.Property(x => x.FileStorageAggregateId)
+                .HasConversion(guidToStringConverter)
+                .HasMaxLength(36)
+                .IsRequired();
+
         }
     }
 }
