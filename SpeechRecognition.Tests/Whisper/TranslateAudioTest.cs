@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.Unicode;
 using SpeechRecognition.WhisperAI;
 using SpeechRecognition.WhisperAI.Contracts;
+using Xunit;
 
 namespace SpeechRecognition.Tests.Whisper
 {

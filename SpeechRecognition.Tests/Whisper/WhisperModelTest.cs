@@ -1,6 +1,7 @@
 ﻿using SpeechRecognition.WhisperAI.Interfaces;
 using SpeechRecognition.WhisperAI.Service;
 using SpeechRecognition.WhisperAI.Templates;
+using Xunit;
 namespace SpeechRecognition.Tests.Whisper
 {
     public class WhisperModelTest : Configuration

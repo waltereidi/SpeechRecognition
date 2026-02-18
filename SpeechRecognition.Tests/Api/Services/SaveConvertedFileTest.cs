@@ -1,6 +1,9 @@
 ﻿using SpeechRecognition.AudioRecorder.Api.Interfaces;
 using SpeechRecognition.AudioRecorder.Api.Services;
+using System;
+using System.IO;
 using System.Text;
+using Xunit;
 
 namespace SpeechRecognition.Tests.Api.Services
 {
