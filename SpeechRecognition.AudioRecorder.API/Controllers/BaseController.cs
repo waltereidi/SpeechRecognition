@@ -11,12 +11,12 @@ namespace SpeechRecognition.AudioRecorder.Api.Controllers
             _logger = logger;
 
         }
-        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task<object?>> handler) where T : class
+        protected async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler) where T : class
         {
             try
             {
-                var result = await handler(request);
-                return Ok(result);
+                await handler(request);
+                return Ok();        
             }
             //Throw this exception when is required to logoff from application
             catch (Exception e) when (e.GetType().Name.Contains("Unauthorized") || e.GetType().Name.Contains("Authentication"))

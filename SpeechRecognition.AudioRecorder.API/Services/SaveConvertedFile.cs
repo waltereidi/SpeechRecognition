@@ -2,7 +2,7 @@
 
 namespace SpeechRecognition.AudioRecorder.Api.Services
 {
-    public class SaveConvertedFile : FileStorageService
+    public class SaveConvertedFile : FileService
     {
 
         public SaveConvertedFile(string path )

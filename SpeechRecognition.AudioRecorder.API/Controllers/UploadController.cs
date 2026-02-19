@@ -1,17 +1,17 @@
-﻿using SpeechRecognition.AudioRecorder.Api.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
+using SpeechRecognition.Application.Services;
 using SpeechRecognition.AudioRecorder.Api.Controllers;
-using SpeechRecognition.AudioRecorder.Api.Services;
-using Microsoft.AspNetCore.Mvc;
-
-
+using SpeechRecognition.CrossCutting.Framework.Interfaces;
+using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
+using SpeechRecognition.FileStorageDomain;
 [Route("Upload")]
 public class UploadController : BaseController
 {
     private readonly IConfiguration _config;
-    private readonly AudioConversionService _service;
+    private readonly IApplicationService _service;
         
-    public UploadController(ILogger<UploadController> logger, 
-        AudioConversionService service , 
+    public UploadController(ILogger<UploadController> logger,
+        FileStorageAggregateApplicationService service , 
         IConfiguration config ) 
         : base(logger)
     {
@@ -19,35 +19,16 @@ public class UploadController : BaseController
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UploadAudio( UploadContracts.Request.AudioUpload request )
-        => await HandleRequest( request, _service.Handle);
+    public async Task<IActionResult> Create(Guid guid)
+        => await HandleRequest(new V1.Create(new FileStorageAggregateId(guid)),
+            _service.Handle);
 
+    //[HttpPost]
+    //[ProducesResponseType(StatusCodes.Status200OK)]
+    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    //public async Task<IActionResult> UploadFile(Guid guid, IFormFile file )
+    //    => await HandleRequest(new V1.UpdateFileStorage(new FileStorageAggregateId(guid), file, originalFileInfo),
+    //        _service.Handle);   
 
-    //[HttpPost("Upload")]
-    //public async Task<IActionResult> Upload(IFormFile audio)
-    //{
-    //    if (audio == null || audio.Length == 0)
-    //        return BadRequest("Áudio não recebido.");
-
-
-    //    var nomeArquivo = $"audio_{DateTime.Now:yyyyMMdd_HHmmss}.webm";
-    //    var caminho = Path.Combine(pasta, nomeArquivo);
-
-    //}
-    //[HttpGet("Test")]
-    ////public async Task<IActionResult> Test()
-    ////{
-    ////    _channel.BasicPublishAsync(
-    ////           exchange: "",
-    ////           routingKey: "WhisperSpeechRecognition",
-    ////           body: System.Text.Encoding.UTF8.GetBytes("Hellow World"));
-
-    ////    _channel.BasicPublishAsync(
-    ////   exchange: "",
-    ////   routingKey: "WhisperSpeechRecognition",
-    ////   body: System.Text.Encoding.UTF8.GetBytes("Hellow World2"));
-    ////    return Ok();
-    ////}
 }

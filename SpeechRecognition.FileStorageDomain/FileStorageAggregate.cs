@@ -22,7 +22,7 @@ namespace SpeechRecognition.FileStorageDomain
         public List<RabbitMqLog> Logs { get; private set; }
         protected override void EnsureValidState()
         {
-            throw new NotImplementedException();
+            
         }
         public void AddFileStorageLocal(FileInfo fi , string originalFileName )
             => Apply(new Events.FileStorageAdded(Guid.NewGuid(), fi, originalFileName));
@@ -37,6 +37,7 @@ namespace SpeechRecognition.FileStorageDomain
                 case Events.FileStorageAdded e:
                     var fs2 = new FileStorage(Apply);
                     ApplyToEntity(fs2, e);
+                    FileStorages = FileStorages ?? new();
                     FileStorages.Add(fs2);
                     break;
                 

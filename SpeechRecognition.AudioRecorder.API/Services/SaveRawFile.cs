@@ -7,7 +7,7 @@ using SpeechRecognition.Infra.Context;
 
 namespace SpeechRecognition.AudioRecorder.Api.Services
 {
-    public class SaveRawFile : FileStorageService
+    public class SaveRawFile : FileService
     {
         private readonly ConfigurationDTO.FileStorageConfig _config;
         private readonly IFormFile _ff; 

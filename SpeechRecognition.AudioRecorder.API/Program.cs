@@ -1,9 +1,15 @@
 using AudioRecord.Api.DTO;
+using Microsoft.EntityFrameworkCore;
+using SpeechRecognition.Application.Services;
+using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
 using SpeechRecognition.AudioRecorder.Api.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
-using Microsoft.EntityFrameworkCore;
+using SpeechRecognition.CrossCutting.Framework.Interfaces;
+using SpeechRecognition.FileStorageDomain;
+using SpeechRecognition.FileStorageDomain.Interfaces;
 using SpeechRecognition.Infra.Context;
-using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
+using SpeechRecognition.Infra.Repositories.Aggregates;
+using SpeechRecognition.Infra.UoW;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +30,7 @@ var configuration = new ConfigurationBuilder()
         reloadOnChange: true)
     .AddEnvironmentVariables()
     .Build();
+
 builder.Configuration.AddConfiguration(configuration);
 
 
@@ -49,8 +56,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
-builder.Services.AddScoped<AudioConversionService>();
-builder.Services.AddScoped<RabbitMqLogService>();
+builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
+builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregateRepository>();
+
+builder.Services.AddScoped<FileStorageAggregateApplicationService>();
 
 var app = builder.Build();
 

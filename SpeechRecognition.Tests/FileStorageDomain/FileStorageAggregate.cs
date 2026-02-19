@@ -13,8 +13,6 @@ namespace SpeechRecognition.Tests.FileStorageDomain
         public FileStorageAggregateTest() 
         { 
             _fileStorageAggregate = new FileStorageAggregate( new(Guid.NewGuid()) );
-        
-        
         }
         [Fact]
         public void CanAddNewFile()

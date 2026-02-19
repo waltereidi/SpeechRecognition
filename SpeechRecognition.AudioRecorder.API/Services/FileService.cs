@@ -3,12 +3,12 @@ using SpeechRecognition.FileStorageDomain.Entidades;
 
 namespace SpeechRecognition.AudioRecorder.Api.Services
 {
-    public abstract class FileStorageService : IFileStorageService
+    public abstract class FileService : IFileStorageService
     {
         protected DirectoryInfo SavePath { get; private set; }
         protected string FileName { get; private set; }
         public virtual string GetFullFileName() => Path.Combine(SavePath.FullName, FileName);
-        public FileStorageService()
+        public FileService()
         {
         }
         protected virtual void InitializeParameters(string savePath , string fileName )
