@@ -5,12 +5,14 @@ namespace SpeechRecognition.AudioRecorder.Api.ExtensionMethod
 {
     public static class AppBuilderDatabaseExtensions
     {
-        public static void EnsureDatabase(this IApplicationBuilder app)
+        public static void EnsureDatabase(this WebApplication app)
         {
-            var context = app.ApplicationServices.GetService<AppDbContext>();
+            using var scope = app.Services.CreateScope();
 
-            if (!context.Database.EnsureCreated())
-                context.Database.Migrate();
+            var context = scope.ServiceProvider
+                               .GetRequiredService<AppDbContext>();
+
+            context.Database.Migrate();
         }
     }
 }

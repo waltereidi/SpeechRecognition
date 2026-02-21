@@ -9,9 +9,9 @@ using System.Text;
 
 namespace SpeechRecognition.Infra.Mappings
 {
-    public class FileStorageMap
+    public static class FileStorageMap
     {
-        public void Configure(OwnedNavigationBuilder<FileStorageAggregate, FileStorage> builder)
+        public static void Configure(OwnedNavigationBuilder<FileStorageAggregate, FileStorage> builder)
         {
             builder.ToTable("FileStorage");
 

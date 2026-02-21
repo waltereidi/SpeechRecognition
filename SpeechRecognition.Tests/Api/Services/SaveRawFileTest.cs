@@ -1,5 +1,4 @@
-﻿using SpeechRecognition.AudioRecorder.Api.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +6,6 @@ namespace SpeechRecognition.Tests.Api.Services
 {
     public class SaveRawFileTest
     {
-        private readonly SaveRawFile _service;
 
         public SaveRawFileTest()
         {

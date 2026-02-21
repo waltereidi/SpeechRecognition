@@ -1,5 +1,4 @@
-﻿using SpeechRecognition.AudioRecorder.Api.Services;
-using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
+﻿using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.FileStorageDomain.Entidades;
@@ -10,14 +9,10 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
     public class SaveAudioConversionSuccessHandler: IIntegrationEventHandler<SaveAudioConversionSuccessEvent>
     { 
         private readonly ILogger<SaveAudioConversionSuccessEvent> _logger;
-        private readonly AudioConversionService _service;
-        private readonly RabbitMqLogService _rabbitService;
         private readonly IEventBus _eventBus;
-        public SaveAudioConversionSuccessHandler(IEventBus eventBus, ILogger<SaveAudioConversionSuccessEvent> logger , AudioConversionService service , RabbitMqLogService rabbitService  )
+        public SaveAudioConversionSuccessHandler(IEventBus eventBus, ILogger<SaveAudioConversionSuccessEvent> logger   )
         {
             _logger = logger;
-            _service = service;
-            _rabbitService = rabbitService;
             _eventBus = eventBus;
         }
 

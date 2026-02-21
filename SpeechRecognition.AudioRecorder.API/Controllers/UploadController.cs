@@ -4,6 +4,7 @@ using SpeechRecognition.AudioRecorder.Api.Controllers;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
 using SpeechRecognition.FileStorageDomain;
+
 [Route("Upload")]
 public class UploadController : BaseController
 {

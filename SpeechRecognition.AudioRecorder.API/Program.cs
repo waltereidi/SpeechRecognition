@@ -2,10 +2,8 @@ using AudioRecord.Api.DTO;
 using Microsoft.EntityFrameworkCore;
 using SpeechRecognition.Application.Services;
 using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
-using SpeechRecognition.AudioRecorder.Api.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
-using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.FileStorageDomain.Interfaces;
 using SpeechRecognition.Infra.Context;
 using SpeechRecognition.Infra.Repositories.Aggregates;
@@ -54,15 +52,16 @@ builder.Services.AddMessaging(cfg =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+});
 
 builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
 builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregateRepository>();
-
 builder.Services.AddScoped<FileStorageAggregateApplicationService>();
 
 var app = builder.Build();
-
+app.EnsureDatabase();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -83,8 +82,6 @@ app.MapControllers();
 
 app.MapRazorPages()
    .WithStaticAssets();
-
-app.EnsureDatabase();
 
 app.Run();
 

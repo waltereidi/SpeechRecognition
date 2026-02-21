@@ -13,7 +13,8 @@ namespace SpeechRecognition.Infra.Mappings
         public void Configure(EntityTypeBuilder<FileStorageAggregate> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.OwnsMany(x => x.FileStorages , fs => new FileStorageMap().Configure(fs) );
+            
+            builder.OwnsMany(x => x.FileStorages , fs => FileStorageMap.Configure(fs) );
             builder.OwnsMany(x => x.Logs , l => new RabbitMqLogMap().Configure(l)
             );
             builder.OwnsMany(x => x.AudioTranslations , at => new AudioTranslationMap().Configure(at) );

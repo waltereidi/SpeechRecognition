@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}audioconverter
     build:
       context: .
-      dockerfile: AudioConverter/Dockerfile
+      dockerfile: SpeechRecognition.AudioConverter.Api/Dockerfile
     ports:
     - "8085:8080"
     networks:
@@ -15,7 +15,7 @@ services:
     image: ${DOCKER_REGISTRY-}audioconverter-api
     build:
       context: .
-      dockerfile: AudioRecorder.Api/Dockerfile
+      dockerfile: SpeechRecognition.AudioRecorder.Api/Dockerfile
     ports:
       - "8080:8080"
     networks:
