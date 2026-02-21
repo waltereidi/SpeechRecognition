@@ -4,6 +4,7 @@ using SpeechRecognition.AudioRecorder.Api.Controllers;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
 using SpeechRecognition.FileStorageDomain;
+using AudioRecord.Api.DTO;
 
 [Route("Upload")]
 public class UploadController : BaseController
@@ -18,12 +19,25 @@ public class UploadController : BaseController
     {
         _service = service;
     }
-    [HttpPost]
+    [HttpPost("Create")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create(Guid guid)
-        => await HandleRequest(new V1.Create(new FileStorageAggregateId(guid)),
+    public async Task<IActionResult> Create([FromBody]string guid)
+        => await HandleRequest(new V1.Create(new FileStorageAggregateId(Guid.Parse(guid))),
             _service.Handle);
+
+    [HttpPost("UploadAudioFile")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UploadAudioFile([FromBody] IFormFileCollection file , string aggId)
+    => await HandleRequest(new V1.UpdateFileStorage(
+        new FileStorageAggregateId(Guid.Parse(aggId)),
+        file.ElementAt(0).OpenReadStream(),
+        file.ElementAt(0).FileName,
+        new ConfigurationDTO.FileStorageConfig().RawAudioPathDir
+        ),
+        _service.Handle);
+
 
     //[HttpPost]
     //[ProducesResponseType(StatusCodes.Status200OK)]
