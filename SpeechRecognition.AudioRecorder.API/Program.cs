@@ -68,10 +68,16 @@ builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregate
 builder.Services.AddScoped<FileStorageAggregateApplicationService>();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddControllers(); // obrigatório
+builder.Services.AddSwaggerGen(config =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo());
+    config.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Speech Recognition API",
+        Version = "File Version: v1.0.0"
+    });
 });
+
 
 
 var app = builder.Build();
@@ -84,15 +90,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "SpeechRecognition API v1");
-        options.RoutePrefix = string.Empty; // abre na raiz: https://localhost:xxxx/
-    });
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 

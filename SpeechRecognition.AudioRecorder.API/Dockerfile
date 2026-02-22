@@ -9,9 +9,22 @@ ENV ASPNETCORE_ENVIRONMENT=Development
 EXPOSE 8080
 
 
+USER root
+
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+# Cria diretório padrão Linux correto
+RUN mkdir -p /var/lib/SpeechRecognition/RawAudio \
+    && mkdir -p /var/lib/SpeechRecognition/ConvertedAudio
+
+# Dá permissão ao usuário "app" da imagem oficial .NET
+RUN chown -R $APP_UID:$APP_UID /var/lib/SpeechRecognition \
+    && chmod -R 775 /var/lib/SpeechRecognition
+
+# Volta para o usuário da aplicação
+USER $APP_UID
 
 WORKDIR /src
 COPY ["AudioRecorder.Api/AudioRecorder.Api.csproj", "AudioRecorder.Api/"]

@@ -6,7 +6,8 @@ using static SpeechRecognition.Application.Contracts.FileStorageAggregateContrac
 using SpeechRecognition.FileStorageDomain;
 using AudioRecord.Api.DTO;
 
-[Route("Upload")]
+[Route("api/Upload/[action]")]
+[ApiController]
 public class UploadController : BaseController
 {
     private readonly IConfiguration _config;
@@ -17,6 +18,7 @@ public class UploadController : BaseController
         IConfiguration config ) 
         : base(logger)
     {
+        _config = config;
         _service = service;
     }
     [HttpPost("Create")]
@@ -27,14 +29,15 @@ public class UploadController : BaseController
             _service.Handle);
 
     [HttpPost("UploadAudioFile")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UploadAudioFile([FromBody] IFormFileCollection file , string aggId)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadAudioFile(
+    [FromForm] IFormFileCollection file,
+    [FromForm] string aggId)
     => await HandleRequest(new V1.UpdateFileStorage(
         new FileStorageAggregateId(Guid.Parse(aggId)),
         file.ElementAt(0).OpenReadStream(),
         file.ElementAt(0).FileName,
-        new ConfigurationDTO.FileStorageConfig().RawAudioPathDir
+        ConfigurationDTO.GetFileStorageConfig(_config).RawAudioPathDir
         ),
         _service.Handle);
 
