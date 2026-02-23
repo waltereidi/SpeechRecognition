@@ -21,14 +21,14 @@ public class UploadController : BaseController
         _config = config;
         _service = service;
     }
-    [HttpPost("Create")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromBody]string guid)
+    public async Task<IActionResult> Create([FromForm]string guid)
         => await HandleRequest(new V1.Create(new FileStorageAggregateId(Guid.Parse(guid))),
             _service.Handle);
 
-    [HttpPost("UploadAudioFile")]
+    [HttpPost]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadAudioFile(
     [FromForm] IFormFileCollection file,
@@ -40,7 +40,6 @@ public class UploadController : BaseController
         ConfigurationDTO.GetFileStorageConfig(_config).RawAudioPathDir
         ),
         _service.Handle);
-
 
     //[HttpPost]
     //[ProducesResponseType(StatusCodes.Status200OK)]

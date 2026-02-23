@@ -1,11 +1,11 @@
 using AudioRecord.Api.DTO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.Application.Services;
 using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
-using SpeechRecognition.FileStorageDomain.Interfaces;
 using SpeechRecognition.Infra.Context;
 using SpeechRecognition.Infra.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;

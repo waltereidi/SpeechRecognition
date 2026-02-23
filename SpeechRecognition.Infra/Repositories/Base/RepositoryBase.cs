@@ -1,48 +1,45 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
+using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.CrossCutting.Framework;
-using SpeechRecognition.Infra.Interfaces.Base;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace SpeechRecognition.Infra.Repositories.Base
 {
 
-    public class RepositoryBase<TContext, TEntity, TId>(TContext context) : IRepositoryBase<TEntity, TId>
-    where TEntity : Entity<TId>
+    public class RepositoryBase<TContext, TEntity , TId>(TContext context) : IRepositoryBase<TEntity, TId>
+    where TEntity : AggregateRoot<TId>
     where TContext : DbContext
     {
         protected readonly DbSet<TEntity> DbSet = context.Set<TEntity>();
 
         #region List and Get
-
-        public async Task<IList<TEntity>> ListAsync(
-            bool tracking = false,
-            Expression<Func<TEntity, bool>>? predicate = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            CancellationToken cancellationToken = default)
+        public async Task<IList<TEntity>> ListAsync(bool tracking = false, 
+            Expression<Func<TEntity, bool>>? predicate = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
+            CancellationToken cancellationToken = default
+        )
         {
-            var query = BuildQuery(tracking, predicate, include, orderBy);
+            var query = BuildQuery(tracking, predicate, orderBy);
             return await query.ToListAsync(cancellationToken);
         }
 
-        public async Task<TEntity?> GetByAsync(TId id, bool tracking = false, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            CancellationToken cancellationToken = default)
+        public async Task<TEntity?> GetByAsync(TId id, bool tracking = false, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
+            CancellationToken cancellationToken = default
+        )
         {
-            var query = BuildQuery(tracking, p => p.Id!.Equals(id), include, orderBy);
+            var query = BuildQuery(tracking, p => p.Id!.Equals(id), orderBy);
             return await query.FirstOrDefaultAsync(cancellationToken);
         }
-
-        public async Task<TEntity?> GetByAsync(bool tracking = false, Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            CancellationToken cancellationToken = default)
+        public async Task<TEntity?> GetByAsync(bool tracking = false, 
+            Expression<Func<TEntity, bool>>? predicate = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
+            CancellationToken cancellationToken = default
+        )
         {
-            var query = BuildQuery(tracking, predicate, include, orderBy);
+            var query = BuildQuery(tracking, predicate, orderBy);
             return await query.FirstOrDefaultAsync(cancellationToken);
         }
-
         #endregion
 
         #region Add
@@ -56,7 +53,7 @@ namespace SpeechRecognition.Infra.Repositories.Base
 
         #region Update
 
-        public void Update(TEntity entity)
+        public async Task Update(TEntity entity)
         {
             DbSet.Update(entity);
         }
@@ -65,7 +62,7 @@ namespace SpeechRecognition.Infra.Repositories.Base
 
         #region Delete
 
-        public void Delete(TEntity entity)
+        public async Task Delete(TEntity entity)
         {
             DbSet.Remove(entity);
         }
@@ -77,7 +74,6 @@ namespace SpeechRecognition.Infra.Repositories.Base
         private IQueryable<TEntity> BuildQuery(
             bool tracking,
             Expression<Func<TEntity, bool>>? predicate,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy)
         {
             //1 - AsNoTracking
@@ -89,9 +85,6 @@ namespace SpeechRecognition.Infra.Repositories.Base
             if (predicate is not null)
                 query = query.Where(predicate);
 
-            //3 - Include
-            if (include is not null)
-                query = include(query);
 
             //4 - OrderBy
             if (orderBy is not null)
@@ -99,6 +92,8 @@ namespace SpeechRecognition.Infra.Repositories.Base
 
             return query;
         }
+
+
 
         #endregion
     }
