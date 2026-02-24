@@ -1,6 +1,7 @@
 ﻿
 
 using SpeechRecognition.CrossCutting.Framework;
+using SpeechRecognition.FileStorageDomain.DomainEvents;
 using System.ComponentModel.DataAnnotations;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
@@ -19,7 +20,13 @@ public class FileStorageConversion : Entity<FileStorageConversionId>
 
     protected override void When(object @event)
     {
-        throw new NotImplementedException();
+        switch (@event)
+        {
+            case Events.FileStorageConversionAdded e:
+                 
+                FileStorageId = e.fsId;
+                break;
+        }
     }
 }
 

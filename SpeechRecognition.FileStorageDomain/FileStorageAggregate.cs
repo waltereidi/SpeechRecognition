@@ -15,18 +15,21 @@ namespace SpeechRecognition.FileStorageDomain
         {
             Apply( new Events.FileStorageAggregateCreated(id ));
         }
-
         public List<FileStorage> FileStorages { get; private set; }
         public List<FileStorageConversion> FileStorageConversions { get; private set; }
         public List<AudioTranslation> AudioTranslations { get; private set; }
         public List<RabbitMqLog> Logs { get; private set; }
+
         protected override void EnsureValidState()
         {
             
         }
         public void AddFileStorageLocal(FileInfo fi , string originalFileName )
             => Apply(new Events.FileStorageAdded(Guid.NewGuid(), fi, originalFileName));
-        
+
+        public void AddFileStorageConversionLocal(FileInfo fi, string fileName )
+            => Apply(new Events.FileStorageAdded(Guid.NewGuid(), fi, fileName ));
+
         protected override void When(object @event)
         {
             switch (@event)
@@ -34,15 +37,48 @@ namespace SpeechRecognition.FileStorageDomain
                 case Events.FileStorageAggregateCreated e:
                     Id = new FileStorageAggregateId( e.aggId);
                     break;
-                case Events.FileStorageAdded e:
-                    var fs2 = new FileStorage(Apply);
-                    ApplyToEntity(fs2, e);
-                    FileStorages = FileStorages ?? new();
-                    FileStorages.Add(fs2);
-                    break;
-                
 
+                case Events.FileStorageAdded e:
+                    {
+                        EnsureCanAddRootUpload();
+                        var fs = new FileStorage(Apply);
+                        ApplyToEntity(fs, e);
+                        FileStorages.Add(fs);
+                        break;
+                    }
+                case Events.FileStorageConversionAdded e:
+                    {
+                        var fsId = EnsureCanAddNewConversion();
+                        var fs = new FileStorage(Apply);
+                        ApplyToEntity(fs, e);
+
+                        var fsc = new FileStorageConversion(Apply);
+                        ApplyToEntity(fsc, e );
+
+                        FileStorageConversions.Add(fsc);
+                        break;
+                    }
             }
         }
+        protected void EnsureCanAddRootUpload()
+        {
+            if(FileStorages != null && FileStorages.Count > 0 )
+                throw new InvalidOperationException("Domain aggregate can only have one file upload at once");
+
+            FileStorages = FileStorages ?? new();
+
+        }
+        protected FileStorageId EnsureCanAddNewConversion()
+        {
+            FileStorageConversions = FileStorageConversions ?? new();
+
+            if (!FileStorages.Any(x => FileStorageConversions.Any(y => x.Id == y.FileStorageId))
+                && FileStorages.Count() > 0 )
+                return FileStorages.First(x => FileStorageConversions.Any(y => x.Id == y.FileStorageId)).Id;
+            else 
+                throw new InvalidOperationException("Domain aggregate does not contain a valid file to relate to aggregate");
+        }
+
+
     }
 }
