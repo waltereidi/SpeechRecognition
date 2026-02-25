@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj" />
     <ProjectReference Include="..\SpeechRecognition.CrossCutting.Framework\SpeechRecognition.CrossCutting.Framework.csproj" />
-    <ProjectReference Include="..\SpeechRecognition\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj" />
-    <ProjectReference Include="..\SpeechRecognition\SpeechRecognition.CrossCutting.Shared.Events\SpeechRecognition.CrossCutting.Shared.Events.csproj" />
-    <ProjectReference Include="..\SpeechRecognition\SpeechRecognition.FileStorageDomain\SpeechRecognition.FileStorageDomain.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.CrossCutting.Shared.Events\SpeechRecognition.CrossCutting.Shared.Events.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.FileStorageDomain\SpeechRecognition.FileStorageDomain.csproj" />
   </ItemGroup>
 
 </Project>

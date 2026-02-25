@@ -10,7 +10,7 @@ using SpeechRecognition.WhisperAI.Service;
 
 namespace SpeechRecognition.WhisperAI.Handlers
 {
-    public class AudioTranslationHandler : IIntegrationEventHandler<AudioTranslationEvent>
+    public class AudioTranslationHandler : IIntegrationEventHandler<AudioTranslationEventLocal>
     {
         private readonly ILogger<AudioTranslationHandler> _logger;
         private readonly IEventBus _eventBus;
@@ -19,7 +19,7 @@ namespace SpeechRecognition.WhisperAI.Handlers
             _logger = logger;
             _eventBus = eventBus;
         }
-        public async Task HandleAsync( AudioTranslationEvent @event, CancellationToken cancellationToken = default)
+        public async Task HandleAsync( AudioTranslationEventLocal @event, CancellationToken cancellationToken = default)
         {
             ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory();
             try
@@ -48,7 +48,7 @@ namespace SpeechRecognition.WhisperAI.Handlers
                 });
             }
         }
-        private SaveAudioTranslationSuccessEvent CreateSuccessEvent(ITranslationResponseAdapter adapter , AudioTranslationEvent @event  )
+        private SaveAudioTranslationSuccessEvent CreateSuccessEvent(ITranslationResponseAdapter adapter , AudioTranslationEventLocal @event  )
         {
             var result = new SaveAudioTranslationSuccessEvent
             {

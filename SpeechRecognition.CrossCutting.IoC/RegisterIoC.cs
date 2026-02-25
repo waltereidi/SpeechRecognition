@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SpeechRecognition.CrossCutting.Framework.Interfaces;
-using SpeechRecognition.Infra.Context;
-using SpeechRecognition.Infra.UoW;
+
 
 namespace SpeechRecognition.CrossCutting.IoC
 {
@@ -11,37 +8,37 @@ namespace SpeechRecognition.CrossCutting.IoC
     {
         public static IServiceCollection AddIoC(this IServiceCollection services, IConfiguration configuration)
         {
-            #region Repositories
+            //#region Repositories
 
-            //services.AddScoped<IRepositoryFileStorage, RepositoryFileStorage>();
-            //services.AddScoped<IRepositoryFileStorageConversion, RepositoryFileStorageConversion>();
-            //services.AddScoped<IRepositoryUploadRequest, RepositoryUploadRequest>();
-            //services.AddScoped<IRepositoryRabbitMqLog , RepositoryRabbitMqLog>();
-            //services.AddScoped<IRepositoryAudioTranslation, RepositoryAudioTranslation>();
+            ////services.AddScoped<IRepositoryFileStorage, RepositoryFileStorage>();
+            ////services.AddScoped<IRepositoryFileStorageConversion, RepositoryFileStorageConversion>();
+            ////services.AddScoped<IRepositoryUploadRequest, RepositoryUploadRequest>();
+            ////services.AddScoped<IRepositoryRabbitMqLog , RepositoryRabbitMqLog>();
+            ////services.AddScoped<IRepositoryAudioTranslation, RepositoryAudioTranslation>();
 
-            #endregion
+            //#endregion
 
-            #region Application Services
+            //#region Application Services
 
-            //services.AddScoped<AudioConversionService>();
-            //services.AddScoped<RabbitMqLogService>();
+            ////services.AddScoped<AudioConversionService>();
+            ////services.AddScoped<RabbitMqLogService>();
 
-            #endregion
+            //#endregion
 
-            #region Unit of Work
+            //#region Unit of Work
 
-            services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
+            //services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
 
-            #endregion
+            //#endregion
 
-            #region Context    
+            //#region Context    
 
-            services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseNpgsql(configuration.GetConnectionString("ConnectionString"));
-            });
+            //services.AddDbContext<AppDbContext>(options =>
+            //{
+            //    options.UseNpgsql(configuration.GetConnectionString("ConnectionString"));
+            //});
 
-            #endregion
+            //#endregion
 
             return services;
         }
