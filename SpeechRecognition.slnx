@@ -3,7 +3,7 @@
     <Project Path="SpeechRecognition.FileStorageDomain/SpeechRecognition.FileStorageDomain.csproj" Id="5a9d55e7-fcd9-40fd-9507-8bbd46d9199e" />
   </Folder>
   <Folder Name="/2. Application/">
-    <Project Path="../SpeechRecognition.Application/SpeechRecognition.Application.csproj" Id="195dfd92-42fd-4f26-bf4e-3607b1100e5c" />
+    <Project Path="SpeechRecognition.Application/SpeechRecognition.Application.csproj" Id="195dfd92-42fd-4f26-bf4e-3607b1100e5c" />
   </Folder>
   <Folder Name="/3. Infra/">
     <Project Path="SpeechRecognition.Infra/SpeechRecognition.Infra.csproj" Id="7541515d-5ae1-4a62-acb2-6ec7f2cb5817" />
@@ -14,8 +14,8 @@
     <Project Path="SpeechRecognition.WhisperAI/SpeechRecognition.WhisperAI.csproj" Id="93aa7004-b9cb-49fc-a177-5604876ad6a7" />
   </Folder>
   <Folder Name="/CrossCutting/">
-    <Project Path="../SpeechRecognition.CrossCutting.Framework/SpeechRecognition.CrossCutting.Framework.csproj" Id="7057f2ed-d045-4627-8c69-c615b57d2fea" />
-    <Project Path="../SpeechRecognition.CrossCutting.IoC/SpeechRecognition.CrossCutting.IoC.csproj" Id="3d4877a5-0a71-429f-a7d0-9a44c9f6c451" />
+    <Project Path="SpeechRecognition.CrossCutting.Framework/SpeechRecognition.CrossCutting.Framework.csproj" Id="7057f2ed-d045-4627-8c69-c615b57d2fea" />
+    <Project Path="SpeechRecognition.CrossCutting.IoC/SpeechRecognition.CrossCutting.IoC.csproj" Id="3d4877a5-0a71-429f-a7d0-9a44c9f6c451" />
     <Project Path="SpeechRecognition.CrossCutting.BuildingBlocks.Messaging/SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj" />
     <Project Path="SpeechRecognition.CrossCutting.Shared.Events/SpeechRecognition.CrossCutting.Shared.Events.csproj" />
   </Folder>
