@@ -29,7 +29,8 @@ namespace SpeechRecognition.FileStorageDomain
 
         public void AddFileStorageConversionLocal(FileInfo fi, string fileName )
             => Apply(new Events.FileStorageAdded(Guid.NewGuid(), fi, fileName ));
-
+        public void AddTranslation(Events.TranslationAdded e)
+            => Apply(e);
         protected override void When(object @event)
         {
             switch (@event)
@@ -58,7 +59,23 @@ namespace SpeechRecognition.FileStorageDomain
                         FileStorageConversions.Add(fsc);
                         break;
                     }
+                case Events.TranslationAdded e:
+                    {
+                        EnsureTranslationCanBeAdded(e);
+                        var at = new AudioTranslation(Apply);
+                        ApplyToEntity(at, e);
+                        AudioTranslations.Add(at);
+                        break;
+                    }
             }
+        }
+        protected void EnsureTranslationCanBeAdded(Events.TranslationAdded e)
+        {
+            if (!FileStorages.Any(x => x.Id == e.fileStorageid))
+                throw new ArgumentOutOfRangeException($"fileStorage not found id:{nameof(e.fileStorageid)}");
+
+            if(AudioTranslations.Any(x=> x.WhisperModel == e.modelId && x.IsApproved == true && x.TranslationTemplate == e.templateId))
+                throw new InvalidOperationException($"Domain aggregate already contains a successful translation with the same model and template");
         }
         protected void EnsureCanAddRootUpload()
         {

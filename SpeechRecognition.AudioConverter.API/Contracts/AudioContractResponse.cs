@@ -1,5 +1,4 @@
 ﻿using SpeechRecognition.AudioConverter.Api.Interfaces;
-using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 
 namespace SpeechRecognition.AudioConverter.Api.Contracts
 {

@@ -32,14 +32,14 @@ public class UploadController : BaseController
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadAudioFile(
     [FromForm] IFormFileCollection file,
-    [FromForm] string aggId)
+    [FromForm] string aggId )
     => await HandleRequest(new V1.UpdateFileStorage(
         new FileStorageAggregateId(Guid.Parse(aggId)),
         file.ElementAt(0).OpenReadStream(),
         file.ElementAt(0).FileName,
         ConfigurationDTO.GetFileStorageConfig(_config).RawAudioPathDir
         ),
-        _service.Handle);
+        _service.Handle );
 
     //[HttpPost]
     //[ProducesResponseType(StatusCodes.Status200OK)]

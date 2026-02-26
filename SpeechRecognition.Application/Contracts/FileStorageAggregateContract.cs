@@ -7,6 +7,14 @@ namespace SpeechRecognition.Application.Contracts
     {
         public class V1()
         {
+            public record SaveAudioTranslationLocal(
+                FileStorageAggregateId id, 
+                FileStorageId fileStorageId,
+                string translation, 
+                int? temlateId, 
+                int? modelId,
+                bool isSuccess
+                );
             public record UpdateConvertedFile(
                 FileStorageAggregateId id,
                 Stream fs ,

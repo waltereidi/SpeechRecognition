@@ -6,6 +6,7 @@ using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.FileStorageDomain;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
+using static SpeechRecognition.FileStorageDomain.DomainEvents.Events;
 
 namespace SpeechRecognition.Application.Services
 {
@@ -30,12 +31,30 @@ namespace SpeechRecognition.Application.Services
             V1.Create cmd => HandleCreate(cmd),
             V1.UpdateFileStorage cmd => HandleSaveFile(cmd),
             V1.UpdateConvertedFile cmd => HandleSaveFileConversion(cmd),
+            V1.SaveAudioTranslationLocal cmd => HandleAudioTranslation(cmd),
         };
+
+        private async Task HandleAudioTranslation(V1.SaveAudioTranslationLocal cmd)
+        {
+            var fileStorageAgg = await LoadAggregate(cmd.id);
+
+            fileStorageAgg.AddTranslation(new TranslationAdded(cmd.fileStorageId, cmd.translation, cmd.temlateId, cmd.modelId, cmd.isSuccess));
+
+            await HandleFileUpdate(fileStorageAgg);
+        }
+        private async Task<FileStorageAggregate> LoadAggregate(FileStorageAggregateId id)
+        {
+            var fileStorageAgg = await _repository
+                .Load(id);
+            if (fileStorageAgg == null)
+                throw new InvalidOperationException($"Entity with id {id} not found");
+            
+            return fileStorageAgg;
+        }
 
         private async Task HandleSaveFileConversion(V1.UpdateConvertedFile cmd)
         {
-            var fileStorageAgg = await _repository
-                .Load(cmd.id.ToString());
+            var fileStorageAgg = await LoadAggregate(cmd.id);
 
             var service = new SaveRawFile(cmd.convertedAudioDir , cmd.fs, cmd.fileName );
             var fi = await service.SaveFile();
@@ -49,14 +68,14 @@ namespace SpeechRecognition.Application.Services
                 FileStorageConversionId = fileStorageAgg.FileStorageConversions.Last().Id.ToString(),
                 FileStorageAggregateId = fileStorageAgg.Id.ToString()
             };
+
             await _eventBus.PublishAsync(re);
         }
-
+        
         private async Task HandleSaveFile(V1.UpdateFileStorage cmd)
         {
-            var fileStorageAgg = await _repository
-                .Load(cmd.id.ToString());
-            
+            var fileStorageAgg = await LoadAggregate(cmd.id);
+
             var service = new SaveRawFile( cmd.rawAudioDir , cmd.fs , cmd.originalFileName);
             var fi = await service.SaveFile();
             
