@@ -27,10 +27,10 @@ namespace SpeechRecognition.Infra.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     Translation = table.Column<string>(type: "text", nullable: false),
-                    FileStorageConversionId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
+                    FileStorageId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     IsSuccess = table.Column<bool>(type: "boolean", nullable: false),
                     IsApproved = table.Column<bool>(type: "boolean", nullable: true),
-                    TranslationTemplate = table.Column<int>(type: "integer", nullable: false),
+                    TranslationTemplate = table.Column<int>(type: "integer", nullable: true),
                     WhisperModel = table.Column<int>(type: "integer", nullable: false),
                     FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false)
                 },

@@ -66,6 +66,8 @@ namespace SpeechRecognition.Application.Services
 
             var re = new AudioTranslationLocalEvent()
             {
+                ModelId = null,
+                TemplateId = null,
                 FilePath = fi.FullName,
                 FileStorageId = createId.ToString() ,
                 FileStorageAggregateId = fileStorageAgg.Id.ToString()

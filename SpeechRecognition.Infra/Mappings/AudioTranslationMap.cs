@@ -34,13 +34,13 @@ namespace SpeechRecognition.Infra.Mappings
                 .HasMaxLength(36)
                 .IsRequired();
 
-            var fileStorageConverterId = new ValueConverter<FileStorageId, string>(
+            var fileStorageId = new ValueConverter<FileStorageId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string
                 v => new FileStorageId(Guid.Parse(v)));
 
 
             builder.Property(x => x.FileStorageId)
-                .HasConversion(fileStorageConverterId)
+                .HasConversion(fileStorageId)
                 .HasMaxLength(36)
                 .IsRequired();
 

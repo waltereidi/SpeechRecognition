@@ -37,7 +37,8 @@ public class UploadController : BaseController
         new FileStorageAggregateId(Guid.Parse(aggId)),
         file.ElementAt(0).OpenReadStream(),
         file.ElementAt(0).FileName,
-        ConfigurationDTO.GetFileStorageConfig(_config).RawAudioPathDir
+        ConfigurationDTO.GetFileStorageConfig(_config).RawAudioPathDir,
+        ConfigurationDTO.GetFileStorageConfig(_config).ConvertedAudioDir
         ),
         _service.Handle );
 

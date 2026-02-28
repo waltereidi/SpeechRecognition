@@ -9,6 +9,7 @@ namespace SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi
 {
     public record class SaveAudioTranslationSuccessEvent : IntegrationEvent
     {
+        public string FileStorageAggregateId { get; set; }
         public string FileStorageId { get; set; }
         public string Translation { get; set; }
         public int? ModelId { get; set; }

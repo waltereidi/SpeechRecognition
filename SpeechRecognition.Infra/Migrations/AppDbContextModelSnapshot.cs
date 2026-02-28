@@ -44,7 +44,7 @@ namespace SpeechRecognition.Infra.Migrations
                                 .IsRequired()
                                 .HasColumnType("character varying(36)");
 
-                            b1.Property<string>("FileStorageConversionId")
+                            b1.Property<string>("FileStorageId")
                                 .IsRequired()
                                 .HasMaxLength(36)
                                 .HasColumnType("character varying(36)");
@@ -59,7 +59,7 @@ namespace SpeechRecognition.Infra.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.Property<int>("TranslationTemplate")
+                            b1.Property<int?>("TranslationTemplate")
                                 .HasColumnType("integer");
 
                             b1.Property<int>("WhisperModel")

@@ -55,7 +55,8 @@ namespace SpeechRecognition.WhisperAI.Handlers
                 FileStorageId = @event.FileStorageId,
                 Translation = adapter.GetTranslation(),
                 ModelId = adapter.GetModel(),
-                TemplateId = @event.TemplateId 
+                TemplateId = @event.TemplateId ,
+                FileStorageAggregateId = @event.FileStorageAggregateId
             };
             return result;
         }
