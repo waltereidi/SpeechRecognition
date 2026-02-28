@@ -10,7 +10,7 @@ namespace SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition
     public record class AudioTranslationLocalEvent : IntegrationEvent
     {
         public string FilePath { get; init; }
-        public string FileStorageConversionId { get; init; }
+        public string FileStorageId { get; init; }
         public string FileStorageAggregateId { get; init; }
         public int? TemplateId { get; init; } = null;
         public int? ModelId { get; init; } = null;

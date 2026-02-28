@@ -1,4 +1,5 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
+using SpeechRecognition.FileStorageDomain.DomainEvents;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,7 +19,7 @@ public class AudioTranslation : Entity<AudioTranslationId>
 
     public string Translation { get; private set; }
     [Required]
-    public FileStorageConversionId FileStorageConversionId { get; private set; }
+    public FileStorageId FileStorageId { get; private set; }
 
     /// <summary>
     /// Preenchido por whisper, para indicar um erro no resultado
@@ -28,11 +29,22 @@ public class AudioTranslation : Entity<AudioTranslationId>
     /// Preenchido pelo usuário, para indicar se a tradução foi aprovada
     /// </summary>
     public bool? IsApproved { get; private set; }
-    public int TranslationTemplate { get; private set; }
-    public int WhisperModel { get; private set; }
+    public int? TranslationTemplate { get; private set; }
+    public int? WhisperModel { get; private set; }
     protected override void When(object @event)
     {
-        throw new NotImplementedException();
+        switch (@event)
+        {
+            case Events.TranslationAdded e:
+                Id = new AudioTranslationId(Guid.NewGuid());
+                FileStorageId = e.fileStorageid;
+                Translation = e.translation;
+                IsSuccess = e.isSuccess;
+                TranslationTemplate = e.templateId;
+                WhisperModel = e.modelId;
+                break;
+            
+        }
     }
 }
 

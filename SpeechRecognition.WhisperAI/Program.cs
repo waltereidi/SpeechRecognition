@@ -8,7 +8,7 @@ using SpeechRecognition.WhisperAI.Handlers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Registra o handler de eventos
-builder.Services.AddIntegrationEventHandler<AudioTranslationEventLocal, AudioTranslationHandler>();
+builder.Services.AddIntegrationEventHandler<AudioTranslationLocalEvent, AudioTranslationHandler>();
 var configuration = new ConfigurationDTO();
 //builder.Configuration.AddConfiguration(configuration.GetCofiguration());
 
@@ -17,7 +17,7 @@ var configuration = new ConfigurationDTO();
 builder.Services.AddMassTransit(busConfigurator =>
 {
     // Registra o consumidor genérico para o evento PedidoCriado
-    busConfigurator.AddConsumer<GenericConsumer<AudioTranslationEventLocal>>();
+    busConfigurator.AddConsumer<GenericConsumer<AudioTranslationLocalEvent>>();
 
     busConfigurator.UsingRabbitMq((context, cfg) =>
     {
@@ -35,7 +35,7 @@ builder.Services.AddMassTransit(busConfigurator =>
         // Configura o endpoint para receber os eventos de pedido
         cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
         {
-            endpointCfg.ConfigureConsumer<GenericConsumer<AudioTranslationEventLocal>>(context);
+            endpointCfg.ConfigureConsumer<GenericConsumer<AudioTranslationLocalEvent>>(context);
         });
     });
 });

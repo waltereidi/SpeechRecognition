@@ -18,7 +18,7 @@ namespace SpeechRecognition.WhisperAI.DTO
             this.Model = (WhisperModels)dto.whisperModel;
         }
 
-        public SpeechRecognitionFactoryDTO(AudioTranslationEventLocal @event , FileInfo fi  )
+        public SpeechRecognitionFactoryDTO(AudioTranslationLocalEvent @event , FileInfo fi  )
         {
             Template = (TranslationTemplates)@event.TemplateId;
             AudioStream = fi.OpenRead();

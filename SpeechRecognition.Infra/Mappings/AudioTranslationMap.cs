@@ -21,7 +21,7 @@ namespace SpeechRecognition.Infra.Mappings
                 .IsRequired()
                 .HasColumnType("text"); // ou nvarchar(max) / varchar(max)
 
-            builder.Property(x => x.FileStorageConversionId)
+            builder.Property(x => x.FileStorageId)
                 .IsRequired();
 
             var audioTranslationId = new ValueConverter<AudioTranslationId , string>(
@@ -34,12 +34,12 @@ namespace SpeechRecognition.Infra.Mappings
                 .HasMaxLength(36)
                 .IsRequired();
 
-            var fileStorageConverterId = new ValueConverter<FileStorageConversionId, string>(
+            var fileStorageConverterId = new ValueConverter<FileStorageId, string>(
                 v => ((Guid)v).ToString(),           // Guid -> string
-                v => new FileStorageConversionId(Guid.Parse(v)));
+                v => new FileStorageId(Guid.Parse(v)));
 
 
-            builder.Property(x => x.FileStorageConversionId)
+            builder.Property(x => x.FileStorageId)
                 .HasConversion(fileStorageConverterId)
                 .HasMaxLength(36)
                 .IsRequired();

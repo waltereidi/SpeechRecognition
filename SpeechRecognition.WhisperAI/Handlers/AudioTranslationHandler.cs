@@ -1,16 +1,16 @@
 ﻿using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using MassTransit.RabbitMqTransport;
-using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.WhisperAI.DTO;
 using SpeechRecognition.WhisperAI.Enum;
 using SpeechRecognition.WhisperAI.Interfaces;
 using SpeechRecognition.WhisperAI.Service;
+using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 
 namespace SpeechRecognition.WhisperAI.Handlers
 {
-    public class AudioTranslationHandler : IIntegrationEventHandler<AudioTranslationEventLocal>
+    public class AudioTranslationHandler : IIntegrationEventHandler<AudioTranslationLocalEvent>
     {
         private readonly ILogger<AudioTranslationHandler> _logger;
         private readonly IEventBus _eventBus;
@@ -19,7 +19,7 @@ namespace SpeechRecognition.WhisperAI.Handlers
             _logger = logger;
             _eventBus = eventBus;
         }
-        public async Task HandleAsync( AudioTranslationEventLocal @event, CancellationToken cancellationToken = default)
+        public async Task HandleAsync( AudioTranslationLocalEvent @event, CancellationToken cancellationToken = default)
         {
             ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory();
             try
@@ -39,7 +39,7 @@ namespace SpeechRecognition.WhisperAI.Handlers
             }
             catch(Exception ex)
             {
-                _logger.LogError(ex, "Error processing AudioTranslationEvent for FileStorageConversionId: {FileStorageConversionId}", @event.FileStorageConversionId);
+                _logger.LogError(ex, "Error processing AudioTranslationEvent for FileStorageConversionId: {FileStorageConversionId}", @event.FileStorageId);
                 await _eventBus.PublishAsync(new ErrorLogEvent()
                 {
                     ErrorMessage = ex.Message,
@@ -48,13 +48,14 @@ namespace SpeechRecognition.WhisperAI.Handlers
                 });
             }
         }
-        private SaveAudioTranslationSuccessEvent CreateSuccessEvent(ITranslationResponseAdapter adapter , AudioTranslationEventLocal @event  )
+        private SaveAudioTranslationSuccessEvent CreateSuccessEvent(ITranslationResponseAdapter adapter , AudioTranslationLocalEvent @event  )
         {
             var result = new SaveAudioTranslationSuccessEvent
             {
-                FileStorageConversionId = @event.FileStorageConversionId,
-                Translation = adapter.GetTranslation(), 
-                ModelId = adapter.GetModel(), 
+                FileStorageId = @event.FileStorageId,
+                Translation = adapter.GetTranslation(),
+                ModelId = adapter.GetModel(),
+                TemplateId = @event.TemplateId 
             };
             return result;
         }

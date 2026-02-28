@@ -22,8 +22,8 @@ public class FileStorageConversion : Entity<FileStorageConversionId>
     {
         switch (@event)
         {
-            case Events.FileStorageConversionAdded e:
-                 
+            case Events.CreateFileStorageConversion e:
+                Id = new FileStorageConversionId(Guid.NewGuid());
                 FileStorageId = e.fsId;
                 break;
         }

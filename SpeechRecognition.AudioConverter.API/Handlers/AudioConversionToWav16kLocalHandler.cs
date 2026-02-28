@@ -1,6 +1,7 @@
 ﻿using SpeechRecognition.AudioConverter.Api.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
+using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 
 namespace SpeechRecognition.AudioConverter.Api.Handlers
@@ -19,32 +20,33 @@ namespace SpeechRecognition.AudioConverter.Api.Handlers
 
         public async Task HandleAsync(AudioConversionToWav16kLocalEvent @event, CancellationToken cancellationToken = default)
         {
-            //try
-            //{
-            //    AudioConversionFactory factory = new(@event.DirectoryPath, @event.FilePath);
-            //    var strategy = factory.GetStrategy();
-            //    await strategy.Start(cancellationToken);
-                
-            //    var adapter = factory.GetAdapter();
-                
-            //    await _eventBus.PublishAsync(new SaveAudioConversionSuccessEvent
-            //    {
-            //        FileFullPath= adapter.GetResultFileInfo().FullName,
-            //        FileName= adapter.GetResultFileName(),
-            //        Id= Guid.Parse(@event.FileStorageId),  
-            //    }, cancellationToken);
+            try
+            {
+                AudioConversionFactory factory = new(@event.DirectoryPath, @event.FilePath);
+                var strategy = factory.GetStrategy();
+                await strategy.Start(cancellationToken);
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    await _eventBus.PublishAsync(new ErrorLogEvent
-            //    {
-            //        Severity = 5,
-            //        ErrorMessage = ex.Message,
-            //        Source = nameof(AudioConversionToWav16kLocalHandler)
-            //    }, cancellationToken);
-            //    //_logger.LogError(ex, "Error handling AudioConversionToWav16kLocalEvent");
-            //}
+                var adapter = factory.GetAdapter();
+
+                await _eventBus.PublishAsync(new SaveAudioConversionSuccessEvent
+                {
+                    FileFullPath = adapter.GetResultFileInfo().FullName,
+                    FileName = adapter.GetResultFileName(),
+                    FileStorageId = @event.FileStorageId,
+                    FileStorageAggregateId  = @event.FileStorageId
+                }, cancellationToken);
+
+            }
+            catch (Exception ex)
+            {
+                await _eventBus.PublishAsync(new ErrorLogEvent
+                {
+                    Severity = 5,
+                    ErrorMessage = ex.Message,
+                    Source = nameof(AudioConversionToWav16kLocalHandler)
+                }, cancellationToken);
+                //_logger.LogError(ex, "Error handling AudioConversionToWav16kLocalEvent");
+            }
         }
     }
 }

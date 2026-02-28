@@ -1,10 +1,6 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using SpeechRecognition.FileStorageDomain.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SpeechRecognition.FileStorageDomain
 {
@@ -24,11 +20,12 @@ namespace SpeechRecognition.FileStorageDomain
         {
             
         }
-        public void AddFileStorageLocal(FileInfo fi , string originalFileName )
-            => Apply(new Events.FileStorageAdded(Guid.NewGuid(), fi, originalFileName));
 
-        public void AddFileStorageConversionLocal(FileInfo fi, string fileName )
-            => Apply(new Events.FileStorageAdded(Guid.NewGuid(), fi, fileName ));
+        public void AddFileStorageLocal(FileStorageId fsId , FileInfo fi , string originalFileName )
+            => Apply(new Events.FileStorageAdded(fsId, fi, originalFileName));
+
+        public void AddFileStorageConversionLocal(FileInfo fi, FileStorageId createId )
+            => Apply(new Events.FileStorageConversionAdded( fi , createId ));
         public void AddTranslation(Events.TranslationAdded e)
             => Apply(e);
         protected override void When(object @event)
@@ -54,7 +51,7 @@ namespace SpeechRecognition.FileStorageDomain
                         ApplyToEntity(fs, e);
 
                         var fsc = new FileStorageConversion(Apply);
-                        ApplyToEntity(fsc, e );
+                        ApplyToEntity(fsc, new Events.CreateFileStorageConversion(fsId,e.fi) );
 
                         FileStorageConversions.Add(fsc);
                         break;
@@ -71,6 +68,8 @@ namespace SpeechRecognition.FileStorageDomain
         }
         protected void EnsureTranslationCanBeAdded(Events.TranslationAdded e)
         {
+            AudioTranslations = AudioTranslations ?? new();
+
             if (!FileStorages.Any(x => x.Id == e.fileStorageid))
                 throw new ArgumentOutOfRangeException($"fileStorage not found id:{nameof(e.fileStorageid)}");
 
@@ -91,7 +90,7 @@ namespace SpeechRecognition.FileStorageDomain
 
             if (!FileStorages.Any(x => FileStorageConversions.Any(y => x.Id == y.FileStorageId))
                 && FileStorages.Count() > 0 )
-                return FileStorages.First(x => FileStorageConversions.Any(y => x.Id == y.FileStorageId)).Id;
+                return FileStorages.First(x => !FileStorageConversions.Any(y => x.Id == y.FileStorageId)).Id;
             else 
                 throw new InvalidOperationException("Domain aggregate does not contain a valid file to relate to aggregate");
         }

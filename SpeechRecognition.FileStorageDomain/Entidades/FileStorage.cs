@@ -24,7 +24,7 @@ public class FileStorage : Entity<FileStorageId>
                 OriginalFileName = e.originalFileName;
                 Id = new FileStorageId(e.fsId);
                 break;
-            case Events.FileStorageConversionAdded e:
+            case Events.CreateFileStorageConversion e:
                 FileInfo = e.fi;
                 Id = e.fsId;
                 break;

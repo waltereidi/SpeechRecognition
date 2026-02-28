@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SpeechRecognition.Application\SpeechRecognition.Application.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.Application\SpeechRecognition.Application.csproj" />
     <ProjectReference Include="..\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj" />
     <ProjectReference Include="..\SpeechRecognition.CrossCutting.Shared.Events\SpeechRecognition.CrossCutting.Shared.Events.csproj" />
     <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />

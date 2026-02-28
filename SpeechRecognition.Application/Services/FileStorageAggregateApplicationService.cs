@@ -5,6 +5,7 @@ using SpeechRecognition.CrossCutting.Framework.Interfaces;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.FileStorageDomain;
+using SpeechRecognition.FileStorageDomain.Entidades;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
 using static SpeechRecognition.FileStorageDomain.DomainEvents.Events;
 
@@ -59,13 +60,14 @@ namespace SpeechRecognition.Application.Services
             var service = new SaveRawFile(cmd.convertedAudioDir , cmd.fs, cmd.fileName );
             var fi = await service.SaveFile();
 
-            fileStorageAgg.AddFileStorageConversionLocal(fi, cmd.fileName);
+            var createId = new FileStorageId(Guid.NewGuid());
+            fileStorageAgg.AddFileStorageConversionLocal(fi , createId);
             await HandleFileUpdate(fileStorageAgg);
 
             var re = new AudioTranslationLocalEvent()
             {
                 FilePath = fi.FullName,
-                FileStorageConversionId = fileStorageAgg.FileStorageConversions.Last().Id.ToString(),
+                FileStorageId = createId.ToString() ,
                 FileStorageAggregateId = fileStorageAgg.Id.ToString()
             };
 
@@ -78,8 +80,9 @@ namespace SpeechRecognition.Application.Services
 
             var service = new SaveRawFile( cmd.rawAudioDir , cmd.fs , cmd.originalFileName);
             var fi = await service.SaveFile();
-            
-            fileStorageAgg.AddFileStorageLocal(fi, cmd.originalFileName);
+
+            FileStorageId createId = new(cmd.id);  
+            fileStorageAgg.AddFileStorageLocal(createId,fi, cmd.originalFileName);
             
             await HandleFileUpdate( fileStorageAgg );
 
@@ -87,7 +90,7 @@ namespace SpeechRecognition.Application.Services
             {
                 DirectoryPath = cmd.convertedAudioDir.FullName,
                 FilePath = fi.FullName,
-                FileStorageId = cmd.id.ToString()
+                FileStorageId = createId.ToString()
             };
             await _eventBus.PublishAsync(re);
         }
