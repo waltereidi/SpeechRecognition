@@ -15,4 +15,5 @@ namespace SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi
         public int? ModelId { get; set; }
         public int? TemplateId { get; set; }
     }
+
 }

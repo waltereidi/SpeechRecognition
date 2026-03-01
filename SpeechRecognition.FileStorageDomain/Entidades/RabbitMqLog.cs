@@ -1,4 +1,5 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
+using SpeechRecognition.FileStorageDomain.DomainEvents;
 using SpeechRecognition.FileStorageDomain.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.Formats.Tar;
@@ -18,7 +19,13 @@ public class RabbitMqLog : Entity<RabbitMqLogId>
     public LogSeverity Severity { get; set; }
     protected override void When(object @event)
     {
-        throw new NotImplementedException();
+        switch (@event)
+        {
+            case Events.ErrorLog e:
+                Description = $"{e.source}{e.errorMessage}";
+                Severity = (LogSeverity)e.severity;
+                break;
+        }
     }
 }
 

@@ -20,5 +20,6 @@ namespace SpeechRecognition.CrossCutting.Shared.Events.Generic
         /// 5 - Informational
         /// </summary>
         public int Severity { get; init; }
+        public string AggregateId { get; init; }
     }
 }

@@ -3,8 +3,10 @@ using SpeechRecognition.Application.Services.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
+using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.FileStorageDomain;
+using SpeechRecognition.FileStorageDomain.DomainEvents;
 using SpeechRecognition.FileStorageDomain.Entidades;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
 using static SpeechRecognition.FileStorageDomain.DomainEvents.Events;
@@ -33,7 +35,17 @@ namespace SpeechRecognition.Application.Services
             V1.UpdateFileStorage cmd => HandleSaveFile(cmd),
             V1.UpdateConvertedFile cmd => HandleSaveFileConversion(cmd),
             V1.SaveAudioTranslationLocal cmd => HandleAudioTranslation(cmd),
+            V1.ErrorLog cmd => HandleErrorLog(cmd),
         };
+
+        private async Task HandleErrorLog(V1.ErrorLog cmd)
+        {
+            var fileStorageAgg = await LoadAggregate(cmd.aggegateId);
+            fileStorageAgg.AddErrorLog(
+                new Events.ErrorLog(cmd.source, cmd.errorMessage, cmd.severity, cmd.aggegateId)
+                );
+            await HandleFileUpdate(fileStorageAgg);
+        }
 
         private async Task HandleAudioTranslation(V1.SaveAudioTranslationLocal cmd)
         {
@@ -99,7 +111,7 @@ namespace SpeechRecognition.Application.Services
 
         private async Task HandleFileUpdate(FileStorageAggregate fsa)
         {
-            await _repository.AddAsync( fsa );
+            await _repository.Update( fsa );
             await _unitOfWork.CommitAsync();
         }
          

@@ -30,6 +30,7 @@ namespace SpeechRecognition.Application.Contracts
                 );
 
             public record Create(FileStorageAggregateId id);
+            public record ErrorLog(string source, string errorMessage, int severity, string aggegateId);
 
         }
     }

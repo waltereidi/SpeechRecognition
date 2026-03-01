@@ -12,5 +12,6 @@ namespace SpeechRecognition.FileStorageDomain.DomainEvents
         public record FileStorageAggregateCreated(FileStorageAggregateId aggId );
         public record FileStorageAdded(Guid fsId , FileInfo fi , string originalFileName);
         public record TranslationAdded(FileStorageId fileStorageid , string translation , int? templateId , int? modelId , bool isSuccess );
+        public record ErrorLog(string source,  string errorMessage , int severity , string aggegateId);
     }
 }

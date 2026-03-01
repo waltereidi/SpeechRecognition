@@ -28,6 +28,9 @@ namespace SpeechRecognition.FileStorageDomain
             => Apply(new Events.FileStorageConversionAdded( fi , createId ));
         public void AddTranslation(Events.TranslationAdded e)
             => Apply(e);
+        public void AddErrorLog(Events.ErrorLog errorLog)
+            => Apply(errorLog);
+
         protected override void When(object @event)
         {
             switch (@event)
@@ -62,6 +65,14 @@ namespace SpeechRecognition.FileStorageDomain
                         var at = new AudioTranslation(Apply);
                         ApplyToEntity(at, e);
                         AudioTranslations.Add(at);
+                        break;
+                    }
+                case Events.ErrorLog e:
+                    {
+                        var log = new RabbitMqLog(Apply);
+                        ApplyToEntity(log, e);
+                        Logs = Logs ?? new();
+                        Logs.Add(log);
                         break;
                     }
             }

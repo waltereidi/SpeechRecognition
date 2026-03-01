@@ -2,24 +2,40 @@ version: "3.9"
 
 services:
   audioconverter:
-    image: ${DOCKER_REGISTRY-}audioconverter
+    image: ${DOCKER_REGISTRY-}audioconverter-api
     build:
       context: .
       dockerfile: SpeechRecognition.AudioConverter.Api/Dockerfile
+    volumes:
+      - filestorage_data:/var/lib/SpeechRecognition/FileStorage
     ports:
     - "8085:8080"
     networks:
       - backend
 
-  audioconverter-api:
-    image: ${DOCKER_REGISTRY-}audioconverter-api
+  audiorecorder-api:
+    image: ${DOCKER_REGISTRY-}audiorecorder-api
     build:
       context: .
       dockerfile: SpeechRecognition.AudioRecorder.Api/Dockerfile
+    volumes:
+      - filestorage_data:/var/lib/SpeechRecognition/FileStorage
     ports:
-      - "8080:8080"
+      - "8084:8080"
     networks:
       - backend
+
+  whisperai-api:
+      image: ${DOCKER_REGISTRY-}whisperai-api
+      build:
+        context: .
+        dockerfile: SpeechRecognition.WhisperAI/Dockerfile
+      volumes:
+        - filestorage_data:/var/lib/SpeechRecognition/FileStorage
+      ports:
+        - "8086:8080"
+      networks:
+        - backend
 
   postgres:
     build: 
@@ -65,6 +81,7 @@ services:
       - backend
 
 volumes:
+  filestorage_data:
   postgres_data:
   rabbitmq_data:
 

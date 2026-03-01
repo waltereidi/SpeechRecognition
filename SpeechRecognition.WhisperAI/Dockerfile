@@ -5,10 +5,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
 
-ENV ASPNETCORE_ENVIRONMENT=Development
-
-
-USER root
 
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
@@ -22,28 +18,25 @@ RUN mkdir -p /var/lib/SpeechRecognition/RawAudio \
 RUN chown -R $APP_UID:$APP_UID /var/lib/SpeechRecognition \
     && chmod -R 775 /var/lib/SpeechRecognition
 
-# Volta para o usuário da aplicação
-USER $APP_UID
-
+# Esta fase é usada para compilar o projeto de serviço
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["AudioRecorder.Api/AudioRecorder.Api.csproj", "AudioRecorder.Api/"]
-COPY ["BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "BuildingBlocks.Messaging/"]
-COPY ["Shared.Events/Shared.Events.csproj", "Shared.Events/"]
-COPY ["SpeechRecognition.Infra/SpeechRecognition.Infra.csproj", "SpeechRecognition.Infra/"]
-COPY ["SpeechRecognition.Dominio/SpeechRecognition.Dominio.csproj", "SpeechRecognition.Dominio/"]
-RUN dotnet restore "./AudioRecorder.Api/AudioRecorder.Api.csproj"
+COPY ["SpeechRecognition.WhisperAI/SpeechRecognition.WhisperAI.csproj", "SpeechRecognition.WhisperAI/"]
+COPY ["SpeechRecognition.CrossCutting.BuildingBlocks.Messaging/SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj", "SpeechRecognition.CrossCutting.BuildingBlocks.Messaging/"]
+COPY ["SpeechRecognition.CrossCutting.Shared.Events/SpeechRecognition.CrossCutting.Shared.Events.csproj", "SpeechRecognition.CrossCutting.Shared.Events/"]
+RUN dotnet restore "./SpeechRecognition.WhisperAI/SpeechRecognition.WhisperAI.csproj"
 COPY . .
-WORKDIR "/src/AudioRecorder.Api"
-RUN dotnet build "./AudioRecorder.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/SpeechRecognition.WhisperAI"
+RUN dotnet build "./SpeechRecognition.WhisperAI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AudioRecorder.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./SpeechRecognition.WhisperAI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-ENTRYPOINT ["dotnet", "AudioRecorder.Api.dll"]
+ENTRYPOINT ["dotnet", "SpeechRecognition.WhisperAI.dll"]

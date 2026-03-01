@@ -8,7 +8,7 @@ namespace SpeechRecognition.AudioConverter.Api.Services.Linux
         private readonly FileInfo _input;
         private readonly DirectoryInfo _output;
         public readonly FileInfo _outputFile;
-        public string GetOutputFullName => _outputFile.FullName;
+        public string GetOutputFullName => _outputFile?.FullName ?? $"{Guid.NewGuid()}.wav";
         public ConvertToWavMono16kLinux(FileInfo input , FileInfo outputFileInfo )
         {
             _input = input;
