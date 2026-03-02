@@ -44,4 +44,9 @@ public class FileStorageConversionId : Value<FileStorageConversionId>
     }
 
     public static implicit operator Guid(FileStorageConversionId self) => self.Value;
+
+    public static implicit operator FileStorageConversionId(string value)
+        => new FileStorageConversionId(Guid.Parse(value));
+
+    public override string ToString() => Value.ToString();
 }

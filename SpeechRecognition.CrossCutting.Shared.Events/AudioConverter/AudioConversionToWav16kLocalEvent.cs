@@ -12,5 +12,6 @@ namespace SpeechRecognition.CrossCutting.Shared.Events.AudioConverter
         public string DirectoryPath { get; init; }
         public string FilePath { get; init; }
         public string FileStorageId { get; init; }
+        public string FileStorageAggregateId { get; init; }
     }
 }

@@ -34,7 +34,7 @@ namespace SpeechRecognition.AudioConverter.Api.Handlers
                     FileName = adapter.GetResultFileName(),
                     FileStorageId = @event.FileStorageId,
                     FileStorageAggregateId  = @event.FileStorageId
-                }, cancellationToken);
+                });
 
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace SpeechRecognition.AudioConverter.Api.Handlers
                     Severity = 5,
                     ErrorMessage = ex.Message,
                     Source = nameof(AudioConversionToWav16kLocalHandler)
-                }, cancellationToken);
+                });
                 //_logger.LogError(ex, "Error handling AudioConversionToWav16kLocalEvent");
             }
         }

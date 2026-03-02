@@ -43,4 +43,10 @@ public class RabbitMqLogId : Value<RabbitMqLogId>
     }
 
     public static implicit operator Guid(RabbitMqLogId self) => self.Value;
+
+    public static implicit operator RabbitMqLogId(string value)
+        => new RabbitMqLogId(Guid.Parse(value));
+
+    public override string ToString() => Value.ToString();
+
 }

@@ -95,7 +95,7 @@ namespace SpeechRecognition.Application.Services
             var service = new SaveRawFile( cmd.rawAudioDir , cmd.fs , cmd.originalFileName);
             var fi = await service.SaveFile();
 
-            FileStorageId createId = new(cmd.id);  
+            FileStorageId createId = new(Guid.NewGuid());  
             fileStorageAgg.AddFileStorageLocal(createId,fi, cmd.originalFileName);
             
             await HandleFileUpdate( fileStorageAgg );
@@ -104,8 +104,10 @@ namespace SpeechRecognition.Application.Services
             {
                 DirectoryPath = cmd.convertedAudioDir.FullName,
                 FilePath = fi.FullName,
-                FileStorageId = createId.ToString()
+                FileStorageId = createId.ToString(),
+                FileStorageAggregateId = fileStorageAgg.Id.ToString()
             };
+
             await _eventBus.PublishAsync(re);
         }
 

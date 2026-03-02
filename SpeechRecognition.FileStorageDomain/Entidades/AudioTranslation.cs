@@ -61,5 +61,11 @@ public class AudioTranslationId : Value<AudioTranslationId>
         Value = value;
     }
 
+
     public static implicit operator Guid(AudioTranslationId self) => self.Value;
+
+    public static implicit operator AudioTranslationId(string value)
+        => new AudioTranslationId(Guid.Parse(value));
+
+    public override string ToString() => Value.ToString();
 }

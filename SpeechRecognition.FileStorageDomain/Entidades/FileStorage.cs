@@ -45,4 +45,9 @@ public class FileStorageId : Value<FileStorageId>
     }
 
     public static implicit operator Guid(FileStorageId self) => self.Value;
+
+    public static implicit operator FileStorageId(string value)
+        => new FileStorageId(Guid.Parse(value));
+
+    public override string ToString() => Value.ToString();
 }

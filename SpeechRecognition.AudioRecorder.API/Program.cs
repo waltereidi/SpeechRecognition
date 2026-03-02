@@ -1,11 +1,19 @@
 using AudioRecord.Api.DTO;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.Application.Services;
 using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
+using SpeechRecognition.AudioRecorder.Api.Handler;
+using SpeechRecognition.AudioRecorder.Api.Interfaces;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
+using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
+using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.MassTransit;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
+using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
+using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
+using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.Infra.Context;
 using SpeechRecognition.Infra.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;
@@ -32,21 +40,40 @@ var configuration = new ConfigurationBuilder()
 
 builder.Configuration.AddConfiguration(configuration);
 
+// Registra o handler de eventos
+builder.Services.AddIntegrationEventHandler<SaveAudioConversionSuccessEvent, SaveAudioConversionSuccessHandler>();
+builder.Services.AddIntegrationEventHandler<SaveAudioTranslationSuccessEvent, SaveAudioTranslationSuccessHandler>();
+builder.Services.AddIntegrationEventHandler<ErrorLogEvent , RabbitMqLogHandler>();
 
-// Configuração do MassTransit com RabbitMQ
-builder.Services.AddMessaging(cfg =>
+builder.Services.AddMassTransit(x =>
 {
-    var rabbitMqConfig = ConfigurationDTO.GetRabbitMqConfig(configuration);
-    cfg.Host = rabbitMqConfig.HostName;
+    x.AddConsumer<GenericConsumer<SaveAudioConversionSuccessEvent>>();
+    x.AddConsumer<GenericConsumer<SaveAudioTranslationSuccessEvent>>();
+    x.AddConsumer<GenericConsumer<ErrorLogEvent>>();
 
-    cfg.Username = rabbitMqConfig.UserName;
 
-    cfg.Password = rabbitMqConfig.Password;
-
-    cfg.Port = rabbitMqConfig.Port;
-
-    cfg.EnableLogging = true;
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        var rabbitMqConfig = ConfigurationDTO.GetRabbitMqConfig(configuration);
+        cfg.Host(rabbitMqConfig.HostName, rabbitMqConfig.Port, "/", hostCfg =>
+        {
+            hostCfg.Username(rabbitMqConfig.UserName);
+            hostCfg.Password(rabbitMqConfig.Password);
+        });
+        // Fila única para consumo
+        cfg.ReceiveEndpoint("audio-recorder-queue", endpointCfg =>
+        {
+            endpointCfg.ConfigureConsumer<GenericConsumer<SaveAudioConversionSuccessEvent>>(context);
+            endpointCfg.ConfigureConsumer<GenericConsumer<SaveAudioTranslationSuccessEvent>>(context);
+            endpointCfg.ConfigureConsumer<GenericConsumer<ErrorLogEvent>>(context);
+        });
+    });
 });
+
+// Registra o adaptador que expõe IEventBus usando a infra do MassTransit
+builder.Services.AddScoped<IEventBus, MassTransitEventBus>();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>

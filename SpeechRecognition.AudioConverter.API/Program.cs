@@ -4,7 +4,6 @@ using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.MassTransit;
 using MassTransit;
-using Microsoft.Extensions.Configuration;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +27,7 @@ builder.Services.AddMassTransit(x =>
             hostCfg.Password(configuration.RabbitMqConfig.Password);
         });
         // Fila única para consumo
-        cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
+        cfg.ReceiveEndpoint("audio-converter-queue", endpointCfg =>
         {
             endpointCfg.ConfigureConsumer<GenericConsumer<AudioConversionToWav16kLocalEvent>>(context);
         });
