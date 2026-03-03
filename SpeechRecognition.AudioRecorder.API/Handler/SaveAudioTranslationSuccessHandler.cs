@@ -43,7 +43,8 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
                 {
                     Severity = 1,
                     ErrorMessage = ex.Message,
-                    Source = nameof(SaveAudioTranslationSuccessHandler)
+                    Source = nameof(SaveAudioTranslationSuccessHandler),
+                    AggregateId = @event.FileStorageAggregateId
                 });
 
             }

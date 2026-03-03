@@ -29,7 +29,7 @@ namespace SpeechRecognition.FileStorageDomain
         public void AddTranslation(Events.TranslationAdded e)
             => Apply(e);
         public void AddErrorLog(Events.ErrorLog errorLog)
-            => Apply(errorLog);
+            =>  Apply(errorLog);
 
         protected override void When(object @event)
         {

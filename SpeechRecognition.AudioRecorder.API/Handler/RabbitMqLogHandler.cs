@@ -21,7 +21,7 @@ namespace SpeechRecognition.AudioRecorder.Api.Interfaces
         public async Task HandleAsync(ErrorLogEvent @event, CancellationToken cancellationToken = default)
         {
             V1.ErrorLog logEvent = new V1.ErrorLog(@event.Source,@event.ErrorMessage,@event.Severity, @event.AggregateId);
-            await _service.Handle(@event);
+            await _service.Handle(logEvent);
 
         }
     }

@@ -33,7 +33,7 @@ namespace SpeechRecognition.AudioConverter.Api.Handlers
                     FileFullPath = adapter.GetResultFileInfo().FullName,
                     FileName = adapter.GetResultFileName(),
                     FileStorageId = @event.FileStorageId,
-                    FileStorageAggregateId  = @event.FileStorageId
+                    FileStorageAggregateId  = @event.FileStorageAggregateId
                 });
 
             }
@@ -41,6 +41,7 @@ namespace SpeechRecognition.AudioConverter.Api.Handlers
             {
                 await _eventBus.PublishAsync(new ErrorLogEvent
                 {
+                    AggregateId = @event.FileStorageAggregateId,
                     Severity = 5,
                     ErrorMessage = ex.Message,
                     Source = nameof(AudioConversionToWav16kLocalHandler)

@@ -8,12 +8,13 @@ namespace SpeechRecognition.AudioConverter.Api.Services.Linux
         private readonly FileInfo _input;
         private readonly DirectoryInfo _output;
         public readonly FileInfo _outputFile;
-        public string GetOutputFullName => _outputFile?.FullName ?? $"{Guid.NewGuid()}.wav";
+        public string GetOutputFullName;
         public ConvertToWavMono16kLinux(FileInfo input , FileInfo outputFileInfo )
         {
             _input = input;
             _output = outputFileInfo.Directory ?? throw new Exception();
             _executor = new FfmpegExecutor();
+            GetOutputFullName = outputFileInfo.FullName;
         }
         private void EnsureParametersAreValid()
         { 
@@ -37,7 +38,7 @@ namespace SpeechRecognition.AudioConverter.Api.Services.Linux
             .AudioSampleRate(16000)
             .Output(GetOutputFullName);
 
-            var result = await _executor.RunAsync(cmd.ToString(), cancellationToken);
+            var result = await _executor.RunAsync(cmd.ToString());
 
             if (!result.Success)
                 throw new InvalidOperationException(result.Error);

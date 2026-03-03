@@ -24,6 +24,7 @@ public class RabbitMqLog : Entity<RabbitMqLogId>
             case Events.ErrorLog e:
                 Description = $"{e.source}{e.errorMessage}";
                 Severity = (LogSeverity)e.severity;
+                Id = new RabbitMqLogId(Guid.NewGuid());
                 break;
         }
     }

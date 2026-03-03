@@ -31,7 +31,7 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
                     @event.FileName
                 );
 
-                await _service.Handle(@event);
+                await _service.Handle(e);
             }catch(Exception ex)
             {
                 _logger.LogError(ex, $"Error processing SaveAudioConversionSuccessHandler for {@event.FileStorageAggregateId}");
@@ -39,6 +39,7 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
                 {
                     Severity = 1,
                     ErrorMessage = ex.Message,
+                    AggregateId = @event.FileStorageAggregateId,
                     Source = nameof(SaveAudioConversionSuccessHandler)
                 });
             }

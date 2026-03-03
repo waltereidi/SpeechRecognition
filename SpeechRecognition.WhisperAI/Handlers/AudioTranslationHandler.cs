@@ -44,7 +44,8 @@ namespace SpeechRecognition.WhisperAI.Handlers
                 {
                     ErrorMessage = ex.Message,
                     Severity = 5,
-                    Source = nameof(AudioTranslationHandler)
+                    Source = nameof(AudioTranslationHandler),
+                    AggregateId = @event.FileStorageAggregateId
                 });
             }
         }
