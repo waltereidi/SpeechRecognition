@@ -1,12 +1,13 @@
-﻿using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
-using MassTransit.RabbitMqTransport;
+﻿using MassTransit.RabbitMqTransport;
+using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
+using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.WhisperAI.DTO;
 using SpeechRecognition.WhisperAI.Enum;
 using SpeechRecognition.WhisperAI.Interfaces;
 using SpeechRecognition.WhisperAI.Service;
-using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
+using Whisper.net;
 
 namespace SpeechRecognition.WhisperAI.Handlers
 {
@@ -14,14 +15,18 @@ namespace SpeechRecognition.WhisperAI.Handlers
     {
         private readonly ILogger<AudioTranslationHandler> _logger;
         private readonly IEventBus _eventBus;
-        public AudioTranslationHandler( ILogger<AudioTranslationHandler> logger , IEventBus eventBus)
+        private readonly WhisperFactory _factory;
+
+        public AudioTranslationHandler( ILogger<AudioTranslationHandler> logger , IEventBus eventBus, WhisperFactory factory)
         {
             _logger = logger;
             _eventBus = eventBus;
+            _factory = factory;
         }
         public async Task HandleAsync( AudioTranslationLocalEvent @event, CancellationToken cancellationToken = default)
         {
-            ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory();
+            
+            ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory(_factory);
             try
             {
                 var fi = new FileInfo(@event.FilePath);

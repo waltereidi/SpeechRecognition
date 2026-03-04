@@ -5,6 +5,7 @@ using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.MassTransit;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.WhisperAI.DTO;
 using SpeechRecognition.WhisperAI.Handlers;
+using Whisper.net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +29,19 @@ builder.Services.AddMassTransit(busConfigurator =>
             hostCfg.Password(configuration.RabbitMqConfig.Password);
         });
         // Configura o endpoint para receber os eventos de pedido
-        cfg.ReceiveEndpoint("audio-translation-queue", endpointCfg =>
+        cfg.ReceiveEndpoint("audio-translation-queue", e =>
         {
-            endpointCfg.ConfigureConsumer<GenericConsumer<AudioTranslationLocalEvent>>(context);
+            e.ConcurrentMessageLimit = 1; // 🔥 ESSENCIAL
+            e.ConfigureConsumer<GenericConsumer<AudioTranslationLocalEvent>>(context);
         });
     });
 });
+builder.Services.AddSingleton(sp =>
+{
+    return WhisperFactory.FromPath(Path.Combine(AppContext.BaseDirectory, "Models", "ggml-medium.bin"));
+});
+
+
 // Registra o adaptador que expõe IEventBus usando a infra do MassTransit
 builder.Services.AddScoped<IEventBus, MassTransitEventBus>();
 

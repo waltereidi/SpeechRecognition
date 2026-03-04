@@ -2,18 +2,24 @@
 using SpeechRecognition.WhisperAI.Contracts;
 using SpeechRecognition.WhisperAI.DTO;
 using SpeechRecognition.WhisperAI.Interfaces;
+using Whisper.net;
 
 namespace SpeechRecognition.WhisperAI
 {
     public class TranslateAudio 
     {
-        public async Task<byte[]> TranslateAudioLocal(TranslationContract.Request.GeneralTranslation dto)
+        public WhisperFactory _factory;
+        public TranslateAudio(WhisperFactory factory)
+        {
+            _factory = factory;
+        }
+        public async Task<byte[]> TranslateAudioLocal(TranslationContract.Request.GeneralTranslation dto , WhisperFactory factory)
         {
             try
             {
-                ISpeechRecognitionAbstractFactory factory = new Service.SpeechRecognitionAbstractFactory();
+                ISpeechRecognitionAbstractFactory factor = new Service.SpeechRecognitionAbstractFactory( _factory );
                 var factoryDTO = new SpeechRecognitionFactoryDTO(dto);
-                ITranslateAudioFacade facade = await factory.Create(factoryDTO);
+                ITranslateAudioFacade facade = await factor.Create(factoryDTO);
                 var result = await facade.TranslateAudio();
                 return result.GetJsonBytea();
             }

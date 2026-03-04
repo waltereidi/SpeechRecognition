@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using SpeechRecognition.WhisperAI.Enum;
 using SpeechRecognition.WhisperAI.Templates;
+using Whisper.net;
 
 namespace SpeechRecognition.WhisperAI.Service
 {
     internal class WhisperMedium : WhisperModel
     {
-        public WhisperMedium(TranslationTemplateModel template  ) : base(template ,WhisperModels.Medium )
+        public WhisperMedium(TranslationTemplateModel template ,WhisperFactory factory ) : base(template ,WhisperModels.Medium, factory)
         {
 
         }
