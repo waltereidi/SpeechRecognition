@@ -8,7 +8,6 @@ using SpeechRecognition.WhisperAI.Handlers;
 using Whisper.net;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<AudioTranslationLocalEvent, AudioTranslationHandler>();
 var configuration = new ConfigurationDTO();

@@ -8,16 +8,12 @@ namespace SpeechRecognition.WhisperAI
 {
     public class TranslateAudio 
     {
-        public WhisperFactory _factory;
-        public TranslateAudio(WhisperFactory factory)
-        {
-            _factory = factory;
-        }
-        public async Task<byte[]> TranslateAudioLocal(TranslationContract.Request.GeneralTranslation dto , WhisperFactory factory)
+
+        public async Task<byte[]> TranslateAudioLocal(TranslationContract.Request.GeneralTranslation dto)
         {
             try
             {
-                ISpeechRecognitionAbstractFactory factor = new Service.SpeechRecognitionAbstractFactory( _factory );
+                ISpeechRecognitionAbstractFactory factor = new Service.SpeechRecognitionAbstractFactory();
                 var factoryDTO = new SpeechRecognitionFactoryDTO(dto);
                 ITranslateAudioFacade facade = await factor.Create(factoryDTO);
                 var result = await facade.TranslateAudio();

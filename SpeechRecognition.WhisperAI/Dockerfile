@@ -1,42 +1,57 @@
-# Acesse https://aka.ms/customizecontainer para saber como personalizar seu contêiner de depuração e como o Visual Studio usa este Dockerfile para criar suas imagens para uma depuração mais rápida.
-
-# Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
+# =========================
+# Base runtime
+# =========================
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
-USER $APP_UID
 WORKDIR /app
+# bibliotecas necessárias para whisper.cpp
+RUN apt-get update && apt-get install -y \
+    libc6 \
+    libgomp1 \
+    libstdc++6 \
+    libgcc-s1 \
+    && rm -rf /var/lib/apt/lists/*
+# evita crash do ggml
+ENV OMP_NUM_THREADS=1
+ENV OMP_WAIT_POLICY=PASSIVE
+# força uso do runtime CPU padrão (evita crash do openvino no dlopen)
+ENV WHISPER_RUNTIME=cpu
 
-
-# Esta fase é usada para compilar o projeto de serviço
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-ARG BUILD_CONFIGURATION=Release
-
-# Cria diretório padrão Linux correto
-RUN mkdir -p /var/lib/SpeechRecognition/RawAudio \
-    && mkdir -p /var/lib/SpeechRecognition/ConvertedAudio
-
-# Dá permissão ao usuário "app" da imagem oficial .NET
-RUN chown -R $APP_UID:$APP_UID /var/lib/SpeechRecognition \
-    && chmod -R 775 /var/lib/SpeechRecognition
-
-# Esta fase é usada para compilar o projeto de serviço
+# =========================
+# Build
+# =========================
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+# copia csproj
 COPY ["SpeechRecognition.WhisperAI/SpeechRecognition.WhisperAI.csproj", "SpeechRecognition.WhisperAI/"]
 COPY ["SpeechRecognition.CrossCutting.BuildingBlocks.Messaging/SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj", "SpeechRecognition.CrossCutting.BuildingBlocks.Messaging/"]
 COPY ["SpeechRecognition.CrossCutting.Shared.Events/SpeechRecognition.CrossCutting.Shared.Events.csproj", "SpeechRecognition.CrossCutting.Shared.Events/"]
 RUN dotnet restore "./SpeechRecognition.WhisperAI/SpeechRecognition.WhisperAI.csproj"
+# copia restante
 COPY . .
 WORKDIR "/src/SpeechRecognition.WhisperAI"
-RUN dotnet build "./SpeechRecognition.WhisperAI.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "SpeechRecognition.WhisperAI.csproj" \
+    -c $BUILD_CONFIGURATION \
+    -o /app/build
 
-# Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
+# =========================
+# Publish
+# =========================
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./SpeechRecognition.WhisperAI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SpeechRecognition.WhisperAI.csproj" \
+    -c $BUILD_CONFIGURATION \
+    -o /app/publish \
+    -r linux-x64 \
+    --self-contained false \
+    /p:UseAppHost=false
 
-# Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
+# =========================
+# Final image
+# =========================
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+# remove o runtime openvino para evitar que o dlopen tente carregá-lo
+RUN rm -rf /app/runtimes/openvino
 ENTRYPOINT ["dotnet", "SpeechRecognition.WhisperAI.dll"]

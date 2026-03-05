@@ -15,18 +15,16 @@ namespace SpeechRecognition.WhisperAI.Handlers
     {
         private readonly ILogger<AudioTranslationHandler> _logger;
         private readonly IEventBus _eventBus;
-        private readonly WhisperFactory _factory;
 
-        public AudioTranslationHandler( ILogger<AudioTranslationHandler> logger , IEventBus eventBus, WhisperFactory factory)
+        public AudioTranslationHandler( ILogger<AudioTranslationHandler> logger , IEventBus eventBus)
         {
             _logger = logger;
             _eventBus = eventBus;
-            _factory = factory;
         }
         public async Task HandleAsync( AudioTranslationLocalEvent @event, CancellationToken cancellationToken = default)
         {
             
-            ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory(_factory);
+            ISpeechRecognitionAbstractFactory factory = new SpeechRecognitionAbstractFactory();
             try
             {
                 var fi = new FileInfo(@event.FilePath);

@@ -11,7 +11,7 @@ namespace SpeechRecognition.WhisperAI.Service
         private readonly WhisperProcessor? _processor;
         private readonly TranslationTemplateModel _template;
         private readonly WhisperModels _model;
-        public WhisperModel(TranslationTemplateModel template , WhisperModels model ,WhisperFactory factory)
+        public WhisperModel(TranslationTemplateModel template , WhisperModels model )
         {
             try
             {
@@ -22,8 +22,9 @@ namespace SpeechRecognition.WhisperAI.Service
 
                 if (!File.Exists(modelPath))
                     throw new FileNotFoundException("Modelo não encontrado.", modelPath);
+                var e = WhisperFactory.GetRuntimeInfo();
 
-                _factory = factory;
+                _factory = WhisperFactory.FromPath(modelPath);
 
                 _processor = _factory.CreateBuilder()
                     .WithLanguage("pt")

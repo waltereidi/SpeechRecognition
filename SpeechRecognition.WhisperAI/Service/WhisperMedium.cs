@@ -9,7 +9,7 @@ namespace SpeechRecognition.WhisperAI.Service
 {
     internal class WhisperMedium : WhisperModel
     {
-        public WhisperMedium(TranslationTemplateModel template ,WhisperFactory factory ) : base(template ,WhisperModels.Medium, factory)
+        public WhisperMedium(TranslationTemplateModel template ) : base(template ,WhisperModels.Medium )
         {
 
         }
