@@ -11,5 +11,6 @@ namespace SpeechRecognition.WhisperAI.Interfaces
         public string GetTranslation();
         public string GetJson();
         public byte[] GetJsonBytea();
+        public int GetTemplate();
     }
 }

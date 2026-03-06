@@ -20,11 +20,13 @@ namespace SpeechRecognition.WhisperAI.Contracts
                 private string _translation;
                 private bool _operationIsSuccessfull;
                 private string _errorMessage;
-                public GeneralTranslation(int model , string translation)
+                private int _template;
+                public GeneralTranslation(int model , string translation, int template)
                 {
                     _model = model;
                     _translation = translation;
                     _operationIsSuccessfull = true;
+                    _template = template;
                 }
                 public GeneralTranslation(string errorMessage)
                 {
@@ -34,16 +36,19 @@ namespace SpeechRecognition.WhisperAI.Contracts
 
                 public string GetJson()
                 {
-                   object result = new
-                   {
-                       model = GetModel(),
-                       translation = GetTranslation(),
-                       operationIsSuccessfull = _operationIsSuccessfull,
-                       errorMessage = _errorMessage,
-                       createdAt = DateTime.UtcNow
+                    object result = new
+                    {
+                        model = GetModel(),
+                        translation = GetTranslation(),
+                        operationIsSuccessfull = _operationIsSuccessfull,
+                        errorMessage = _errorMessage,
+                        createdAt = DateTime.UtcNow,
+                        template = _template,
                    };
                     return System.Text.Json.JsonSerializer.Serialize(result);
                 }
+                public int GetTemplate() 
+                    => _template;
 
                 public byte[] GetJsonBytea()
                 {

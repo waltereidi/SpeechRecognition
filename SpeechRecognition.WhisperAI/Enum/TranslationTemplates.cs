@@ -6,6 +6,7 @@ namespace SpeechRecognition.WhisperAI.Enum
 {
     internal enum TranslationTemplates
     {
-        General = 0 ,
+        None = 0,
+        General = 1 ,
     }
 }
