@@ -18,8 +18,4 @@
     <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Documents\" />
-  </ItemGroup>
-
 </Project>
