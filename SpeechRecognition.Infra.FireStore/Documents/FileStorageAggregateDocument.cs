@@ -1,4 +1,5 @@
 ﻿using Google.Cloud.Firestore;
+using SpeechRecognition.Infra.Firestore.Documents;
 using System;
 using System.Collections.Generic;
 using System.Text;

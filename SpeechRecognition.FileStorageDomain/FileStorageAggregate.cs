@@ -1,21 +1,65 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using SpeechRecognition.FileStorageDomain.Entidades;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace SpeechRecognition.FileStorageDomain
 {
     public class FileStorageAggregate : AggregateRoot<FileStorageAggregateId>
     {
-         
-        public FileStorageAggregate(FileStorageAggregateId id )
-        {
-            Apply( new Events.FileStorageAggregateCreated(id ));
-        }
-        public List<FileStorage> FileStorages { get; private set; }
-        public List<FileStorageConversion> FileStorageConversions { get; private set; }
-        public List<AudioTranslation> AudioTranslations { get; private set; }
-        public List<RabbitMqLog> Logs { get; private set; }
 
+        public FileStorageAggregate(FileStorageAggregateId id)
+        {
+            Apply(new Events.FileStorageAggregateCreated(id));
+        }
+
+        public List<FileStorage> FileStorages
+        {
+            get => _fileStorages;
+            private set => SetFileStorages(value);
+        }
+
+        public List<FileStorageConversion> FileStorageConversions
+        {
+            get => _fileStorageConversions;
+            private set => SetFileStorageConversions(value);
+        }
+
+        public List<AudioTranslation> AudioTranslations
+        {
+            get => _audioTranslations;
+            private set => SetAudioTranslations(value);
+        }
+
+        public List<RabbitMqLog> Logs
+        {
+            get => _logs;
+            private set => SetLogs(value);
+        }
+        private List<FileStorage> _fileStorages;
+        private List<FileStorageConversion> _fileStorageConversions;
+        private List<AudioTranslation> _audioTranslations;
+        private List<RabbitMqLog> _logs;
+
+        public void SetFileStorages(List<FileStorage> value)
+        {
+            _fileStorages = value ?? new();
+        }
+
+        public void SetFileStorageConversions(List<FileStorageConversion> value)
+        {
+            _fileStorageConversions = value ?? new();
+        }
+
+        public void SetAudioTranslations(List<AudioTranslation> value)
+        {
+            _audioTranslations = value ?? new();
+        }
+
+        public void SetLogs(List<RabbitMqLog> value)
+        {
+            _logs = value ?? new();
+        }
         protected override void EnsureValidState()
         {
             
