@@ -43,6 +43,7 @@ namespace SpeechRecognition.Infra.FireStore.DomainMapper
                     .ToList();
             }
 
+
             return aggregate;
         }
     }

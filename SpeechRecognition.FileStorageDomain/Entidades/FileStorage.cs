@@ -12,7 +12,7 @@ public class FileStorage : Entity<FileStorageId>
 
     }
 
-    protected FileStorage() { }
+    public FileStorage() { }
     public FileInfo FileInfo { get; set; }
     public string? OriginalFileName { get; set; }
     protected override void When(object @event)
@@ -24,6 +24,7 @@ public class FileStorage : Entity<FileStorageId>
                 OriginalFileName = e.originalFileName;
                 Id = new FileStorageId(e.fsId);
                 break;
+
             case Events.CreateFileStorageConversion e:
                 FileInfo = e.fi;
                 Id = e.fsId;
