@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 namespace SpeechRecognition.FileStorageDomain.DomainEvents
 {

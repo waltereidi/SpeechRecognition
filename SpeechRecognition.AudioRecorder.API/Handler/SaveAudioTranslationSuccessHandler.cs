@@ -2,8 +2,6 @@
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
-using SpeechRecognition.FileStorageDomain;
-using System.Security.Cryptography;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
 
 namespace SpeechRecognition.AudioRecorder.Api.Handler

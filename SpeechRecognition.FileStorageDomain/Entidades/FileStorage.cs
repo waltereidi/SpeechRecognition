@@ -2,36 +2,44 @@
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
+
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 
-public class FileStorage : Entity<FileStorageId>
-{
-    public FileStorage(Action<object> applier) : base(applier)
+    public class FileStorage : Entity<FileStorageId>
     {
-
-    }
-
-    public FileStorage() { }
-    public FileInfo FileInfo { get; set; }
-    public string? OriginalFileName { get; set; }
-    protected override void When(object @event)
-    {
-        switch (@event)
+        public FileStorage(Action<object> applier) : base(applier)
         {
-            case Events.FileStorageAdded e:
-                FileInfo = e.fi ; 
-                OriginalFileName = e.originalFileName;
-                Id = new FileStorageId(e.fsId);
-                break;
 
-            case Events.CreateFileStorageConversion e:
-                FileInfo = e.fi;
-                Id = e.fsId;
-                break;
         }
+
+        public FileStorage() { }
+        public FileInfo FileInfo { get; set; }
+        public string? OriginalFileName { get; set; }
+        protected override void When(object @event)
+        {
+            switch (@event)
+            {
+                case Events.FileStorageAdded e:
+                    FileInfo = e.fi;
+                    OriginalFileName = e.originalFileName;
+                    Id = new FileStorageId(e.fsId);
+                    break;
+
+                case Events.CreateFileStorageConversion e:
+                    FileInfo = e.fi;
+                    Id = e.fsId;
+                    break;
+            }
+        }
+        public override void SetId(string id)
+        {
+            this.Id = new FileStorageId(Guid.Parse(id));
+        }
+
+
     }
-}
 public class FileStorageId : Value<FileStorageId>
 {
     protected FileStorageId() { }
@@ -52,3 +60,4 @@ public class FileStorageId : Value<FileStorageId>
 
     public override string ToString() => Value.ToString();
 }
+

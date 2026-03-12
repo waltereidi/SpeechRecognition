@@ -22,7 +22,7 @@ namespace SpeechRecognition.CrossCutting.Framework
             When(@event);
             _applier(@event);
         }
-
+        public abstract void SetId(string id);
         void IInternalEventHandler.Handle(object @event) => When(@event);
     }
 }

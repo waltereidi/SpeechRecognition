@@ -3,6 +3,7 @@
 using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using System.ComponentModel.DataAnnotations;
+using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 public class FileStorageConversion : Entity<FileStorageConversionId>
@@ -14,6 +15,7 @@ public class FileStorageConversion : Entity<FileStorageConversionId>
     {
 
     }
+
     public FileStorageConversion(Action<object> applier) : base(applier)
     {
     }
@@ -27,6 +29,11 @@ public class FileStorageConversion : Entity<FileStorageConversionId>
                 FileStorageId = e.fsId;
                 break;
         }
+    }
+
+    public override void SetId(string id)
+    {
+        Id = new FileStorageConversionId(Guid.Parse(id));
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using SpeechRecognition.FileStorageDomain.Entidades;
+using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace SpeechRecognition.FileStorageDomain

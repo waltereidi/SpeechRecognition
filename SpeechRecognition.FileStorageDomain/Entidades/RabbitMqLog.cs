@@ -8,7 +8,7 @@ namespace SpeechRecognition.FileStorageDomain.Entidades;
 
 public class RabbitMqLog : Entity<RabbitMqLogId>
 {
-    protected RabbitMqLog()
+    public RabbitMqLog()
     {
     }   
     public RabbitMqLog(Action<object> applier) : base(applier)
@@ -27,6 +27,11 @@ public class RabbitMqLog : Entity<RabbitMqLogId>
                 Id = new RabbitMqLogId(Guid.NewGuid());
                 break;
         }
+    }
+
+    public override void SetId(string id)
+    {
+        Id = new RabbitMqLogId(Guid.Parse(id));
     }
 }
 

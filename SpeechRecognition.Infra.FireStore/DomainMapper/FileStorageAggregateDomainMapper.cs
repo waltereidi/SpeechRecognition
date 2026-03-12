@@ -1,4 +1,5 @@
 ﻿using SpeechRecognition.FileStorageDomain;
+using SpeechRecognition.FileStorageDomain.Entidades;
 using SpeechRecognition.Infra.FireStore.Documents;
 using System;
 using System.Collections.Generic;
@@ -17,31 +18,38 @@ namespace SpeechRecognition.Infra.FireStore.DomainMapper
 
             if (doc.FileStorages != null)
             {
-                aggregate.SetFileStorages(doc.FileStorages) 
-                    .Select(x => FileStorageDomainMapper.ToDomain(x, applier))
+                var entities = doc.FileStorages
+                    .Select(s=> s.ToDomain() )
                     .ToList();
+
+                aggregate.SetFileStorages(entities);
             }
 
             if (doc.FileStorageConversions != null)
             {
-                aggregate.FileStorageConversions = doc.FileStorageConversions
-                    .Select(x => FileStorageConversionDomainMapper.ToDomain(x, applier))
+                var entities = doc.FileStorageConversions
+                    .Select(s => s.ToDomain())
                     .ToList();
+
+                //aggregate.FileStorageConversions = doc.FileStorageConversions.
             }
 
             if (doc.AudioTranslations != null)
             {
-                aggregate.AudioTranslations = doc.AudioTranslations
-                    .Select(x => AudioTranslationDomainMapper.ToDomain(x, applier))
+                
+                var tranlations = doc.AudioTranslations
+                    .Select( s=> s.ToDomain())
                     .ToList();
+
+                aggregate.SetAudioTranslations(tranlations);
             }
 
-            if (doc.Logs != null)
-            {
-                aggregate.Logs = doc.Logs
-                    .Select(x => RabbitMqLogDomainMapper.ToDomain(x, applier))
-                    .ToList();
-            }
+            //if (doc.Logs != null)
+            //{
+            //    aggregate.Logs = doc.Logs
+            //        .Select(x => RabbitMqLogDomainMapper.ToDomain(x, applier))
+            //        .ToList();
+            //}
 
 
             return aggregate;

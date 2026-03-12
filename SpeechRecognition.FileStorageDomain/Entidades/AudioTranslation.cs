@@ -4,33 +4,37 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 
 public class AudioTranslation : Entity<AudioTranslationId>
 {
-    protected AudioTranslation() 
+    public AudioTranslation() 
     {
 
     }
     public AudioTranslation(Action<object> applier) : base(applier)
     {
     }
-
-    public string Translation { get; private set; }
+    public override void SetId(string id)
+    {
+        this.Id = new AudioTranslationId( Guid.Parse(id) );
+    }
+    public string Translation { get;  set; }
     [Required]
-    public FileStorageId FileStorageId { get; private set; }
+    public FileStorageId FileStorageId { get;  set; }
 
     /// <summary>
     /// Preenchido por whisper, para indicar um erro no resultado
     /// </summary>
-    public bool IsSuccess { get; private set; }
+    public bool IsSuccess { get;  set; }
     /// <summary>
     /// Preenchido pelo usuário, para indicar se a tradução foi aprovada
     /// </summary>
-    public bool? IsApproved { get; private set; }
-    public int? TranslationTemplate { get; private set; }
-    public int? WhisperModel { get; private set; }
+    public bool? IsApproved { get;  set; }
+    public int? TranslationTemplate { get;  set; }
+    public int? WhisperModel { get;  set; }
     protected override void When(object @event)
     {
         switch (@event)
@@ -46,6 +50,7 @@ public class AudioTranslation : Entity<AudioTranslationId>
             
         }
     }
+
 }
 
 public class AudioTranslationId : Value<AudioTranslationId>

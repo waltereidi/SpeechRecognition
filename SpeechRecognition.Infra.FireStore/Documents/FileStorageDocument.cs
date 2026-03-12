@@ -1,5 +1,6 @@
 using Google.Cloud.Firestore;
 using SpeechRecognition.FileStorageDomain.Entidades;
+using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 namespace SpeechRecognition.Infra.Firestore.Documents
 {
@@ -16,25 +17,16 @@ namespace SpeechRecognition.Infra.Firestore.Documents
         [FirestoreProperty]
         public FileInfoDocument FileInfo { get; set; }
         
-        public FileStorage ToFileStorage()
+        public FileStorage ToDomain()
         {
             var e = new FileStorage();
-            e.Id = new FileStorageId(Guid.Parse(Id));
+            e.SetId(Id);
 
-            e.OriginalFileName = OriginalFile
-            return new FileStorage
-            {
-                Id = new FileStorageId(Guid.Parse(Id)),
-                OriginalFileName = OriginalFileName,
-                FileInfo = new FileInfo
-                {
-                    FullName = FileInfo.FullName,
-                    Name = FileInfo.Name,
-                    Length = FileInfo.Length,
-                    Extension = FileInfo.Extension,
-                    CreationTimeUtc = FileInfo.CreationTimeUtc
-                }
-            };
+
+            e.OriginalFileName = OriginalFileName;
+            e.FileInfo = new( FileInfo.FullName);
+            
+            return e;
         }
     }
 

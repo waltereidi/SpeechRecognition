@@ -21,6 +21,7 @@ namespace SpeechRecognition.WhisperAI.Handlers
             _logger = logger;
             _eventBus = eventBus;
         }
+
         public async Task HandleAsync( AudioTranslationLocalEvent @event, CancellationToken cancellationToken = default)
         {
             
