@@ -44,12 +44,14 @@ namespace SpeechRecognition.Infra.FireStore.DomainMapper
                 aggregate.SetAudioTranslations(tranlations);
             }
 
-            //if (doc.Logs != null)
-            //{
-            //    aggregate.Logs = doc.Logs
-            //        .Select(x => RabbitMqLogDomainMapper.ToDomain(x, applier))
-            //        .ToList();
-            //}
+            if (doc.Logs != null)
+            {
+                var entities = doc.Logs
+                    .Select(s => s.ToDomain())
+                    .ToList();
+
+                aggregate.SetLogs(entities);
+            }
 
 
             return aggregate;
