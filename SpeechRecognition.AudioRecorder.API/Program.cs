@@ -16,6 +16,7 @@ using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.Infra.Context;
 using SpeechRecognition.Infra.FireStore.Context;
+using SpeechRecognition.Infra.FireStore.Repositories.Aggregates;
 using SpeechRecognition.Infra.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;
 
@@ -90,6 +91,8 @@ builder.Services.AddRazorPages();
 //{
 //    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 //});
+//builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
+//builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregateRepository>();
 
 builder.Services.AddSingleton(provider =>
 {
@@ -99,9 +102,10 @@ builder.Services.AddSingleton(provider =>
 });
 
 
-//builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
 
-builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregateRepository>();
+builder.Services.AddScoped<IUnitOfWork, FireStoreUnitOfWork>();
+builder.Services.AddScoped<IFileStorageAggregateRepository, FireStoreFileStorageAggregateRepository>();
+
 builder.Services.AddScoped<FileStorageAggregateApplicationService>();
 
 builder.Services.AddEndpointsApiExplorer();
