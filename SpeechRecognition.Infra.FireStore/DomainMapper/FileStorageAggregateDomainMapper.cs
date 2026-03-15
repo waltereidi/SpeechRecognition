@@ -31,7 +31,8 @@ namespace SpeechRecognition.Infra.FireStore.DomainMapper
                     .Select(s => s.ToDomain())
                     .ToList();
 
-                //aggregate.FileStorageConversions = doc.FileStorageConversions.
+                aggregate.SetFileStorageConversions(entities);
+
             }
 
             if (doc.AudioTranslations != null)

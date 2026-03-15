@@ -1,6 +1,5 @@
 using Google.Cloud.Firestore;
 using SpeechRecognition.CrossCutting.Framework;
-using SpeechRecognition.Infra.Interfaces.Base;
 using SpeechRecognition.Infra.Firestore.Attributes;
 using System;
 using System.Collections.Generic;
@@ -224,6 +223,31 @@ namespace SpeechRecognition.Infra.Firestore
                 catch { /* ignore */ }
             }
             return entity;
+        }
+
+        public Task<IList<TEntity>> ListAsync(bool tracking = false, Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity?> GetByAsync(TId id, bool tracking = false, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity?> GetByAsync(bool tracking = false, Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IRepositoryBase<TEntity, TId>.Update(TEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IRepositoryBase<TEntity, TId>.Delete(TEntity entity)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

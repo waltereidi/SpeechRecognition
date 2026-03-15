@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /SpeechRecognition.AudioRecorder.API/wwwroot/audios
 /SpeechRecognition.Infra/BuildHost-net472
 /SpeechRecognition.Infra/BuildHost-netcore
+/SpeechRecognition.AudioRecorder.API/Properties/windy-ellipse-399512-b71139ff1b06.json

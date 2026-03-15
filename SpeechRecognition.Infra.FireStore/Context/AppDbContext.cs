@@ -18,10 +18,5 @@ namespace SpeechRecognition.Infra.FireStore.Context
 
         public FirestoreDb Db => _firestore;
 
-        public CollectionReference Users => _firestore.Collection("users");
-
-        public CollectionReference Messages => _firestore.Collection("messages");
-
-        public CollectionReference Audios => _firestore.Collection("audios");
     }
 }

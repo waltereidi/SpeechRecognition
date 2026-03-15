@@ -15,6 +15,7 @@ using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.Infra.Context;
+using SpeechRecognition.Infra.FireStore.Context;
 using SpeechRecognition.Infra.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;
 
@@ -85,14 +86,24 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+//});
+
+builder.Services.AddSingleton(provider =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+    var fireStoreConfig = ConfigurationDTO.GetFireStoreConfig(configuration);
+    var config = new FirestoreDbContext(fireStoreConfig.ProjectId , fireStoreConfig.CredentialPath );
+    return config.Db;
 });
 
-builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
+
+//builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
+
 builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregateRepository>();
 builder.Services.AddScoped<FileStorageAggregateApplicationService>();
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddControllers(); // obrigatório

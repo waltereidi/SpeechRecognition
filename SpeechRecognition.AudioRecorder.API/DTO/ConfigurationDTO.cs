@@ -14,6 +14,15 @@ namespace AudioRecord.Api.DTO
             public string UserName { get; set; }
             public string Password { get; set; }
         }
+        public class FireStoreConnectionString
+        { 
+            public string ProjectId { get; set; }
+            public string CredentialPath { get; set; }
+        }
+        public static FireStoreConnectionString GetFireStoreConfig(IConfiguration config)
+            => config.GetSection("FireStoreConnectionStrings").Get<FireStoreConnectionString>()
+                ?? throw new ArgumentNullException("Não foi possível encontrar a configuração do rabbitMq");
+
         public static RabbitMqConfig GetRabbitMqConfig(IConfiguration config) 
             => config.GetSection("RabbitMq").Get<RabbitMqConfig>()
                 ?? throw new ArgumentNullException("Não foi possível encontrar a configuração do rabbitMq");
