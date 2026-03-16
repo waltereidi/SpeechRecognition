@@ -123,7 +123,7 @@ builder.Services.AddSwaggerGen(config =>
 
 
 var app = builder.Build();
-app.EnsureDatabase();
+//app.EnsureDatabase();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
