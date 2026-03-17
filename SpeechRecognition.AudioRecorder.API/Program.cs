@@ -4,20 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.Application.Services;
-using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
 using SpeechRecognition.AudioRecorder.Api.Handler;
 using SpeechRecognition.AudioRecorder.Api.Interfaces;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.MassTransit;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
-using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
-using SpeechRecognition.Infra.Context;
 using SpeechRecognition.Infra.FireStore.Context;
 using SpeechRecognition.Infra.FireStore.Repositories.Aggregates;
-using SpeechRecognition.Infra.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;
 
 
@@ -97,7 +93,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton(provider =>
 {
     var fireStoreConfig = ConfigurationDTO.GetFireStoreConfig(configuration);
-    var config = new FirestoreDbContext(fireStoreConfig.ProjectId , fireStoreConfig.CredentialPath );
+    var config = new FirestoreDbContext(fireStoreConfig.ProjectId , fireStoreConfig.CredentialsPath );
     return config.Db;
 });
 

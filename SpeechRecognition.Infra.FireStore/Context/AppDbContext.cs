@@ -8,9 +8,17 @@ namespace SpeechRecognition.Infra.FireStore.Context
 
         public FirestoreDbContext(string projectId, string credentialPath)
         {
-            Environment.SetEnvironmentVariable(
-                "windy-ellipse-399512S",
+            var basePath = AppContext.BaseDirectory;
+
+            var credentialFullPath = Path.Combine(
+                basePath,
+                "Properties",
                 credentialPath
+            );
+
+            Environment.SetEnvironmentVariable(
+                "GOOGLE_APPLICATION_CREDENTIALS",
+                credentialFullPath
             );
 
             _firestore = FirestoreDb.Create(projectId);

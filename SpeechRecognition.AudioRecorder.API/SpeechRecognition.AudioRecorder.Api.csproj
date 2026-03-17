@@ -12,7 +12,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.4" />
   </ItemGroup>
-
+<ItemGroup>
+    <None Update="Properties\windy-ellipse-399512-b71139ff1b06.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SpeechRecognition.Application\SpeechRecognition.Application.csproj" />
     <ProjectReference Include="..\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj" />

@@ -17,7 +17,7 @@ namespace AudioRecord.Api.DTO
         public class FireStoreConnectionString
         { 
             public string ProjectId { get; set; }
-            public string CredentialPath { get; set; }
+            public string CredentialsPath { get; set; }
         }
         public static FireStoreConnectionString GetFireStoreConfig(IConfiguration config)
             => config.GetSection("FireStoreConnectionStrings").Get<FireStoreConnectionString>()
