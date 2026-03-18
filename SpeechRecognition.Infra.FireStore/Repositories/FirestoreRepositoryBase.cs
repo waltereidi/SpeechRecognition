@@ -84,9 +84,44 @@ namespace SpeechRecognition.Infra.Firestore
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await _collection.AddAsync(entity, cancellationToken);
-        }
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
 
+            try
+            {
+                // tentativa padrão (usando o conversor do SDK)
+                await _collection.AddAsync(entity, cancellationToken);
+                return;
+            }
+            catch (Exception ex)
+            {
+                // se falhar devido à incapacidade de criar um converter, faz fallback para dicionário
+                // Não tentamos capturar tipos de exceção específicos do SDK para não depender de mensagens internas,
+                // mas você pode filtrar pelo tipo/InnerException se desejar.
+            }
+
+            // Fallback: serializa para dicionário e grava no Firestore
+            var dict = EntityToDictionary(entity);
+            await _collection.AddAsync(dict, cancellationToken);
+        }
+        //public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+        //{
+        //    await _collection.AddAsync(entity, cancellationToken);
+        //}
+        private static Dictionary<string, object?> EntityToDictionary(TEntity entity)
+        {
+            // Serializa para JSON camelCase e desserializa para Dictionary<string, object?>
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = false,
+                // opcional: permitir ciclos se necessário
+                // ReferenceHandler = ReferenceHandler.IgnoreCycles
+            };
+
+            var json = JsonSerializer.Serialize(entity, options);
+            var dict = JsonSerializer.Deserialize<Dictionary<string, object?>>(json, options);
+            return dict ?? new Dictionary<string, object?>();
+        }
         #endregion
 
         #region Update

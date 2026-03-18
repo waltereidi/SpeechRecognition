@@ -23,7 +23,7 @@ namespace SpeechRecognition.Infra.FireStore.Repositories.Aggregates
 
         public async Task<bool> Exists(FileStorageAggregateId id)
         {
-            var docRef = _collection.Document(id.ToString());
+            var docRef = _collection.Document(id.Value.ToString());
 
             var snapshot = await docRef.GetSnapshotAsync();
 

@@ -8,7 +8,10 @@ namespace SpeechRecognition.FileStorageDomain
 {
     public class FileStorageAggregate : AggregateRoot<FileStorageAggregateId>
     {
-
+        public FileStorageAggregate()
+        {
+         
+        }
         public FileStorageAggregate(FileStorageAggregateId id)
         {
             Apply(new Events.FileStorageAggregateCreated(id));
