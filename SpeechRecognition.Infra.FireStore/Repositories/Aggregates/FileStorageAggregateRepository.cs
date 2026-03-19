@@ -2,6 +2,7 @@
 using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.Infra.Firestore;
+using SpeechRecognition.Infra.FireStore.Documents;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,7 +40,8 @@ namespace SpeechRecognition.Infra.FireStore.Repositories.Aggregates
             if (!snapshot.Exists)
                 return null;
 
-            return snapshot.ConvertTo<FileStorageAggregate>();
+            var result = snapshot.ConvertTo<FileStorageAggregateDocument>();
+            return new FileStorageAggregate();
         }
 
         public void Dispose()

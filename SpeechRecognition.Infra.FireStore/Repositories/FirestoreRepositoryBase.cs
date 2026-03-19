@@ -1,6 +1,11 @@
 using Google.Cloud.Firestore;
+using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.CrossCutting.Framework;
+using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.Infra.Firestore.Attributes;
+using SpeechRecognition.Infra.FireStore.Documents;
+using SpeechRecognition.Infra.FireStore.Mapping;
+using SpeechRecognition.Infra.FireStore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +13,7 @@ using System.Linq.Expressions;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using SpeechRecognition.Application.Interfaces;
-using SpeechRecognition.Infra.FireStore.Repositories;
+using static Grpc.Core.Metadata;
 
 namespace SpeechRecognition.Infra.Firestore
 {
@@ -88,8 +92,13 @@ namespace SpeechRecognition.Infra.Firestore
 
             try
             {
+                var mapper = new FireStoreMapperCommand<TEntity>();
+
+                var doc =mapper.MapToDocument(entity);
                 // tentativa padrão (usando o conversor do SDK)
-                await _collection.AddAsync(entity, cancellationToken);
+                await _collection
+                    .Document(doc.Id) // 👈 usa o ID do seu document
+                    .SetAsync(doc, cancellationToken: cancellationToken);
                 return;
             }
             catch (Exception ex)
@@ -99,9 +108,6 @@ namespace SpeechRecognition.Infra.Firestore
                 // mas você pode filtrar pelo tipo/InnerException se desejar.
             }
 
-            // Fallback: serializa para dicionário e grava no Firestore
-            var dict = EntityToDictionary(entity);
-            await _collection.AddAsync(dict, cancellationToken);
         }
         //public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         //{

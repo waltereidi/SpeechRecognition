@@ -10,7 +10,7 @@ namespace SpeechRecognition.Infra.FireStore.Mapping
     {
         public static FileStorageAggregateDocument ToDocument(FileStorageAggregate aggregate)
         {
-            return new FileStorageAggregateDocument
+            var result=   new FileStorageAggregateDocument
             {
                 Id = aggregate.Id.ToString(),
 
@@ -30,6 +30,7 @@ namespace SpeechRecognition.Infra.FireStore.Mapping
                     .Select(RabbitMqLogDocumentMapper.ToDocument)
                     .ToList()
             };
+            return result;
         }
     }
 }

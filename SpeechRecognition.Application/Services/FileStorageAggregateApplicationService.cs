@@ -3,7 +3,6 @@ using SpeechRecognition.Application.Services.Services;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioConverter;
-using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.CrossCutting.Shared.Events.WhisperSpeechRecognition;
 using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.FileStorageDomain.DomainEvents;

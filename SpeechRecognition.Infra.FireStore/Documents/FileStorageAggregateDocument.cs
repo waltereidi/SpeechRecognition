@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 using SpeechRecognition.Infra.Firestore.Documents;
+using SpeechRecognition.Infra.FireStore.Documents.Base;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,11 +8,8 @@ using System.Text;
 namespace SpeechRecognition.Infra.FireStore.Documents
 {
     [FirestoreData]
-    public class FileStorageAggregateDocument
+    public class FileStorageAggregateDocument :FireStoreBaseDocument
     {
-        [FirestoreDocumentId]
-        public string Id { get; set; }
-
         [FirestoreProperty]
         public List<FileStorageDocument> FileStorages { get; set; } = new();
 

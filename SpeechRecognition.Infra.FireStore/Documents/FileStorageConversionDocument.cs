@@ -1,16 +1,15 @@
 using Google.Cloud.Firestore;
 using SpeechRecognition.FileStorageDomain.Entidades;
 using SpeechRecognition.Infra.Firestore.Attributes;
+using SpeechRecognition.Infra.FireStore.Documents.Base;
 using System;
 using System.Text.Json;
 
 namespace SpeechRecognition.Infra.Firestore.Documents
 {
     [FirestoreData]
-    public class FileStorageConversionDocument
+    public class FileStorageConversionDocument : FireStoreBaseDocument
     {
-        [FirestoreDocumentId]
-        public string Id { get; set; }
 
         [FirestoreProperty]
         public string FileStorageId { get; set; }

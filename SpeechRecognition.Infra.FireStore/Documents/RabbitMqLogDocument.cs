@@ -2,6 +2,7 @@ using Google.Cloud.Firestore;
 using SpeechRecognition.FileStorageDomain.Entidades;
 using SpeechRecognition.FileStorageDomain.Enum;
 using SpeechRecognition.Infra.Firestore.Attributes;
+using SpeechRecognition.Infra.FireStore.Documents.Base;
 using System;
 using System.Text.Json;
 
@@ -9,11 +10,8 @@ namespace SpeechRecognition.Infra.Firestore.Documents
 {
 
     [FirestoreData]
-    public class RabbitMqLogDocument
+    public class RabbitMqLogDocument : FireStoreBaseDocument
     {
-        [FirestoreDocumentId]
-        public string Id { get; set; }
-
         [FirestoreProperty]
         public string Description { get; set; }
 
