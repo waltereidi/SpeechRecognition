@@ -134,11 +134,13 @@ namespace SpeechRecognition.Infra.Firestore
 
         public async Task Update(TEntity entity)
         {
-            var id = FirestoreIdResolver.GetId(entity);
+            var mapper = new FireStoreMapperCommand<TEntity>();
 
-            var docRef = _collection.Document(id);
+            var doc = mapper.MapToDocument(entity);
 
-            await docRef.SetAsync(entity, SetOptions.Overwrite);
+            var docRef = _collection.Document(doc.Id);
+
+            await docRef.SetAsync(doc, SetOptions.Overwrite);
         }
 
         #endregion
@@ -147,9 +149,11 @@ namespace SpeechRecognition.Infra.Firestore
 
         public async Task Delete(TEntity entity)
         {
-            var id = FirestoreIdResolver.GetId(entity);
+            var mapper = new FireStoreMapperCommand<TEntity>();
 
-            var docRef = _collection.Document(id);
+            var doc = mapper.MapToDocument(entity);
+
+            var docRef = _collection.Document(doc.Id);
 
             await docRef.DeleteAsync();
         }

@@ -1,8 +1,10 @@
 ﻿using Google.Cloud.Firestore;
+using Microsoft.AspNetCore.Mvc;
 using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.Infra.Firestore;
 using SpeechRecognition.Infra.FireStore.Documents;
+using SpeechRecognition.Infra.FireStore.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,7 +43,7 @@ namespace SpeechRecognition.Infra.FireStore.Repositories.Aggregates
                 return null;
 
             var result = snapshot.ConvertTo<FileStorageAggregateDocument>();
-            return new FileStorageAggregate();
+            return FileStorageAggregateMapper.ToDomain(result);
         }
 
         public void Dispose()

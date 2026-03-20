@@ -20,6 +20,23 @@ namespace SpeechRecognition.Infra.Firestore.Documents
 
             return e;
         }
+        public static FileStorageConversion ToDomain(FileStorageConversionDocument doc)
+        {
+            if (doc == null)
+                return null;
+
+            var entity = new FileStorageConversion();
+
+            // Id da conversão
+            if (!string.IsNullOrEmpty(doc.Id))
+                entity.SetId(doc.Id);
+
+            // Relacionamento com FileStorage
+            if (!string.IsNullOrEmpty(doc.FileStorageId))
+                entity.FileStorageId = new FileStorageId(Guid.Parse(doc.FileStorageId));
+
+            return entity;
+        }
 
     }
 }

@@ -24,5 +24,28 @@ namespace SpeechRecognition.Infra.FireStore.Mapping
                 }
             };
         }
+        public static FileStorage ToDomain(FileStorageDocument doc)
+        {
+            if (doc == null)
+                return null;
+
+            var entity = new FileStorage();
+
+            // Id
+            if (!string.IsNullOrEmpty(doc.Id))
+                entity.SetId(doc.Id);
+
+            // FileInfo (precisa reconstruir manualmente)
+            if (doc.FileInfo != null)
+            {
+                entity.FileInfo = new FileInfo(doc.FileInfo.FullName);
+            }
+
+            // Nome original
+            entity.OriginalFileName = doc.OriginalFileName;
+
+            return entity;
+        }
+
     }
 }

@@ -21,5 +21,6 @@ namespace SpeechRecognition.Infra.FireStore.Documents
 
         [FirestoreProperty]
         public List<FileStorageConversionDocument> FileStorageConversions { get; set; } = new();
+
     }
 }

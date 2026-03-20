@@ -18,5 +18,22 @@ namespace SpeechRecognition.Infra.FireStore.Mapping
                 Severity = (int)entity.Severity
             };
         }
+        public static RabbitMqLog ToDomain(RabbitMqLogDocument doc)
+        {
+            if (doc == null)
+                return null;
+
+            var entity = new RabbitMqLog();
+
+            // Id
+            if (!string.IsNullOrEmpty(doc.Id))
+                entity.SetId(doc.Id);
+
+            // Propriedades
+            entity.Description = doc.Description;
+            entity.Severity = (LogSeverity)doc.Severity;
+
+            return entity;
+        }
     }
 }

@@ -21,5 +21,29 @@ namespace SpeechRecognition.Infra.FireStore.Mapping
                 WhisperModel = entity.WhisperModel
             };
         }
+        public static AudioTranslation ToDomain(AudioTranslationDocument doc)
+        {
+            if (doc == null)
+                return null;
+
+            var entity = new AudioTranslation();
+
+            // Id
+            if (!string.IsNullOrEmpty(doc.Id))
+                entity.SetId(doc.Id);
+
+            // Relacionamento
+            if (!string.IsNullOrEmpty(doc.FileStorageId))
+                entity.FileStorageId = new FileStorageId(Guid.Parse(doc.FileStorageId));
+
+            // Propriedades simples
+            entity.Translation = doc.Translation;
+            entity.IsSuccess = doc.IsSuccess;
+            entity.IsApproved = doc.IsApproved;
+            entity.TranslationTemplate = doc.TranslationTemplate;
+            entity.WhisperModel = doc.WhisperModel;
+
+            return entity;
+        }
     }
 }
