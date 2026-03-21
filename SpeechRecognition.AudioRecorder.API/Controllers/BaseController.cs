@@ -41,5 +41,22 @@ namespace SpeechRecognition.AudioRecorder.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        public static IActionResult HandleQuery<TModel>(
+           Func<TModel> query, ILogger log)
+        {
+            try
+            {
+                return new OkObjectResult(query());
+            }
+            catch (Exception e)
+            {
+                //log.Error(e, "Error handling the query");
+                return new BadRequestObjectResult(new
+                {
+                    error = e.Message,
+                    stackTrace = e.StackTrace
+                });
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace SpeechRecognition.AudioRecorder.Api.Handler
             _service = service;
             _eventBus = eventBus;
         }
+
         public async Task HandleAsync(SaveAudioTranslationSuccessEvent @event, CancellationToken cancellationToken = default)
         {
            

@@ -7,6 +7,8 @@ namespace SpeechRecognition.Application.Contracts
     {
         public class V1()
         {
+            public record GetAll(FileStorageAggregateId FileStorageAggregateId);
+            public record Delete(FileStorageAggregateId fileStorageAggregateId);
             public record SaveAudioTranslationLocal(
                 FileStorageAggregateId id, 
                 FileStorageId fileStorageId,

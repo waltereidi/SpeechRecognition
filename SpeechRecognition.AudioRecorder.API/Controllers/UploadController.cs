@@ -5,6 +5,7 @@ using SpeechRecognition.CrossCutting.Framework.Interfaces;
 using static SpeechRecognition.Application.Contracts.FileStorageAggregateContract;
 using SpeechRecognition.FileStorageDomain;
 using AudioRecord.Api.DTO;
+using MassTransit.SagaStateMachine;
 
 [Route("api/Upload/[action]")]
 [ApiController]
@@ -28,7 +29,7 @@ public class UploadController : BaseController
         => await HandleRequest(new V1.Create(new FileStorageAggregateId(Guid.Parse(guid))),
             _service.Handle);
 
-    [HttpPost]
+    [HttpPut]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> UploadAudioFile(
     [FromForm] IFormFileCollection file,
@@ -41,6 +42,15 @@ public class UploadController : BaseController
         ConfigurationDTO.GetFileStorageConfig(_config).ConvertedAudioDir
         ),
         _service.Handle );
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteAggregate(string guid)
+        => await HandleRequest(new V1.Delete(new FileStorageAggregateId(Guid.Parse(guid))),
+            _service.Handle);
+    [HttpGet]
+    public async Task<IActionResult> GetAggregates(string guid)
+            => await HandleRequest(new V1.GetAll(new FileStorageAggregateId(Guid.Parse(guid))),
+            _service.Handle);
 
     //[HttpPost]
     //[ProducesResponseType(StatusCodes.Status200OK)]
