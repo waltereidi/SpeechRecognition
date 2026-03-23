@@ -3,6 +3,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using SpeechRecognition.Application.Interfaces;
+using SpeechRecognition.Application.Models;
 using SpeechRecognition.Application.Services;
 using SpeechRecognition.AudioRecorder.Api.Handler;
 using SpeechRecognition.AudioRecorder.Api.Interfaces;
@@ -103,6 +104,8 @@ builder.Services.AddScoped<IUnitOfWork, FireStoreUnitOfWork>();
 builder.Services.AddScoped<IFileStorageAggregateRepository, FireStoreFileStorageAggregateRepository>();
 
 builder.Services.AddScoped<FileStorageAggregateApplicationService>();
+
+builder.Services.AddScoped<Queries>();
 
 builder.Services.AddEndpointsApiExplorer();
 

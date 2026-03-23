@@ -47,16 +47,5 @@ public class UploadController : BaseController
     public async Task<IActionResult> DeleteAggregate(string guid)
         => await HandleRequest(new V1.Delete(new FileStorageAggregateId(Guid.Parse(guid))),
             _service.Handle);
-    [HttpGet]
-    public async Task<IActionResult> GetAggregates(string guid)
-            => await HandleRequest(new V1.GetAll(new FileStorageAggregateId(Guid.Parse(guid))),
-            _service.Handle);
-
-    //[HttpPost]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //public async Task<IActionResult> UploadFile(Guid guid, IFormFile file )
-    //    => await HandleRequest(new V1.UpdateFileStorage(new FileStorageAggregateId(guid), file, originalFileInfo),
-    //        _service.Handle);   
 
 }

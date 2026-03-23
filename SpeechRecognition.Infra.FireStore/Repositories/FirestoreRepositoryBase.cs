@@ -4,6 +4,7 @@ using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain;
 using SpeechRecognition.Infra.Firestore.Attributes;
 using SpeechRecognition.Infra.FireStore.Documents;
+using SpeechRecognition.Infra.FireStore.Documents.Base;
 using SpeechRecognition.Infra.FireStore.Mapping;
 using SpeechRecognition.Infra.FireStore.Repositories;
 using System;
@@ -64,11 +65,12 @@ namespace SpeechRecognition.Infra.Firestore
             var docRef = _collection.Document(id!.ToString());
 
             var snapshot = await docRef.GetSnapshotAsync(cancellationToken);
+            var document = snapshot.ConvertTo<FireStoreBaseDocument>();
 
-            if (!snapshot.Exists)
-                return null;
+            // 2. Converte para Aggregate (manual)
+            var mapper = new FireStoreMapperCommand<TEntity>();
 
-            return snapshot.ConvertTo<TEntity>();
+            return mapper.MapToDomain<TEntity>(document);
         }
 
         public async Task<TEntity?> GetByAsync(
