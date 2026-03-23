@@ -35,19 +35,15 @@ namespace SpeechRecognition.Application.Services
             V1.UpdateConvertedFile cmd => HandleSaveFileConversion(cmd),
             V1.SaveAudioTranslationLocal cmd => HandleAudioTranslation(cmd),
             V1.ErrorLog cmd => HandleErrorLog(cmd),
-            V1.GetAll cmd => HandleGet(cmd),
             V1.Delete cmd => HandleDelete(cmd),
         };
 
-        private async Task HandleGet(V1.GetAll cmd)
-        {
-            await _repository.GetByAsync(cmd.FileStorageAggregateId);
-
-        }
 
         private async Task HandleDelete(V1.Delete cmd)
         {
-            
+            var entity = await _repository.Load(cmd.fileStorageAggregateId );
+            await _repository.Delete(entity);
+            await _unitOfWork.CommitAsync();
         }
 
         private async Task HandleErrorLog(V1.ErrorLog cmd)
