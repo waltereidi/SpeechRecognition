@@ -18,6 +18,6 @@ namespace SpeechRecognition.AudioRecorder.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(QueryModels.GetFileStorageAggregate request)
-                =>await HandleQuery(() => _queries.GetAggregate(request.id));
+            =>await HandleQuery(() => _queries.GetAggregate(request.id));
     }
 }

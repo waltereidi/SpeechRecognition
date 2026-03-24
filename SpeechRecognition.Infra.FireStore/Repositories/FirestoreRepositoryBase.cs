@@ -65,12 +65,11 @@ namespace SpeechRecognition.Infra.Firestore
             var docRef = _collection.Document(id!.ToString());
 
             var snapshot = await docRef.GetSnapshotAsync(cancellationToken);
-            var document = snapshot.ConvertTo<FireStoreBaseDocument>();
 
             // 2. Converte para Aggregate (manual)
             var mapper = new FireStoreMapperCommand<TEntity>();
 
-            return mapper.MapToDomain<TEntity>(document);
+            return mapper.MapToDomain<TEntity>(snapshot);
         }
 
         public async Task<TEntity?> GetByAsync(

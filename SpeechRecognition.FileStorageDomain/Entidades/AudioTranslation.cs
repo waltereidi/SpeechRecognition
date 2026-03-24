@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.Json.Serialization;
 using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
@@ -21,6 +22,7 @@ public class AudioTranslation : Entity<AudioTranslationId>
     {
         this.Id = new AudioTranslationId( Guid.Parse(id) );
     }
+    
     public string Translation { get;  set; }
     [Required]
     public FileStorageId FileStorageId { get;  set; }

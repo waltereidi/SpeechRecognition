@@ -3,12 +3,13 @@
 using SpeechRecognition.CrossCutting.Framework;
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 namespace SpeechRecognition.FileStorageDomain.Entidades;
 public class FileStorageConversion : Entity<FileStorageConversionId>
 {
-    
+    [JsonIgnore]
     [Required]
     public FileStorageId FileStorageId { get; set; }
     public FileStorageConversion()

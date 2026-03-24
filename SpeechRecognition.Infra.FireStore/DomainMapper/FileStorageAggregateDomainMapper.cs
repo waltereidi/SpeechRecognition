@@ -10,8 +10,7 @@ namespace SpeechRecognition.Infra.FireStore.DomainMapper
     public static class FileStorageAggregateDomainMapper
     {
         public static FileStorageAggregate ToDomain(
-            FileStorageAggregateDocument doc,
-            Action<object> applier)
+            FileStorageAggregateDocument doc)
         {
             var aggregate = new FileStorageAggregate(
                 new FileStorageAggregateId(Guid.Parse(doc.Id)));

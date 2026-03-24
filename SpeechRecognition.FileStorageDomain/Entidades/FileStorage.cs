@@ -2,6 +2,7 @@
 using SpeechRecognition.FileStorageDomain.DomainEvents;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
+using System.Text.Json.Serialization;
 using static SpeechRecognition.FileStorageDomain.Entidades.FileStorage;
 
 
@@ -13,8 +14,9 @@ namespace SpeechRecognition.FileStorageDomain.Entidades;
         {
 
         }
-
+        
         public FileStorage() { }
+        [JsonIgnore]
         public FileInfo FileInfo { get; set; }
         public string? OriginalFileName { get; set; }
         protected override void When(object @event)

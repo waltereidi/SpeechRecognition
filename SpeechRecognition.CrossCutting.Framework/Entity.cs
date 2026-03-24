@@ -2,19 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SpeechRecognition.CrossCutting.Framework
 {
     public abstract class Entity<TId> : IInternalEventHandler
     {
+        [JsonIgnore]
         private readonly Action<object> _applier;
-        
+        [JsonIgnore]
         public TId Id { get; protected set; }
-
+        
         protected Entity(Action<object> applier) => _applier = applier;
         
         protected Entity() {}
-
+        
         protected abstract void When(object @event);
 
         protected void Apply(object @event)

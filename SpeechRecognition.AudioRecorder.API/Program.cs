@@ -1,4 +1,4 @@
-using AudioRecord.Api.DTO;
+﻿using AudioRecord.Api.DTO;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -16,6 +16,7 @@ using SpeechRecognition.CrossCutting.Shared.Events.Generic;
 using SpeechRecognition.Infra.FireStore.Context;
 using SpeechRecognition.Infra.FireStore.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,7 +60,7 @@ builder.Services.AddMassTransit(x =>
             hostCfg.Username(rabbitMqConfig.UserName);
             hostCfg.Password(rabbitMqConfig.Password);
         });
-        // Fila �nica para consumo
+        // Fila única para consumo
         cfg.ReceiveEndpoint("audio-recorder-queue", endpointCfg =>
         {
             endpointCfg.ConfigureConsumer<GenericConsumer<SaveAudioConversionSuccessEvent>>(context);
@@ -69,7 +70,7 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
-// Registra o adaptador que exp�e IEventBus usando a infra do MassTransit
+// Registra o adaptador que expõe IEventBus usando a infra do MassTransit
 builder.Services.AddScoped<IEventBus, MassTransitEventBus>();
 
 
@@ -109,7 +110,21 @@ builder.Services.AddScoped<Queries>();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddControllers(); // obrigat�rio
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // 🔥 Resolve loop de referência
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+
+        // 🔥 Aumenta profundidade máxima (se necessário)
+        options.JsonSerializerOptions.MaxDepth = 32;
+
+        // (opcional) melhora saída
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
+
 builder.Services.AddSwaggerGen(config =>
 {
     config.SwaggerDoc("v1", new OpenApiInfo
