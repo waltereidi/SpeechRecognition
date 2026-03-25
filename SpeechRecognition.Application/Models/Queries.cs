@@ -21,6 +21,20 @@ namespace SpeechRecognition.Application.Models
             var result = await _repository.GetByAsync(id);
             return new(result );
         }
+        public async Task<List<ReadModels.GetAggregate>> GetAllAggregates(QueryModels.GetAllAggregates query)
+        {
+            var queryResult = await _repository.ListAsync();
+            var result = new List<ReadModels.GetAggregate>();
+
+
+            queryResult
+                .Skip(query.page == 0 ? 0 :query.page * query.pageSize )
+                .Take(query.pageSize == 0 ? 100 : query.pageSize)
+                .ToList()
+                .ForEach(f=> result.Add(new(f)) );
+
+            return result;
+        }
             
     }
 }

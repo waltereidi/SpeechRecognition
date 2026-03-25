@@ -45,9 +45,10 @@ namespace SpeechRecognition.Infra.Firestore
             query = FirestoreQueryBuilder.ApplyPredicate(query, predicate);
 
             var snapshot = await query.GetSnapshotAsync(cancellationToken);
+            var mapper = new FireStoreMapperCommand<TEntity>();
 
             var result = snapshot.Documents
-                .Select(d => d.ConvertTo<TEntity>())
+                .Select(d => mapper.MapToDomain<TEntity>(d))
                 .ToList();
 
             if (orderBy != null)

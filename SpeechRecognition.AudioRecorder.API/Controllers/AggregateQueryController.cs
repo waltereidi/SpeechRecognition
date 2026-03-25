@@ -14,10 +14,18 @@ namespace SpeechRecognition.AudioRecorder.Api.Controllers
         {
             _queries = new Queries(repository);
         }
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(QueryModels.GetFileStorageAggregate request)
-            =>await HandleQuery(() => _queries.GetAggregate(request.id));
+        public async Task<IActionResult> Get(string id)
+            =>await HandleQuery(() => _queries.GetAggregate(new(new(id))));
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAll(int page , int size)
+            => await HandleQuery(() => _queries.GetAllAggregates(new(page,size)));
+
+
     }
 }

@@ -9,7 +9,7 @@ namespace SpeechRecognition.Application.Models
     {
 
         public record GetFileStorageAggregate(string id);
-        
 
+        public record GetAllAggregates(int page, int pageSize);
     }
 }

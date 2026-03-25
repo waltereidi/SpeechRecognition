@@ -12,7 +12,8 @@ namespace SpeechRecognition.Application.Interfaces
         Task<IList<TEntity>> ListAsync(
             bool tracking = false,
             Expression<Func<TEntity, bool>>? predicate = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+            Func<IQueryable<TEntity>
+           , IOrderedQueryable<TEntity>>? orderBy = null,
             CancellationToken cancellationToken = default);
 
         Task<TEntity?> GetByAsync(
