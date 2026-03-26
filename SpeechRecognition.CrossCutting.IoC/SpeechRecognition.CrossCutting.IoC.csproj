@@ -10,5 +10,10 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.2" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SpeechRecognition.Infra.FireStore\SpeechRecognition.Infra.FireStore.csproj" />
+	  <ProjectReference Include="..\SpeechRecognition.Infra\SpeechRecognition.Infra.csproj" />
+	</ItemGroup>
 	
 </Project>

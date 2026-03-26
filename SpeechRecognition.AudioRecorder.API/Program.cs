@@ -11,16 +11,20 @@ using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.Abstractions;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.MassTransit;
 using SpeechRecognition.CrossCutting.Framework.Interfaces;
+using SpeechRecognition.CrossCutting.IoC;
+using SpeechRecognition.CrossCutting.IoC.DataBase;
 using SpeechRecognition.CrossCutting.Shared.Events.AudioRecorderApi;
 using SpeechRecognition.CrossCutting.Shared.Events.Generic;
-using SpeechRecognition.Infra.FireStore.Context;
-using SpeechRecognition.Infra.FireStore.Repositories.Aggregates;
+using SpeechRecognition.Infra.Context;
+using SpeechRecognition.Infra.Repositories.Aggregates;
 using SpeechRecognition.Infra.UoW;
 using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+#region Environment Config
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
                 ?? "Production";
 
@@ -39,7 +43,9 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 builder.Configuration.AddConfiguration(configuration);
+#endregion
 
+#region RabbitMQ
 // Registra o handler de eventos
 builder.Services.AddIntegrationEventHandler<SaveAudioConversionSuccessEvent, SaveAudioConversionSuccessHandler>();
 builder.Services.AddIntegrationEventHandler<SaveAudioTranslationSuccessEvent, SaveAudioTranslationSuccessHandler>();
@@ -72,8 +78,8 @@ builder.Services.AddMassTransit(x =>
 
 // Registra o adaptador que expõe IEventBus usando a infra do MassTransit
 builder.Services.AddScoped<IEventBus, MassTransitEventBus>();
-
-
+#endregion
+#region Web
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -84,31 +90,8 @@ builder.Services.AddCors(options =>
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//{
-//    options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
-//});
-//builder.Services.AddScoped<IUnitOfWork, PostgresqlUnitOfWork>();
-//builder.Services.AddScoped<IFileStorageAggregateRepository, FileStorageAggregateRepository>();
-
-builder.Services.AddSingleton(provider =>
-{
-    var fireStoreConfig = ConfigurationDTO.GetFireStoreConfig(configuration);
-    var config = new FirestoreDbContext(fireStoreConfig.ProjectId , fireStoreConfig.CredentialsPath );
-    return config.Db;
-});
-
-
-
-builder.Services.AddScoped<IUnitOfWork, FireStoreUnitOfWork>();
-builder.Services.AddScoped<IFileStorageAggregateRepository, FireStoreFileStorageAggregateRepository>();
-
-builder.Services.AddScoped<FileStorageAggregateApplicationService>();
-
-builder.Services.AddScoped<Queries>();
-
 builder.Services.AddEndpointsApiExplorer();
+
 
 
 builder.Services.AddControllers()
@@ -133,11 +116,20 @@ builder.Services.AddSwaggerGen(config =>
         Version = "File Version: v1.0.0"
     });
 });
+#endregion
 
+#region DataBase
+    PostgreSQLIoC.AddIoC(builder.Services, configuration);
+//FireStoreIoC.AddIoC(builder.Services, configuration);
+#endregion
+#region Application 
+    RegisterIoC.AddIoC(builder.Services, configuration);
+#endregion
 
 
 var app = builder.Build();
-//app.EnsureDatabase();
+//app.EnsureDatabase(); //PostgreSQL run migrations
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -162,6 +154,7 @@ app.MapControllers();
 
 app.MapRazorPages()
    .WithStaticAssets();
+
 app.UseCors();
 app.Run();
 

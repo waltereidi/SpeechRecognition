@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SpeechRecognition.Application\SpeechRecognition.Application.csproj" />
     <ProjectReference Include="..\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging\SpeechRecognition.CrossCutting.BuildingBlocks.Messaging.csproj" />
+    <ProjectReference Include="..\SpeechRecognition.CrossCutting.IoC\SpeechRecognition.CrossCutting.IoC.csproj" />
     <ProjectReference Include="..\SpeechRecognition.CrossCutting.Shared.Events\SpeechRecognition.CrossCutting.Shared.Events.csproj" />
     <ProjectReference Include="..\SpeechRecognition.FileStorageDomain\SpeechRecognition.FileStorageDomain.csproj" />
     <ProjectReference Include="..\SpeechRecognition.Infra.FireStore\SpeechRecognition.Infra.FireStore.csproj" />
