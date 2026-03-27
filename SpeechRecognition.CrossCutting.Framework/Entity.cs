@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace SpeechRecognition.CrossCutting.Framework
 {
-    public abstract class Entity<TId> : IInternalEventHandler
+    public abstract class Entity<TId> : IInternalEventHandler , IAuditable
     {
         [JsonIgnore]
         private readonly Action<object> _applier;
@@ -16,7 +16,9 @@ namespace SpeechRecognition.CrossCutting.Framework
         protected Entity(Action<object> applier) => _applier = applier;
         
         protected Entity() {}
-        
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
         protected abstract void When(object @event);
 
         protected void Apply(object @event)

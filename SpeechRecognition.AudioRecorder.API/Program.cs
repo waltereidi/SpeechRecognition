@@ -5,6 +5,7 @@ using Microsoft.OpenApi;
 using SpeechRecognition.Application.Interfaces;
 using SpeechRecognition.Application.Models;
 using SpeechRecognition.Application.Services;
+using SpeechRecognition.AudioRecorder.Api.ExtensionMethod;
 using SpeechRecognition.AudioRecorder.Api.Handler;
 using SpeechRecognition.AudioRecorder.Api.Interfaces;
 using SpeechRecognition.CrossCutting.BuildingBlocks.Messaging;
@@ -128,7 +129,7 @@ builder.Services.AddSwaggerGen(config =>
 
 
 var app = builder.Build();
-//app.EnsureDatabase(); //PostgreSQL run migrations
+app.EnsureDatabase(); //PostgreSQL run migrations
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

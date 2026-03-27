@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using SpeechRecognition.CrossCutting.Framework;
+using SpeechRecognition.CrossCutting.Framework.Interfaces;
 
 namespace SpeechRecognition.Infra.Mappings
 {
-
     public class AuditInterceptor : SaveChangesInterceptor
     {
         public override InterceptionResult<int> SavingChanges(
@@ -29,7 +28,7 @@ namespace SpeechRecognition.Infra.Mappings
             //if (context == null) return;
 
             //var entries = context.ChangeTracker
-            //    .Entries<Entity>()
+            //    .Entries<IAuditable>()
             //    .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
 
             //var now = DateTime.UtcNow;
@@ -41,9 +40,12 @@ namespace SpeechRecognition.Infra.Mappings
             //        entry.Entity.CreatedAt = now;
             //        entry.Entity.UpdatedAt = null;
             //    }
-            //    else
+            //    else if (entry.State == EntityState.Modified)
             //    {
             //        entry.Entity.UpdatedAt = now;
+
+            //        // evita sobrescrever CreatedAt em updates
+            //        entry.Property(nameof(IAuditable.CreatedAt)).IsModified = false;
             //    }
             //}
         }

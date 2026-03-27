@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -32,7 +33,9 @@ namespace SpeechRecognition.Infra.Migrations
                     IsApproved = table.Column<bool>(type: "boolean", nullable: true),
                     TranslationTemplate = table.Column<int>(type: "integer", nullable: true),
                     WhisperModel = table.Column<int>(type: "integer", nullable: false),
-                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false)
+                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,7 +55,9 @@ namespace SpeechRecognition.Infra.Migrations
                     Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     FileFullName = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     OriginalFileName = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false)
+                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,7 +76,9 @@ namespace SpeechRecognition.Infra.Migrations
                 {
                     Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     FileStorageId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false)
+                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,7 +98,9 @@ namespace SpeechRecognition.Infra.Migrations
                     Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Severity = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false)
+                    FileStorageAggregateId = table.Column<string>(type: "character varying(36)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
