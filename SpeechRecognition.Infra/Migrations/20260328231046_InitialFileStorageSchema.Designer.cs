@@ -12,7 +12,7 @@ using SpeechRecognition.Infra.Context;
 namespace SpeechRecognition.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260327225734_InitialFileStorageSchema")]
+    [Migration("20260328231046_InitialFileStorageSchema")]
     partial class InitialFileStorageSchema
     {
         /// <inheritdoc />
@@ -30,6 +30,12 @@ namespace SpeechRecognition.Infra.Migrations
                     b.Property<string>("Id")
                         .HasMaxLength(36)
                         .HasColumnType("character varying(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

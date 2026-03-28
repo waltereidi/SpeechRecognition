@@ -12,7 +12,8 @@ namespace SpeechRecognition.FileStorageDomain
         {
             Apply(new Events.FileStorageAggregateCreated(id));
         }
-
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public List<FileStorage> FileStorages
         {
             get => _fileStorages;
@@ -74,18 +75,26 @@ namespace SpeechRecognition.FileStorageDomain
             => Apply(e);
         public void AddErrorLog(Events.ErrorLog errorLog)
             =>  Apply(errorLog);
-
+        private void Updated()
+        {
+            if(CreatedAt == DateTime.MinValue )
+                CreatedAt = DateTime.UtcNow;
+            else
+                UpdatedAt = DateTime.UtcNow;
+        }
         protected override void When(object @event)
         {
             switch (@event)
             {
                 case Events.FileStorageAggregateCreated e:
                     Id = new FileStorageAggregateId( e.aggId);
+                    Updated();
                     break;
 
                 case Events.FileStorageAdded e:
                     {
                         EnsureCanAddRootUpload();
+                        Updated();
                         var fs = new FileStorage(Apply);
                         ApplyToEntity(fs, e);
                         FileStorages.Add(fs);
@@ -94,6 +103,7 @@ namespace SpeechRecognition.FileStorageDomain
                 case Events.FileStorageConversionAdded e:
                     {
                         var fsId = EnsureCanAddNewConversion();
+                        Updated();
                         var fs = new FileStorage(Apply);
                         ApplyToEntity(fs, e);
 
@@ -106,6 +116,7 @@ namespace SpeechRecognition.FileStorageDomain
                 case Events.TranslationAdded e:
                     {
                         EnsureTranslationCanBeAdded(e);
+                        Updated();
                         var at = new AudioTranslation(Apply);
                         ApplyToEntity(at, e);
                         AudioTranslations.Add(at);
@@ -114,6 +125,7 @@ namespace SpeechRecognition.FileStorageDomain
                 case Events.ErrorLog e:
                     {
                         var log = new RabbitMqLog(Apply);
+                        Updated();
                         ApplyToEntity(log, e);
                         Logs = Logs ?? new();
                         Logs.Add(log);

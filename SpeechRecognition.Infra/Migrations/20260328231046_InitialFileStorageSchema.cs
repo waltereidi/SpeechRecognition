@@ -15,7 +15,9 @@ namespace SpeechRecognition.Infra.Migrations
                 name: "FileStorageAggregate",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false)
+                    Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -19,6 +19,14 @@ namespace SpeechRecognition.CrossCutting.Framework
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
+        private void Updated()
+        {
+            if (CreatedAt == DateTime.MinValue)
+                CreatedAt = DateTime.UtcNow;
+            else
+                UpdatedAt = DateTime.UtcNow;
+        }
+
         protected abstract void When(object @event);
 
         protected void Apply(object @event)
@@ -27,6 +35,10 @@ namespace SpeechRecognition.CrossCutting.Framework
             _applier(@event);
         }
         public abstract void SetId(string id);
-        void IInternalEventHandler.Handle(object @event) => When(@event);
+        void IInternalEventHandler.Handle(object @event) 
+        {
+            When(@event);
+            Updated();
+        }
     }
 }
