@@ -28,7 +28,7 @@ namespace SpeechRecognition.Application.Models
 
 
             queryResult
-                .Skip(query.page == 0 ? 1 :query.page * query.pageSize )
+                .Skip(query.page == 0 ? 0 :query.page * query.pageSize )
                 .Take(query.pageSize == 0 ? 100 : query.pageSize)
                 .ToList()
                 .ForEach(f=> result.Add(new(f)) );

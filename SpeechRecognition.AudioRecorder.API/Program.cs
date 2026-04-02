@@ -120,7 +120,7 @@ builder.Services.AddSwaggerGen(config =>
 
 #region DataBase
     PostgreSQLIoC.AddIoC(builder.Services, configuration);
-//FireStoreIoC.AddIoC(builder.Services, configuration);
+    //FireStoreIoC.AddIoC(builder.Services, configuration);
 #endregion
 #region Application 
     RegisterIoC.AddIoC(builder.Services, configuration);
@@ -128,7 +128,7 @@ builder.Services.AddSwaggerGen(config =>
 
 
 var app = builder.Build();
-app.EnsureDatabase(); //PostgreSQL run migrations
+//app.EnsureDatabase(); //PostgreSQL run migrations
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
