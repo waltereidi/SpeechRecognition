@@ -11,7 +11,6 @@ namespace SpeechRecognition.Tests.Whisper
 {
     public class TranslateAudioTest : Configuration
     {
-        private readonly TranslateAudio _service;
         //public TranslateAudioTest()
         //{
         //    _service = new TranslateAudio();

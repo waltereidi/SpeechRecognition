@@ -36,6 +36,21 @@ services:
         - "8086:8080"
       networks:
         - backend
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Production_1
+  whisperai-api2:
+      image: ${DOCKER_REGISTRY-}whisperai-api2
+      build:
+        context: .
+        dockerfile: SpeechRecognition.WhisperAI/Dockerfile
+      volumes:
+        - filestorage_data:/var/lib/SpeechRecognition/FileStorage
+      ports:
+        - "8087:8080"
+      networks:
+        - backend
+      environment:
+        - ASPNETCORE_ENVIRONMENT=Production_2
 
   postgres:
     build: 

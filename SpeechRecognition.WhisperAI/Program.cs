@@ -28,16 +28,12 @@ builder.Services.AddMassTransit(busConfigurator =>
             hostCfg.Password(configuration.RabbitMqConfig.Password);
         });
         // Configura o endpoint para receber os eventos de pedido
-        cfg.ReceiveEndpoint("audio-translation-queue", e =>
+        cfg.ReceiveEndpoint(configuration.RabbitMqConfig.Endpoint, e =>
         {
             e.ConcurrentMessageLimit = 1; // 🔥 ESSENCIAL
             e.ConfigureConsumer<GenericConsumer<AudioTranslationLocalEvent>>(context);
         });
     });
-});
-builder.Services.AddSingleton(sp =>
-{
-    return WhisperFactory.FromPath(Path.Combine(AppContext.BaseDirectory, "Models", "ggml-medium.bin"));
 });
 
 

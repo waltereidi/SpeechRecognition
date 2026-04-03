@@ -24,7 +24,8 @@ namespace SpeechRecognition.WhisperAI.Service
 
         private WhisperModels NextModel(WhisperModels i) => i switch
         {
-            WhisperModels.None => WhisperModels.Tiny,
+            //WhisperModels.None => WhisperModels.Tiny,
+            WhisperModels.None => WhisperModels.Medium,
             WhisperModels.Tiny => WhisperModels.Small,
             WhisperModels.Small => WhisperModels.Medium,
             _ => throw new NotImplementedException($"The model {i} configuration is not implemented.")
@@ -32,7 +33,8 @@ namespace SpeechRecognition.WhisperAI.Service
 
         private ISpeechRecognitionStrategy CreateStrategy(WhisperModels i, TranslationTemplateModel template) => i switch
         {
-            WhisperModels.None => new WhisperTiny(template),
+            //WhisperModels.None => new WhisperTiny(template),
+            WhisperModels.None => new WhisperSmall(template),
             WhisperModels.Tiny => new WhisperSmall(template),
             WhisperModels.Small => new WhisperMedium(template),
             _ => throw new NotImplementedException($"The model {i} configuration is not implemented.")

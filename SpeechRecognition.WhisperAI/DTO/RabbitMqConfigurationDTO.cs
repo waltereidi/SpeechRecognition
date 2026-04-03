@@ -45,6 +45,7 @@ namespace SpeechRecognition.WhisperAI.DTO
             [ConfigurationKeyName("Username")]
             public string UserName { get; set; }
             public string Password { get; set; }
+            public string Endpoint { get; set; }
         }
         public RabbitMq RabbitMqConfig => _config.GetSection("RabbitMq").Get<RabbitMq>();
 
