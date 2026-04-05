@@ -1,4 +1,4 @@
-name: Deploy .NET 10 App (EC2 SSH)
+name: Deploy .NET 10 Converter API
 
 on:
   push:

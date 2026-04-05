@@ -1,4 +1,4 @@
-name: Deploy .NET 10 App (EC2 SSH)
+name: Deploy .NET 10 App Whisper API
 
 on:
   push:
