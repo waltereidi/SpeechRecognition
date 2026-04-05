@@ -59,8 +59,6 @@ jobs:
             tar -xzf deploy.tar.gz
             rm deploy.tar.gz
 
-            PID=$(pgrep -f "dotnet.*SpeechRecognition.AudioConverter.Api.dll" | head -n 1)
-
 
             echo "🚀 Subindo aplicação"
             nohup dotnet SpeechRecognition.AudioConverter.Api.dll > app.log 2>&1 &
