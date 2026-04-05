@@ -37,7 +37,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "deploy.tar.gz"
-          target: "/home/ubuntu/app"
+          target: "/home/ubuntu/app/converter_api"
 
       - name: 🚀 Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -48,7 +48,7 @@ jobs:
           script: |
             set -e
 
-            APP_DIR=/home/ubuntu/app
+            APP_DIR=/home/ubuntu/app/converter_api
 
             echo "📁 Criando diretório"
             mkdir -p $APP_DIR
