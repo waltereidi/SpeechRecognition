@@ -61,4 +61,4 @@ jobs:
 
 
             echo "🚀 Subindo aplicação"
-            nohup dotnet SpeechRecognition.AudioConverter.Api.dll > app.log 2>&1 &
+            nohup dotnet /home/ubuntu/app/converter_api/SpeechRecognition.AudioConverter.Api.dll > app.log 2>&1 &

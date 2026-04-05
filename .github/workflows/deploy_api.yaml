@@ -59,6 +59,5 @@ jobs:
             tar -xzf deploy.tar.gz
             rm deploy.tar.gz
 
-
             echo "🚀 Subindo aplicação"
-            nohup dotnet SpeechRecognition.AudioRecorder.Api.dll > app.log 2>&1 &
+            nohup dotnet /home/ubuntu/app/recorder_api/SpeechRecognition.AudioRecorder.Api.dll > app.log 2>&1 &

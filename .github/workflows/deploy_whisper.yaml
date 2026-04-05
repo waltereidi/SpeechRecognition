@@ -60,4 +60,4 @@ jobs:
             rm deploy.tar.gz
 
             echo "🚀 Subindo aplicação"
-            nohup dotnet SpeechRecognition.WhisperAI.dll > app.log 2>&1 &
+            nohup dotnet /home/ubuntu/app/converter_api/SpeechRecognition.WhisperAI.dll > app.log 2>&1 &
