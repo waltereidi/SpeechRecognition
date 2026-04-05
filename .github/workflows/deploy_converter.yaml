@@ -61,11 +61,6 @@ jobs:
 
             PID=$(pgrep -f "dotnet.*SpeechRecognition.AudioConverter.Api.dll" | head -n 1)
 
-            if [ -n "$PID" ]; then
-              echo "Encerrando processo $PID"
-              kill -15 "$PID"
-              sleep 3
-            fi
 
             echo "🚀 Subindo aplicação"
             nohup dotnet SpeechRecognition.AudioConverter.Api.dll > app.log 2>&1 &
