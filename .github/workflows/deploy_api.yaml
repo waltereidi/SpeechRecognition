@@ -3,7 +3,7 @@ name: Deploy .NET 10 app Recorder API
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:

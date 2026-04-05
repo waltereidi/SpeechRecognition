@@ -3,7 +3,7 @@ name: Deploy .NET 10 Converter API
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:

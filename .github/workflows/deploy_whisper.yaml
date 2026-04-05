@@ -3,7 +3,7 @@ name: Deploy .NET 10 App Whisper API
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
