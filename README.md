@@ -1,95 +1,26 @@
-# SpeechRecognition
+INTRODUÇÃO
+A arquitetura do sistema foi projetada para ser escalável tanto em regra de negócio como em serviços de sua aplicação através de um domínio rico que desacopla a regra de negócio das demais camadas, a camada de aplicação é responsável por intermediar todas as dependências de baixo nível e utiliza uma abstração da camada de infraestrutura para garantir que o banco de dados seja totalmente desacoplado da regra de negócio e um serviço de mensageria que fornece uma maneira de se comunicar com micro serviços sem acoplar diretamente com a regra de negócio e funcionar como um sistema distribuído.
 
-SpeechRecognition é um conjunto de serviços para **processamento e transcrição de áudio**, permitindo converter arquivos de áudio em texto usando modelos de reconhecimento de fala.
-
-O projeto foi desenvolvido utilizando **.NET**, **Docker** e ferramentas de processamento de áudio como **FFmpeg**, permitindo integração com pipelines de processamento distribuído e serviços de mensageria.
-
----
-
-# 🚀 Features
-
-- 🎤 Upload e armazenamento de arquivos de áudio
-- 🔊 Conversão e normalização de áudio (ex: 16kHz mono)
-- 🧠 Transcrição de áudio utilizando modelos de reconhecimento de fala
-- 📦 Arquitetura baseada em microsserviços
-- 📨 Processamento assíncrono via mensageria
-- 🐳 Suporte a execução em containers Docker
-
----
-
-# 🏗 Arquitetura
-
-O sistema é composto por múltiplos serviços especializados:
-
-| Serviço | Descrição |
-|-------|--------|
-| Audio Recorder API | Responsável por receber e armazenar arquivos de áudio |
-| Audio Converter API | Converte arquivos de áudio para o formato adequado |
-| Speech Recognition | Processa os arquivos e gera a transcrição |
-| File Storage | Armazenamento persistente dos arquivos |
-
-Fluxo simplificado:
-Client
-│
-▼
-AudioRecorder API
-│
-▼
-Message Queue
-│
-▼
-AudioConverter
-│
-▼
-SpeechRecognition
-│
-▼
-Transcription Result
-
----
-
-# 📦 Tecnologias Utilizadas
-
-- .NET
-- ASP.NET Web API
-- Docker
-- FFmpeg
-- Whisper (Speech-to-Text)
-- MassTransit
-- RabbitMQ (ou outro broker)
-- Entity Framework
-
----
-
-# 📂 Estrutura do Projeto
-SpeechRecognition
-│
-├── SpeechRecognition.AudioRecorder.Api
-├── SpeechRecognition.AudioConverter.Api
-├── SpeechRecognition.Application
-├── SpeechRecognition.CrossCutting
-├── SpeechRecognition.Infra
-├── SpeechRecognition.FileStorageDomain
-└── docker-compose.yml
+Detalhes de arquitetura de micro serviços : 
 
 
----
+As normas de funcionamento devem ser interpretadas apenas pelo micro serviço desta forma os dados armazenados no banco de dados podem ser interpretados apenas pelo próprio micro serviço.
+O serviço de tradução de aúdio e conversão de aúdio utilizam padrões de projeto GoF( Gang of Four ).
 
-# ⚙️ Pré-requisitos
+CONHECIMENTO OBTIDO DURANTE O DESENVOLVIMENTO
+Fundamentos de banco de dados NoSQL e prática em desenvolvimento com FireStore e DDD(Domain Driven Design), CQRS(Command Query Responsability Segregation), Domínio Rico , Mensageria e Conteinerização
 
-Antes de executar o projeto, você precisa ter instalado:
+DIFICULDADES
+Aplicação de conceitos de SoC(Separation of concerns) entre domínio e aplicação para implementação de infraestrutura com desacoplada de sua regra de negócio 
 
-- .NET SDK
-- Docker
-- Docker Compose
-- FFmpeg
+BENEFÍCIOS DO BANCO NOSQL
+Facilidade de uso e ecossistema rico em funcionalidades
+DIFERENÇAS ENTRE FIRESTORE E BANCOS RELACIONAIS
+FireStore é uma opção viável para aplicações pequenas e altamente escaláveis devido a sua facilidade de uso e estruturas de tabelas maleáveis, uma opção muito utilizada para sistemas mobile e sistemas distribuídos
+MELHORIAS FUTURAS PARA O SISTEMA
 
----
-
-# 🐳 Executando com Docker
-
-Clone o repositório:
-
-```bash
-git clone https://github.com/waltereidi/SpeechRecognition.git
-cd SpeechRecognition
+Adicionar deploy automatizado para múltiplos Hosts.
+Adicionais mais templates de tradução de aúdio
+Adicionar mais opções de conversão para formatos de aúdio
+Adicionar reconhecimento de texto por LLM 
+Implementar interface de usuário
