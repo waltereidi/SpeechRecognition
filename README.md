@@ -1,105 +1,137 @@
- 
-## 📑 Sumário
+# 🎓 API de Tradução de Áudio
 
-- [Introdução](#introdução)  
-- [Conhecimento Obtido](#conhecimento-obtido-durante-o-desenvolvimento)  
-- [Dificuldades](#dificuldades)  
-- [Desenvolvimento](#desenvolvimento)  
-- [Resultados](#resultados)  
-- [Conclusão](#conclusão)  
-- [Melhorias Futuras](#melhorias-futuras-para-o-sistema)  
+Projeto desenvolvido como **Trabalho de Conclusão de Curso (TCC)** da pós-graduação em Desenvolvimento Full Stack da **UNIMAR**.
 
 ---
 
-## 🚀 Introdução
+## 📌 Sobre o Projeto
 
-A arquitetura do sistema foi projetada para ser escalável tanto na regra de negócio quanto nos serviços da aplicação.
+Este projeto consiste na construção de uma **API de tradução de áudio para texto**, baseada em uma arquitetura moderna de **microserviços**, com foco em:
 
-O sistema utiliza:
+* Escalabilidade
+* Baixo acoplamento
+* Alta coesão
+* Processamento eficiente de dados
 
-- Domínio rico para desacoplamento da regra de negócio  
-- Camada de aplicação como intermediadora  
-- Abstração da infraestrutura  
-- Mensageria para comunicação entre microserviços  
-
-### 🧩 Arquitetura de Microserviços
-
-- Cada microserviço é responsável por interpretar suas próprias regras  
-- Os dados são isolados por serviço  
-- Comunicação desacoplada via mensageria  
-
-Os serviços de tradução e conversão de áudio utilizam padrões de projeto do GoF (Gang of Four).
+A solução permite **converter, processar e traduzir áudios automaticamente**, utilizando conceitos avançados de engenharia de software.
 
 ---
 
-## 📚 Conhecimento Obtido Durante o Desenvolvimento
+## 🧠 Arquitetura
 
-- Banco de dados NoSQL  
-- Firestore  
-- Domain Driven Design (DDD)  
-- CQRS (Command Query Responsibility Segregation)  
-- Domínio rico  
-- Mensageria  
-- Containerização  
+A aplicação foi projetada seguindo boas práticas de arquitetura distribuída:
 
----
+* **Microserviços**
+* **DDD (Domain Driven Design)**
+* **CQRS (Command Query Responsibility Segregation)**
+* **Mensageria com filas**
+* **Desacoplamento entre camadas**
 
-## ⚠️ Dificuldades
+### 🔧 Estrutura de Camadas
 
-- Aplicação do conceito de Separation of Concerns (SoC)  
-- Desacoplamento entre domínio e infraestrutura  
-- Organização da arquitetura em camadas  
+* **Domínio**
 
----
+  * Regras de negócio isoladas
+* **Aplicação**
 
-## 🏗️ Desenvolvimento
+  * Orquestração dos serviços
+* **Infraestrutura**
 
-### Benefícios do Banco NoSQL
+  * Banco de dados e serviços externos
+* **Mensageria**
 
-- Facilidade de uso  
-- Ecossistema rico  
-- Flexibilidade de estrutura  
-
-### Diferenças entre Firestore e Bancos Relacionais
-
-O Firestore é uma opção viável para aplicações:
-
-- Pequenas  
-- Altamente escaláveis  
-- Distribuídas  
-
-Muito utilizado em:
-
-- Aplicações mobile  
-- Sistemas distribuídos  
+  * Comunicação entre microserviços
 
 ---
 
-## 📊 Resultados
+## 🚀 Tecnologias Utilizadas
 
-O sistema desenvolvido foi capaz de:
-
-- Realizar tradução de áudio  
-- Converter formatos de áudio  
-- Escalar conforme demanda  
-- Permitir expansão futura com facilidade  
-
----
-
-## 🧠 Conclusão
-
-A utilização de arquitetura baseada em microserviços, aliada a boas práticas de engenharia de software, permitiu o desenvolvimento de uma aplicação moderna, escalável e desacoplada.
-
-O uso de Firestore e mensageria contribuiu para a construção de um sistema distribuído eficiente.
+* 🔹 API Backend (Full Stack)
+* 🔹 Banco NoSQL: **Firestore**
+* 🔹 Mensageria: **RabbitMQ**
+* 🔹 Arquitetura: **DDD + CQRS**
+* 🔹 Padrões de Projeto: **GoF (Gang of Four)**
+* 🔹 Integração com IA para tradução de áudio
 
 ---
 
-## 🔮 Melhorias Futuras para o Sistema
+## 🎯 Objetivo
 
-- Deploy automatizado para múltiplos hosts  
-- Novos templates de tradução de áudio  
-- Mais formatos de conversão de áudio  
-- Reconhecimento de texto com LLM  
-- Implementação de interface de usuário  
+### Objetivo Geral
+
+Desenvolver uma API capaz de:
+
+1. Receber arquivos de áudio
+2. Converter para um formato compatível
+3. Processar via modelo de IA
+4. Traduzir para texto
+5. Armazenar os resultados
+
+---
+
+## 📍 Problema Resolvido
+
+Criar um sistema de tradução de áudio:
+
+* 💰 **Baixo custo de infraestrutura**
+* ⚡ **Alta escalabilidade**
+* 🔄 Suporte a múltiplas requisições simultâneas
+* 🏥 Aplicável em ambientes hospitalares com alto volume de uso
+
+---
+
+## 📌 Funcionalidades
+
+* 🎤 Upload de áudio
+* 🔄 Conversão de formatos
+* 🤖 Tradução automatizada com IA
+* 📦 Armazenamento em banco NoSQL
+* 📡 Comunicação entre serviços via mensageria
+
+---
+
+## 🔄 Escalabilidade
+
+O sistema foi projetado para:
+
+* Escalar horizontalmente (microserviços)
+* Processar múltiplas filas simultaneamente
+* Suportar crescimento de usuários sem perda de desempenho
+
+---
+
+## 🧩 Diferenciais
+
+* Arquitetura desacoplada
+* Alta flexibilidade para expansão
+* Separação clara entre domínio e infraestrutura
+* Uso de padrões modernos de engenharia de software
+
+---
+
+## 📚 Referências
+
+* FOWLER, Martin — *Patterns of Enterprise Application Architecture*
+* ZIMAREV, Alexey — *Hands-On Domain-Driven Design with .NET Core*
+* VIDELA, Álvaro — *RabbitMQ in Action*
+* MARTIN, Robert C. — *Clean Architecture*
+
+---
+
+## 👨‍💻 Autor
+
+**Walter Eidi Matsuda**
+
+---
+
+## 📅 Ano
+
+2026
+
+---
+
+## 📄 Licença
+
+Este projeto é acadêmico e pode ser adaptado para uso profissional.
 
 ---
