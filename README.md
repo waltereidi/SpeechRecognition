@@ -1,3 +1,8 @@
+## 🎥 Vídeo Demonstrativo
+
+<a href="https://drive.google.com/file/d/11zDYnGevpIXRVtkl0OEkeG7gnqyECa99/view?usp=sharing" target="_blank">
+  <img src="https://via.placeholder.com/800x450.png?text=▶+Clique+para+assistir+ao+vídeo" alt="Vídeo demonstrativo" />
+</a>
 # 🎓 API de Tradução de Áudio
 
 Projeto desenvolvido como **Trabalho de Conclusão de Curso (TCC)** da pós-graduação em Desenvolvimento Full Stack da **UNIMAR**.
