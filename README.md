@@ -1,3 +1,6 @@
+Link para download de modelos de IA</br>
+<a href="https://huggingface.co/openai/whisper-tiny">Download whisper tiny</a>
+
 ## 🎥 Vídeo Demonstrativo
 Demonstração de dominio rico com banco de dados desacoplado com a regra de negócio. 
 Exemplo de postgresql e firebase.
