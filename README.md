@@ -1,4 +1,6 @@
 ## 🎥 Vídeo Demonstrativo
+Demonstração de dominio rico com banco de dados desacoplado com a regra de negócio. 
+Exemplo de postgresql e firebase.
 
 <a href="https://drive.google.com/file/d/11zDYnGevpIXRVtkl0OEkeG7gnqyECa99/view?usp=sharing" target="_blank">
   <img src="https://via.placeholder.com/800x450.png?text=▶+Clique+para+assistir+ao+vídeo" alt="Vídeo demonstrativo" />
